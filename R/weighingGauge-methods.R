@@ -1,0 +1,45 @@
+#' Processes weighing gauge precipitation
+#' @name weighingGauge-methods
+#' @description These functions clean accumulated precipitation data from a weighing gauge. The functions are wrapper for other \R and \pkg{CRHMr} functions as well as functions adapted from MATLAB code by Alan Barr. The typical sequence of operation of the functions is indicated by their numbers, however it it NOT always necessary to execute any given function.
+#' \describe{
+#'  \item{weighingGaugePlot}{Plots cumulative and interval precipitation}
+#'  \item{weighingGauge1}{Gap fills the data}
+#'  \item{weighingGauge2}{Removes spikes}
+#'  \item{weighingGauge3}{Applies the Savitzky-Golay polynomial filter}
+#'  \item{weighingGauge4}{Calls \code{PcpFiltPosTh}}
+#'  \item{weighingGauge5}{Simplified reset and jitter removal}
+#'  \item{weighingGaugeInterval}{Deacumulates the precipitation}
+#' }
+#' @author Kevin Shook
+#' @seealso \code{\link{weighingGaugePlot}} \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge3}} \code{\link{weighingGauge4}} \code{\link{weighingGauge5}} \code{\link{weighingGaugeInterval}}
+#' @examples \dontrun{
+#' # check data - shows jitter, missing values and a large reset
+#' weighingGaugePlot(wg)
+#' # see jitter and missing values only
+#' weighingGaugePlot(wg, endDate = '2010-10-01')
+#' 
+#' # fill gaps, and check to see if all missing values have been interpolated
+#' wg1 <- weighingGauge1(wg, maxGapLength=10)
+#' weighingGaugePlot(wg1)
+#' 
+#' # remove the spikes, and check
+#' wg2 <- weighingGauge2(wg1, spikeThreshold=300, maxSpikeGap=3)
+#' weighingGaugePlot(wg2)
+#' 
+#' # apply the smoothing filter
+#' wg3 <- weighingGauge3(wg2, filterLength=5)
+#' weighingGaugePlot(wg3)
+#' 
+#' # apply Alan Barr's filter
+#' wg4 <- weighingGauge4(wg3, smallDropThreshold = 0.05, serviceThreshold = -50)
+#' weighingGaugePlot(wg4)
+#' 
+#' # deaccumulate precipitation 
+#' wg5 <- weighingGaugeInterval(wg4)
+#' 
+#' # use simplified method and plot results
+#' # note that the infilled values are used
+#' wg6 <- weighingGauge5(wg1)
+#' weighingGaugePlot(wg6)
+#' wg7 <- weighingGaugeInterval(wg6)}
+NULL

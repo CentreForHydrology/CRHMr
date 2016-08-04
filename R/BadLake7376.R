@@ -1,0 +1,18 @@
+#' Observed meteorological data for Bad Lake
+#'
+#' @description A data frame containing meteorological data from Bad Lake, Saskatchewan, from January 1, 1973 to January 1, 1976. This data was collected by the Division of Hydrology at the University of Saskatchewan.
+#'
+#' @format A data frame with 26280 rows and 9 variables (including the datetime):
+#' \describe{
+#'   \item{datetime}{date and time as a POSIXct object}
+#'   \item{t.1}{air temperature (C)}
+#'   \item{rh.1}{relative humidity (percent)}
+#'   \item{u.1}{wind speed (m/s)}
+#'   \item{SunAct.1}{Actual daily sunshine hours, repeated for each hour of the day}
+#'   \item{ppt.1}{interval (hourly) precipitation (mm)}
+#'   \item{Qsi.1}{Incoming shortwave radiation (W/m\eqn{^2}{^2})}
+#'   \item{Qso.1}{Outgoing shortwave radiation (W/m\eqn{^2}{^2})}
+#'   \item{Qn.1}{Net radiation (W/m\eqn{^2}{^2})}
+#' }
+#' @source This data is also distributed with the example files of the CRHM program. CRHM can be obtained from \url{http://www.usask.ca/hydrology/CRHM.php}.
+"BadLake7376"
