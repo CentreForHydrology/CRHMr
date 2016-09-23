@@ -1,4 +1,4 @@
-#' Sets maximum values for an obs data frame 
+#' Sets maximum values for an obs data frame
 #'
 #' @description Tests values in a \pkg{CRHMr} obs data frame to see if they exceed maximum thresholds. Values exceeding the thresholds can be set to either the maximum allowable value or to \code{NA_real_}, which is useful for infilling or imputing values.
 #' @param obs Required. The \pkg{CRHMr} obs data frame.
@@ -23,13 +23,13 @@
 #' summary(bad.max3)
 #' @export
 
-maxObs <- function(obs, varcols='', maxvals='', actions='max', 
+maxObs <- function(obs, varcols='', maxvals='', actions='max',
                    quiet=TRUE,  logfile=''){
   # sets obs values to max values
-  
+
   # defaults
   t.max <- 40
-  ea.max <- 3.5 
+  ea.max <- 3.5
   rh.max <- 100
   ppt.max <- 100
   p.max <- 20
@@ -38,38 +38,41 @@ maxObs <- function(obs, varcols='', maxvals='', actions='max',
   qso.max <- 1000
   qn.max <- 250
   u.max <- 10
-  
+
   if (nrow(obs) == 0){
     cat('Error: missing data values\n')
-    return(FALSE)    
+    return(FALSE)
   }
-  
+
   obsName <- deparse(substitute(obs))
-  
+
   # get action for each column
   na.cols <- which(stringr::str_detect(actions, stringr::fixed('na',ignore_case=TRUE))) + 1
-  max.cols <- which(stringr::str_detect(actions, stringr::fixed('max',ignore_case=TRUE))) + 1 
-  
+  max.cols <- which(stringr::str_detect(actions, stringr::fixed('max',ignore_case=TRUE))) + 1
+
   # check permutations of parameters
-  
+
   if (mode(varcols) == 'character'){
       varcols <- seq(2:ncol(obs))
   }
   else{
     # select specified cols, otherwise, use all columns
-    obs <- obs[,c(1, (varcols+1))]    
+    obs <- obs[,c(1, (varcols+1))]
   }
 
   obs.names <- names(obs)[-1]
-  
+
+  if (!quiet)
+    cat('Variables:', obs.names, '\n', sep=' ')
+
   if (mode(maxvals) == 'character'){
     # no max values specified, use default max values
     # assign max values by column name
-    
+
     if (length(actions) > 1)
       actions <- actions[1]
-    
-    # find columns  
+
+    # find columns
 
     ea.cols <- which(stringr::str_detect(obs.names, stringr::fixed('ea.'))) + 1
     rh.cols <- which(stringr::str_detect(obs.names, stringr::fixed('rh.'))) + 1
@@ -81,7 +84,7 @@ maxObs <- function(obs, varcols='', maxvals='', actions='max',
     qso.cols <- which(stringr::str_detect(obs.names, stringr::fixed('qso.'))) + 1
     qn.cols <- which(stringr::str_detect(obs.names, stringr::fixed('qn.'))) + 1
     u.cols <- which(stringr::str_detect(obs.names, stringr::fixed('u.'))) + 1
-    
+
     # exclude SunAct and ppt columns from t columns
     sun <- stringr::str_detect(obs.names, 'SunAct.')
     t <- stringr::str_detect(obs.names, 't.')
@@ -89,12 +92,12 @@ maxObs <- function(obs, varcols='', maxvals='', actions='max',
     t1 <- xor(t, sun)
     t2 <- xor(t1, ppt)
     t.cols <- which(t2) + 1
-    
+
     # now apply actions
     if (actions == 'max'){
       if (length(t.cols) > 0)
         obs[, t.cols] <- pmin(obs[, t.cols], t.max)
-      if (length(ea.cols) > 0)      
+      if (length(ea.cols) > 0)
         obs[, ea.cols] <- pmin(obs[, ea.cols], ea.max)
       if (length(rh.cols) > 0)
         obs[, rh.cols] <- pmin(obs[, rh.cols], rh.max)
@@ -120,47 +123,47 @@ maxObs <- function(obs, varcols='', maxvals='', actions='max',
         rows <- (obs[, t.col] > t.max) & (!is.na(obs[, t.col] > t.max))
         obs[rows, t.col] <- NA_real_
       }
-    
+
       for (ea.col in ea.cols){
         rows <- (obs[, ea.col] > ea.max) & (!is.na(obs[, ea.col] > ea.max))
         obs[rows, ea.col] <- NA_real_
       }
-      
+
       for (rh.col in rh.cols){
         rows <- (obs[, rh.col] > rh.max) & (!is.na(obs[, rh.col] > rh.max))
         obs[rows, rh.col] <- NA_real_
       }
-      
+
       for (ppt.col in ppt.cols){
         rows <- (obs[, ppt.col] > ppt.max) & (!is.na(obs[, ppt.col] > ppt.max))
         obs[rows, ppt.col] <- NA_real_
       }
-      
+
       for (p.col in p.cols){
         rows <- (obs[, p.col] > p.max) & (!is.na(obs[, p.col] > p.max))
         obs[rows, p.col] <- NA_real_
       }
-      
+
       for (qsi.col in qsi.cols){
         rows <- (obs[, qsi.col] > qsi.max) & (!is.na(obs[, qsi.col] > qsi.max))
         obs[rows, qsi.col] <- NA_real_
       }
-      
+
       for (qso.col in qso.cols){
         rows <- (obs[, qso.col] > qso.max) & (!is.na(obs[, qso.col] > qso.max))
         obs[rows, qso.col] <- NA_real_
       }
-      
+
       for (qn.col in qn.cols){
         rows <- (obs[, qn.col] > qn.max) & (!is.na(obs[, qn.col] > qn.max))
         obs[rows, qn.col] <- NA_real_
       }
-      
+
       for (u.col in u.cols){
         rows <- (obs[, u.col] > u.max) & (!is.na(obs[, u.col] > u.max))
         obs[rows, u.col] <- NA_real_
       }
-      
+
       for (SunAct.col in SunAct.cols){
         rows <- (obs[, SunAct.col] > SunAct.max) & (!is.na(obs[, SunAct.col] > SunAct.max))
         obs[rows, SunAct.col] <- NA_real_
@@ -179,52 +182,52 @@ maxObs <- function(obs, varcols='', maxvals='', actions='max',
       # replicate
       actions <- rep(actions, len=length(varcols))
     }
-    
+
     # find actions to be performed
     # get order of actions
     na.locs <- which(stringr::str_detect(actions, stringr::fixed('na',ignore_case=TRUE)))
     max.locs <- which(stringr::str_detect(actions, stringr::fixed('max',ignore_case=TRUE)))
-    
+
     # now assign column numbers
     na.cols <- varcols[na.locs]
     max.cols <- varcols[max.locs]
-    
-    
-    
+
+
+
     for (colloc in 1:length(varcols)){
       colnum <- varcols[colloc]
       if (colnum %in% na.cols){
         if (length(maxvals) > 1){
-          maxval <- maxvals[colloc] 
+          maxval <- maxvals[colloc]
           rows <- (obs[, colloc+1] > maxval) & (!is.na(obs[, colloc+1] > maxval))
-          obs[rows, colnum+1] <- NA_real_         
+          obs[rows, colnum+1] <- NA_real_
         }
         else{
-          maxval<- maxvals 
+          maxval<- maxvals
           rows <- (obs[, colloc+1] > maxval) & (!is.na(obs[, colloc+1] > maxval))
-          obs[rows, colloc+1] <- NA_real_         
+          obs[rows, colloc+1] <- NA_real_
         }
       }
       if (colnum %in% max.cols){
         if (length(maxvals) > 1){
-          maxval <- maxvals[colloc] 
+          maxval <- maxvals[colloc]
           rows <- (obs[, colloc+1] > maxval) & (!is.na(obs[, colloc+1] > maxval))
           obs[rows, colloc+1] <- maxval
         }
-        
+
         else{
-          maxval <- maxvals 
+          maxval <- maxvals
           rows <- (obs[, colloc+1] > maxval) & (!is.na(obs[, colloc+1] > maxval))
           obs[rows, colloc+1] <- maxval
         }
       }
     }
-    
+
   }
-  
+
   # log to file
   comment <- paste('maxObs dataframe:', obsName, sep='')
-  result <- logAction(comment, logfile) 
+  result <- logAction(comment, logfile)
   if (result)
     return (obs)
   else

@@ -166,6 +166,8 @@ function(CRHMdataframe, columns=1, period='annual', funs=c('mean'),
     agg[,1] <- as.Date( agg[,1])
     names(agg)[1] <- 'date'
   }
+  else if (time.period == 'hour')
+    names(agg)[1] <- 'datetime'
 
 
   # write to file, if name provided

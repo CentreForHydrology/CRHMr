@@ -21,51 +21,55 @@ deDupe <- function(obs, action='mean', quiet=TRUE, logfile=""){
     return(FALSE)
   }
   obsName <- deparse(substitute(obs))
-  
+
   if (action == ''){
     cat('Error: missing action for duplicated obs\n')
     return(FALSE)
-  }  
-  
+  }
+
   var.names <- names(obs)
   dupe.count <- sum(duplicated(obs$datetime))
   # find duplicates
   if (dupe.count > 0)
     any.dupes <- TRUE
-  else
+  else{
     any.dupes <- FALSE
-  
+  }
+
+  if (!quiet)
+    cat(dupe.count,' duplicates found\n', sep='')
+
   if(any.dupes){
     if ((action == 'mean') | (action == 'max') | (action == 'min')){
       non.datetime <- obs[,-1]
-      good <- aggregate(non.datetime, by=list(obs$datetime), FUN=action, 
+      good <- aggregate(non.datetime, by=list(obs$datetime), FUN=action,
                         na.rm=TRUE, na.action=na.omit)
       names(good) <- var.names
       comment <- paste('deDupe dataframe:', obsName,
-                       ' action: ', action, sep='')  
+                       ' action: ', action, sep='')
       result <- logAction(comment, logfile)
       return(good)
     }
-    
+
    else if ((action == 'skip') | (action == 'delete')){
       no.dupes <- !duplicated(obs$datetime)
       good <- obs[no.dupes,]
       comment <- paste('deDupe dataframe:', obsName,
-                       ' action: ', action, sep='')  
+                       ' action: ', action, sep='')
       result <- logAction(comment, logfile)
       return(good)
     }
    else if(action == 'split'){
      no.dupes <- !duplicated(obs$datetime)
      good <- obs[no.dupes,]
-     
+
      dupes <- duplicated(obs$datetime)
      dupes <- obs[dupes,]
-     
+
      dupefile <- paste(obsName, '_dupes.obs')
      writeObsFile(dupes,  obsfile=dupefile, quiet=TRUE, logfile='')
      comment <- paste('deDupe dataframe:', obsName,
-                      ' action: ', action, sep='')  
+                      ' action: ', action, sep='')
      result <- logAction(comment, logfile)
      return(good)
    }
@@ -73,12 +77,12 @@ deDupe <- function(obs, action='mean', quiet=TRUE, logfile=""){
      cat('Error: unknown action for duplicated obs\n')
      return(FALSE)
    }
-    
+
   }
   else{
-    comment <- paste('deDupe obs:', obsName, sep='')  
+    comment <- paste('deDupe obs:', obsName, sep='')
     result <- logAction(comment, logfile)
-    
+
     # return either dataframe or graph
     if(result)
       return('No duplicates')

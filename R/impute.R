@@ -20,54 +20,54 @@
 #' @export
 
 impute <-
-function(primaryObs, primaryCols=1, 
+function(primaryObs, primaryCols=1,
                    secondaryObs, secondaryCols=1,
                    multipliers=1, offsets=0, quiet=TRUE, logfile=''){
-  # fills gaps in the primary CRHM Obs dataset from the secondary dataset 
-   
+  # fills gaps in the primary CRHM Obs dataset from the secondary dataset
+
   if (nrow(primaryObs) == 0){
     cat('Error: missing primary obs values\n')
     return(FALSE)
   }
-  
+
   if (nrow(secondaryObs) == 0){
     cat('Error: missing secondary obs values\n')
     return(FALSE)
   }
-  
+
   primaryName <- deparse(substitute(primaryObs))
   secondaryName <- deparse(substitute(secondaryObs))
-  
+
   # check for required parameters
   primaryCols <- primaryCols + 1
-  secondaryCols <- secondaryCols + 1  
+  secondaryCols <- secondaryCols + 1
   primaryCols.with.time <- c(1, primaryCols)
-  secondaryCols.with.time <- c(1, secondaryCols)  
-  
+  secondaryCols.with.time <- c(1, secondaryCols)
+
   primary.columns.length <- length(primaryCols)
-  secondary.columns.length <- length(secondaryCols)  
-  
+  secondary.columns.length <- length(secondaryCols)
+
   primaryObs.length <- ncol(primaryObs)
   secondaryObs.length <- ncol(secondaryObs)
-    
+
   if (primary.columns.length != secondary.columns.length){
     cat('Error: different numbers of columns specified\n')
     return(FALSE)
   }
-  
+
   if (primary.columns.length > primaryObs.length){
     cat('Error: more columns specified than exist in primary file\n')
     return(FALSE)
   }
-  
+
   if (secondary.columns.length > secondaryObs.length){
     cat('Error: more columns specified than exist in secondary file\n')
     return(FALSE)
   }
-  
+
   primary.variable.names <- names(primaryObs)[primaryCols]
   rh.loc.num <- length(grep("rh", tolower(primary.variable.names), fixed=TRUE))
-  
+
   if(rh.loc.num > 0){
     cat("Error: can't impute to RH data in primary obs\n")
     return(FALSE)
@@ -75,12 +75,12 @@ function(primaryObs, primaryCols=1,
 
   secondary.variable.names <- names(secondaryObs)[secondaryCols]
   rh.loc.num <- length(grep("rh", tolower(secondary.variable.names), fixed=TRUE))
-  
+
   if(rh.loc.num > 0){
     cat("Error: can't impute from RH data in secondary obs\n")
     return(FALSE)
   }
-  
+
   # recycle multipliers and offsets
   if (length(multipliers) < length(primaryCols)){
     # replicate
@@ -90,14 +90,16 @@ function(primaryObs, primaryCols=1,
     # replicate
     offsets <- rep(offsets, len=length(primaryCols))
   }
-  
+
   # select columns
   primaryObs.selected <- primaryObs[,primaryCols.with.time]
   secondaryObs.selected <- secondaryObs[,secondaryCols.with.time]
 
   # scale secondary time series
-  secondaryObs.selected[,-1] <- secondaryObs.selected[,-1] * multipliers + offsets
-  
+  colCount <- ncol(secondaryObs.selected)
+  for (colNum in 2:colCount)
+   secondaryObs.selected[,colNum] <- secondaryObs.selected[,colNum] * multipliers[(colNum-1)] + offsets[(colNum-1)]
+
   # merge data frames together
   merged <- merge(primaryObs.selected, secondaryObs.selected, by='datetime', all.x=TRUE)
   merged.na <- is.na(merged)
@@ -110,14 +112,14 @@ function(primaryObs, primaryCols=1,
   merged.secondary.na <- is.na(merged.secondary)
   merged.primary[merged.primary.na] <- merged.secondary[merged.primary.na]
   merged.final.na <- is.na(merged.primary)
- 
+
   # re-attach date and time
   output.data <- cbind(merged[,1],merged.primary)
   names(output.data) <- c('datetime', primary.variable.names)
-  
+
   # indicate which values are original and which are imputed
-  
-  output.type <- matrix(data='original',nrow=nrow(merged.primary), 
+
+  output.type <- matrix(data='original',nrow=nrow(merged.primary),
                         ncol=ncol(merged.primary))
   output.type <- as.data.frame(output.type, stringsAsFactors = FALSE)
 
@@ -125,31 +127,31 @@ function(primaryObs, primaryCols=1,
   output.type[merged.final.na] <- 'NA'
   output.type <- cbind(merged[,1], output.type)
   names(output.type) <- names(output.data)
-  
+
   # now output to logfiles
   original.data.info <- CRHM_summary(primaryObs)
   new.data.info <- CRHM_summary(output.data)
-  
-  
+
+
   comment <- paste('impute primaryObs:', primaryName,
-                   ' primary_variables:', 
+                   ' primary_variables:',
                    stringr::str_c(primary.variable.names, collapse=','),
                    ' secondaryObs:', secondaryName,
-                   ' secondary_variables:', 
+                   ' secondary_variables:',
                    stringr::str_c(secondary.variable.names, collapse=','),
-                   sep='')  
-  
+                   sep='')
+
   result <- logAction(comment, logfile)
-  
+
   comment1 <- paste('Data infilled by imputation:', primaryName, sep='\t')
   comment2 <- paste('Data imputed from: ', secondaryName, sep='\t')
   comment3 <- paste('multipliers:', stringr::str_c(multipliers, collapse=','), sep='\t')
-  comment4 <- paste('offsets:', stringr::str_c(offsets, collapse=','), sep='\t')  
-  
+  comment4 <- paste('offsets:', stringr::str_c(offsets, collapse=','), sep='\t')
+
   action <- 'impute'
-  result <- writeChangeLogFile(action, original.data.info, new.data.info, 
-                               output.type, comment1, comment2, comment3, 
-                               comment4, quiet) 
+  result <- writeChangeLogFile(action, original.data.info, new.data.info,
+                               output.type, comment1, comment2, comment3,
+                               comment4, quiet)
   if (result)
     return (output.data)
   else
