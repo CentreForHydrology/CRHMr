@@ -46,10 +46,18 @@ function(start.date, end.date, timestep=1,
     # create date/fime sequence
     start.time.format <- paste(start.date.format, ' %H:%M', sep='')
     end.time.format <- paste(end.date.format, ' %H:%M', sep='')
-
-    start.time.string <- paste(start.date, ' 01:00', sep='')
-    end.time.string <- paste(end.date, ' 23:00', sep='')
-
+    if (timestep == 1){
+      start.time.string <- paste(start.date, ' 01:00', sep='')
+    }
+    else if(timestep < 1){
+      mins <- floor(timestep * 60)
+      start.time.string <- paste(start.date, ' 00:',mins, sep='')
+    }
+    else{
+      hours <- formatC(floor(timestep),width=2,format="d",flag="0")
+      start.time.string <- paste(start.date, hours, ':00', sep='')
+    }
+    end.time.string <- paste(end.date, ' 00:00', sep='')
     start.time <- as.POSIXct(start.time.string, format=start.time.format, tz=timezone)
     end.time <- as.POSIXct(end.time.string, format=end.time.format, tz=timezone)
     time.seq <- seq(from=start.time, to=end.time, by=(3600*timestep))
