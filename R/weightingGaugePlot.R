@@ -17,16 +17,16 @@ weighingGaugePlot <- function(obs, precipCol=1, startDate='', endDate='', showMi
   # suppress checking of dataframe variables used by ggplot2
   datetime <- NULL
   value <- NULL
-  
+
   # check parameters
   if (nrow(obs) == 0){
     cat('Error: missing values\n')
     return(FALSE)
   }
-  
+
   # convert obs datetime timezone to user's
   obs$datetime <- lubridate::force_tz(obs$datetime, tzone='')
-  
+
   # get start and end dates, and subset
   if (startDate != ''){
     if (stringr::str_length(startDate) == 4){
@@ -35,54 +35,54 @@ weighingGaugePlot <- function(obs, precipCol=1, startDate='', endDate='', showMi
     }
     else
       startDate <- paste(startDate,' 00:00', sep='')
-    
+
     startDate <- as.POSIXct(startDate, format='%Y-%m-%d %H:%M',tz='')
     obs <- obs[obs$datetime >= startDate,]
   }
-  
+
   if (endDate != ''){
     if (stringr::str_length(endDate) == 4){
       endDate <- paste(endDate,'-12-31 23:00', sep='')
     }
     else
       endDate <- paste(endDate,' 00:00', sep='')
-    
+
     endDate <- as.POSIXct(endDate, format='%Y-%m-%d %H:%M',tz='')
     obs <- obs[obs$datetime <= endDate,]
   }
-  
-  
+
+
   # select variables for plotting
-  
+
   obs <- obs[, c(1,precipCol+1)]
   names(obs)[2] <- 'Cumulative'
 
   # check number of variables
   precipDiff <- c(0, diff(obs[,2]))
   obs$Interval <- precipDiff
-  
+
   # melt data for plotting
   obs.melted <- reshape2::melt(obs, id='datetime')
-  
+
   # now create plot
-  p <- ggplot2::ggplot(obs.melted, ggplot2::aes(datetime, value)) + 
+  p <- ggplot2::ggplot(obs.melted, ggplot2::aes(datetime, value)) +
     ggplot2::geom_line() +
-    ggplot2::facet_wrap(~variable, ncol=1,  scales='free_y') +  
-    ggplot2::xlab('') + 
+    ggplot2::facet_wrap(~variable, ncol=1,  scales='free_y') +
+    ggplot2::xlab('') +
     ggplot2::ylab('Precipitation (mm)')
-  
+
   # find missing values
-  
+
   if(showMissing){
     obs.missing <- obs.melted[is.na(obs.melted$value),]
     if (nrow(obs.missing) > 0){
       obs.missing$value <- 0
-      p <- p + ggplot2::geom_point(data=obs.missing, 
+      p <- p + ggplot2::geom_point(data=obs.missing,
                                    ggplot2::aes(datetime, value), col='red', size=2)
     }
   }
 
-  
+
   # # find runs of missing values
   # nlength <- length(obs.missing$value)
   # starts <- c(as.POSIXct('1970-01-01 01:00', format='%Y-%m-%d %H:%M',tz=''))
@@ -96,24 +96,24 @@ weighingGaugePlot <- function(obs, precipCol=1, startDate='', endDate='', showMi
   #     variable <- c(variable, as.character(obs.missing$variable[i]))
   #   }
   # }
-  # 
+  #
   # # find max and min vals
   # maxval1 <- max(na.omit(obs.melted$value[as.character(obs.melted$variable) == 'Cumulative']))
   # maxval2 <- max(na.omit(obs.melted$value[as.character(obs.melted$variable) == 'Interval']))
-  # 
+  #
   # minval1 <- min(na.omit(obs.melted$value[as.character(obs.melted$variable) == 'Cumulative']))
   # minval2 <- min(na.omit(obs.melted$value[as.character(obs.melted$variable) == 'Interval']))
-  # 
+  #
   # # add to dataframe
   # maxval <- rep(maxval1, length(starts))
   # maxval[as.character(obs.missing$variable) == 'Interval'] <- maxval2
-  # 
+  #
   # minval <- rep(minval1, length(starts))
   # minval[as.character(obs.missing$variable) == 'Interval'] <- minval2
-  # 
-  # 
+  #
+  #
   # miss <- data.frame(Start=starts[-1], End=ends[-1], variable=variable[-1], value=NA_real_)
   # p <- p + geom_rect(data=miss, aes(xmin=Start, xmax=End, ymin=-Inf, ymax=Inf, x=1, y=1), fill='pink', alpha=0.2)
   return(p)
-  
+
 }

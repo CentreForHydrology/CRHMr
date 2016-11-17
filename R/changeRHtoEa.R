@@ -16,7 +16,7 @@
 changeRHtoEa <-
 function(obs, t.cols=1, rh.cols=1, quiet=TRUE, logfile=''){
   # changes columns of RH values to ea, which are used for interpolation/imputation
-  
+
   # the code will look for variable names containing 'T' and 'RH'
   # if the columns are not specified explicitly
   obsName <- deparse(substitute(obs))
@@ -29,36 +29,36 @@ function(obs, t.cols=1, rh.cols=1, quiet=TRUE, logfile=''){
     cat('Error ea values already present\n')
     return(FALSE)
   }
-    
+
   # look for t and rh data
 
   t.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('t.')))
   ppt.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('ppt.')))
   act.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('act.')))
-  
+
   # exclude PPT
   if (sum(ppt.loc) > 0)
     ok <- obs.names.lowercase[-ppt.loc]
   else
     ok <- obs.names.lowercase
-  
+
   # exclude SunAct
   if (sum(act.loc) > 0)
     ok <- ok[-act.loc]
-  
+
   t.loc <- which(stringr::str_detect(ok, stringr::fixed('t.')))
   rh.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('rh.')))
-  
+
   if ((t.cols == rh.cols) & (length(t.loc) == 0) | (length(rh.loc) == 0)){
     cat('T and/or RH missing\n')
-    return(FALSE)  
+    return(FALSE)
   }
-  
+
   if (length(t.cols) != length(rh.cols)){
     cat('Unequal numbers of T and RH values\n')
-    return(FALSE)  
-  }  
-  
+    return(FALSE)
+  }
+
   if (t.cols != rh.cols){
    # locations are specified
    t.cols <- t.cols + 1
@@ -66,9 +66,9 @@ function(obs, t.cols=1, rh.cols=1, quiet=TRUE, logfile=''){
   }
   else{
     t.cols <- t.loc + 1
-    rh.cols <- rh.loc + 1 
+    rh.cols <- rh.loc + 1
   }
-  
+
   t.vals <- obs[,t.cols]
   t.vals.na <- is.na(t.vals)
   rh.vals <- obs[,rh.cols]
@@ -88,13 +88,13 @@ function(obs, t.cols=1, rh.cols=1, quiet=TRUE, logfile=''){
   # replace RH values with ea
   obs[rh.cols] <-ea.vals
   names(obs)[rh.cols] <- ea.names
-  
-  
+
+
   # output info to screen and write to log file
   obs.info <- CRHM_summary(obs)
   if (!quiet)
     print(obs.info)
-  
+
   comment <- paste('changeRHtoE dataframe:', obsName, sep='')
   result <- logAction(comment, logfile)
   if (result)

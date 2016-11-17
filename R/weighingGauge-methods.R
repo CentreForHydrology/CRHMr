@@ -17,26 +17,26 @@
 #' weighingGaugePlot(wg)
 #' # see jitter and missing values only
 #' weighingGaugePlot(wg, endDate = '2010-10-01')
-#' 
+#'
 #' # fill gaps, and check to see if all missing values have been interpolated
 #' wg1 <- weighingGauge1(wg, maxGapLength=10)
 #' weighingGaugePlot(wg1)
-#' 
+#'
 #' # remove the spikes, and check
 #' wg2 <- weighingGauge2(wg1, spikeThreshold=300, maxSpikeGap=3)
 #' weighingGaugePlot(wg2)
-#' 
-#' # apply the smoothing filter
+#'
+#' # apply the smoothing filter - only for use with high-frequency data
 #' wg3 <- weighingGauge3(wg2, filterLength=5)
 #' weighingGaugePlot(wg3)
-#' 
+#'
 #' # apply Alan Barr's filter
 #' wg4 <- weighingGauge4(wg3, smallDropThreshold = 0.05, serviceThreshold = -50)
 #' weighingGaugePlot(wg4)
-#' 
-#' # deaccumulate precipitation 
+#'
+#' # deaccumulate precipitation
 #' wg5 <- weighingGaugeInterval(wg4)
-#' 
+#'
 #' # use simplified method and plot results
 #' # note that the infilled values are used
 #' wg6 <- weighingGauge5(wg1)
