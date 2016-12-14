@@ -12,15 +12,15 @@
 parseNums <- function(numString){
   # remove padding
   numString <- stringr::str_trim(numString)
-  
+
   # swap tabs for chracters
   numString <- stringr::str_replace_all(numString, stringr::fixed('/t'), ' ' )
-  double.spaces <- stringr::str_detect(numString, '  ')  
+  double.spaces <- stringr::str_detect(numString, '  ')
   # replace all double spaces with single spaces
 
   while(double.spaces){
     numString <- stringr::str_replace_all(numString, '  ', ' ' )
-    double.spaces <- stringr::str_detect(numString, '  ')    
+    double.spaces <- stringr::str_detect(numString, '  ')
   }
 
   nums <- as.numeric(unlist(stringr::str_split(numString, ' ')))

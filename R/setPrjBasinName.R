@@ -14,38 +14,37 @@
 #' \dontrun{
 #' result <- setPrjBasinName('c:/CRHM/Bad Lake 1974-1975.prj', 'NewBadLakemodel')}
 setPrjBasinName <- function(inputPrjFile='', basinName='', outputPrjFile='', logfile='') {
-  eol_val <- win.eol()
-  
+
   # check parameters
   if (inputPrjFile == ''){
     cat('Missing CRHM input .prj file name\n')
-    return(FALSE)  
+    return(FALSE)
   }
 
   if (basinName == ''){
     cat('Missing name for basin\n')
-    return(FALSE)  
+    return(FALSE)
   }
-  
+
 
   # read in .prj file
   prj <- readPrj(inputPrjFile)
-  
+
   # find basin name in .prj
   linenum <- grep('basin_name', prj, fixed=TRUE)
   prj[linenum+1] <- paste("'",basinName,"'", sep='')
 
- 
+
   # write to file
   if (outputPrjFile == '')
     outputPrjFile <- inputPrjFile
-  
+
   writePrj(prj, outputPrjFile)
-  
+
   # log action
-  comment <- paste('setPrjDates input file: ', inputPrjFile, 
+  comment <- paste('setPrjDates input file: ', inputPrjFile,
 ' output file:', outputPrjFile, ' basinName:' , basinName, sep='')
-  
+
   result <- logAction(comment, logfile)
   return(result)
 }

@@ -9,7 +9,7 @@
 #'
 #' @return If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 #' @author Kevin Shook
-#' @note Currently, this function has only been tested on simple \code{.prj} files, i.e. without REW Grp parameters. It \emph{might} work for these files if the \option{REW Grp} specification is included in the parameter name.
+#' @note Currently, this function has only been tested on simple \code{.prj} files, i.e. without REW Grp parameters. It \emph{might} work for complex files if the \option{REW Grp} specification is included in the parameter name.
 #' @seealso  \code{\link{runCRHM}} \code{\link{setPrjDates}}
 #' @export
 #'
