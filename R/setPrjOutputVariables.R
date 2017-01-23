@@ -13,16 +13,17 @@
 #' @examples
 #' \dontrun{
 #' # read in existing variables as a vector
-#'  variables <- readOutputVariables('Bad_Lake_1974-1975.prj', asDataframe=FALSE)
-#' # delete the first set of variables and write to a new file
-#'  variables <- variables[-1]
-#'  setPrjOutputVariables('Bad_Lake_1974-1975.prj', variables, 'Bad_Lake_1974-1975_revised.prj')
+#' variables <- readPrjOutputVariables('Bad_Lake_1974-1975.prj', asDataframe=FALSE)
 #'
-#'  # read in existing variables as a dataframe and write to new file
-#'  variables <- readOutputVariables('Bad_Lake_1974-1975.prj', asDataframe=TRUE)
-#'  newVariables <- c('evap', 'evapGrangerD', '1 2 3 4 5')
-#'  variables <- rbind(variables, newVariables)
-#'  setPrjOutputVariables('Bad_Lake_1974-1975.prj', variables, 'Bad_Lake_1974-1975_revised2.prj')
+#' # delete the first set of variables and write to a new file
+#' variables <- variables[-1]
+#' setPrjOutputVariables('Bad_Lake_1974-1975.prj', variables, 'Bad_Lake_1974-1975_revised.prj')
+#'
+#' # read in existing variables as a dataframe and write to new file
+#' variables <- readPrjOutputVariables('Bad_Lake_1974-1975.prj', asDataframe=TRUE)
+#' newVariables <- c('evap', 'evapGrangerD', '1 2 3 4 5')
+#' variables <- rbind(variables, newVariables)
+#' setPrjOutputVariables('Bad_Lake_1974-1975.prj', variables, 'Bad_Lake_1974-1975_revised2.prj')
 #'
 #' # deletes all output variables and overwrites the file
 #' result <- setPrjOutputVariables('Bad_Lake_1974-1975.prj', 'null')}

@@ -11,12 +11,12 @@
 #'
 #' @examples \dontrun{
 #' # read in as a vector
-#' variables <- readPrjOutputVariables('c:/CRHM/Bad Lake 1974-1975.prj')
+#' variables <- readPrjOutputVariables('Bad_Lake_1974-1975.prj')
 #'
 #' # read in as a data frame
-#' variables <- readPrjOutputVariables('c:/CRHM/Bad Lake 1974-1975.prj', asDataframe=TRUE)
+#' variables <- readPrjOutputVariables('Bad_Lake_1974-1975.prj', asDataframe=TRUE)
 #' # change value
-#' variables$HRUs[3] <- '1 2'}
+#' variables$HRUs[1] <- '1 2'}
 readPrjOutputVariables <- function(prjFile, asDataframe=FALSE, logfile=''){
 
   # check variables
@@ -65,17 +65,15 @@ readPrjOutputVariables <- function(prjFile, asDataframe=FALSE, logfile=''){
       HRUs[i] <- as.character(paste(strings[-(1:2)], collapse = ' '))
       }
     all <- data.frame(module, variable, HRUs, stringsAsFactors = FALSE)
-    return(all)
   }
 
   # log action
   comment <- paste('readPrjOutputVariables prjFile: ', prjFile, sep='')
   result <- logAction(comment, logfile)
-  if(!result){
+  if(result){
     return(all)
   }
   else{
     return(result)
   }
-
 }
