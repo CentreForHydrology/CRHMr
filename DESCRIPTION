@@ -15,7 +15,7 @@ Imports: ggplot2(>= 2.0.0), lubridate(>= 1.3), plyr, reshape2, scales,
 Suggests: HYDAT, RSQLite, EcoHydRology
 License: GPL-3
 LazyData: true
-URL: www.usask.ca/hydrology
+URL: https://github.com/CentreForHydrology/CRHMr
 RoxygenNote: 5.0.1
 NeedsCompilation: no
 Packaged: 2016-07-06 18:16:30 UTC; kevin
