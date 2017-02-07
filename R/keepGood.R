@@ -19,6 +19,14 @@ keepGood <- function(obs,  quiet=TRUE, logfile=''){
     return(FALSE)
   }
 
+
+  # check to see if all data are missing
+  if (all(is.na(obs[,-1]))){
+    cat('No data present in data frame\n')
+    return(FALSE)
+  }
+
+
   obsName <- deparse(substitute(obs))
   vals <- abs(data.frame(obs[,-1]))
   ncols <- ncol(obs) - 1
