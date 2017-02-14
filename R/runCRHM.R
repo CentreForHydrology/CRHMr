@@ -161,7 +161,7 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
       setwd(prj_dir)
 
     # now run CRHM
-    system2(CRHM_execution_string)
+    system(CRHM_execution_string)
 
     # delete copied files
     if (obsFiles != ''){
@@ -187,14 +187,16 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
         return(FALSE)
       }
       obs <- stringr::str_c(obsFiles, collapse=' ')
+      CRHM_parameter_string <- paste(CRHM_parameter_string, ' ', obs, sep='')
 
-      CRHM_parameter_string <- paste(CRHM_parameter_string, ' ', obs, sep='')
-    } else if(obsFiles != ''){
-      if(stringr::str_detect(obs ,' ')){
-        cat('Error: space present in .obs file path\n')
-        return(FALSE)
+    } else {
+      if(obsFiles != ''){
+        if(stringr::str_detect(obsFiles ,' ')){
+          cat('Error: space present in .obs file path\n')
+          return(FALSE)
+        }
+      CRHM_parameter_string <- paste(CRHM_parameter_string, ' ', obsFiles, sep='')
       }
-      CRHM_parameter_string <- paste(CRHM_parameter_string, ' ', obs, sep='')
     }
 
     if (length(parFiles) > 1){
@@ -204,16 +206,18 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
       }
       par <- stringr::str_c(parFiles, collapse=' ')
       CRHM_parameter_string <- paste(CRHM_parameter_string, ' ', par, sep='')
-    } else if (parFiles != ''){
-      if(stringr::str_detect(par ,' ')){
-        cat('Error: space present in parameter file path\n')
-        return(FALSE)
-      }
-      CRHM_parameter_string <- paste(CRHM_parameter_string, ' ', par, sep='')
-    }
 
+    } else {
+      if (parFiles != ''){
+        if(stringr::str_detect(par ,' ')){
+          cat('Error: space present in parameter file path\n')
+          return(FALSE)
+        }
+        CRHM_parameter_string <- paste(CRHM_parameter_string, ' ', parFiles, sep='')
+      }
+    }
     # now call CRHM
-    system(CRHM_execution_string, args=CRHM_parameter_string)
+    system2(CRHM_execution_string, args=CRHM_parameter_string)
 
     # create fake execution string for logging
     CRHM_execution_string <- paste(CRHM_execution_string, ' ', CRHM_parameter_string, sep='')
