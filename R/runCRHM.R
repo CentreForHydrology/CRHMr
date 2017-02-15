@@ -182,7 +182,7 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
     CRHM_parameter_string <- prjFile
 
     if (length(obsFiles) > 1){
-      if(any(stringr::str_detect(obs ,' '))){
+      if(any(stringr::str_detect(obsFiles ,' '))){
         cat('Error: space present in .obs file path\n')
         return(FALSE)
       }
@@ -200,7 +200,7 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
     }
 
     if (length(parFiles) > 1){
-      if(any(stringr::str_detect(par,' '))){
+      if(any(stringr::str_detect(parFiles,' '))){
         cat('Error: space present in parameter file path\n')
         return(FALSE)
       }
@@ -209,7 +209,7 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
 
     } else {
       if (parFiles != ''){
-        if(stringr::str_detect(par ,' ')){
+        if(stringr::str_detect(parFiles ,' ')){
           cat('Error: space present in parameter file path\n')
           return(FALSE)
         }
