@@ -142,7 +142,7 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
       numfiles <- length(parFiles)
       parFilesBasenames <- basename(parFiles)
       for (i in 1:numfiles){
-        obs_dir <- dirname(parFiles[i])
+        par_dir <- dirname(parFiles[i])
         if (par_dir != prj_dir){
           copy_command <- paste('cp ', parFiles[i],'', prj_dir, sep = '')
           system(copy_command)
@@ -221,9 +221,13 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
 
     # create fake execution string for logging
     CRHM_execution_string <- paste(CRHM_execution_string, ' ', CRHM_parameter_string, sep='')
+    prj_dir <- dirname(prjFile)
   }
 
   # move/rename output
+  if(prj_dir != '')
+    CRHM_output_file <- paste(prj_dir, '/', CRHM_output_file, sep='')
+
   file.rename(CRHM_output_file, outFile)
 
   # reset working directory
