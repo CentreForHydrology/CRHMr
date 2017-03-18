@@ -51,12 +51,14 @@ findGaps <- function(obs, gapfile='', minlength=1, quiet=TRUE, logfile=''){
   cols <- length(var.names)
 
   # now look for gaps
+  colcount <- 0
   for (colnum in 1:cols){
     # find runs of NA values greater than specified
     selected <- gap.filled[, colnum+1]
     na.values <- is.na(selected)
     varname <- var.names[colnum]
     if (sum(na.values) > 0){
+      colcount <- colcount + 1
       # gaps are present
       runs <- rle(na.values)
       c.ndx <- cumsum(runs$lengths)
@@ -83,17 +85,18 @@ findGaps <- function(obs, gapfile='', minlength=1, quiet=TRUE, logfile=''){
                                 output.summary.total$total )
         names(output.summary) <- c('variable', 'year', 'gaps', 'total.length')
         output.summary$variable <- as.character(output.summary$variable)
-        if (colnum == 1)
+        if (colcount == 1)
           gap.summary <- output.summary
         else
           gap.summary <- rbind(gap.summary, output.summary)
       }
 
-      if (colnum == 1)
+      if (colcount == 1)
         gaps <- output
       else
         gaps <- rbind(gaps, output)
     }
+
   }
 
   # check for output
