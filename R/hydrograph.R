@@ -5,10 +5,10 @@
 #' @param CRHMflowsLabels Optional. Labels for the CRHM data. If not specified, and CRHM data are plotted, then the name(s) of the CRHM variables will be used.
 #' @param CRHMcols Required. Column(s) containing the flowrates. As always, the numbers do not include the \code{datetime}.
 #' @param CRHMdaily Optional. Should CRHM flows be plotted as daily values? Default is \code{FALSE}.
-#' @param dailyFlows Optional. Dataframe containing WSC daily flows. The data frame is the same as is returned by the function \code{DailyHydrometricData} in the \pkg{HYDAT} package developed by David Hutchinson. The datframe has the columns \code{station_number}, \code{date}, \code{value} and \code{flag}. The \code{date} must be an \R date.
-#' @param dailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the value in \code{station_number} will be used, followed by \option{daily}.
-#' @param peakFlows Optional. Dataframe containing WSC annual peak flows for a single station. The data frame is the same as is returned by the function \code{AnnualPeakData} in the \pkg{HYDAT} package developed by David Hutchinson. The data frame has the columns \code{station_number}, \code{data_type}, \code{year}, \code{peak_code}, \code{precision_code}, \code{month}, \code{day}, \code{hour}, \code{minute}, \code{time_zone}, \code{peak}, and \code{symbol}.
-#' @param peakFlowsLabel Optional. Labels for the annual peak flows. If not specified, then the value in \code{station_number} will be used, followed by \option{annual peak}.
+#' @param WSCdailyFlows Optional. Dataframe containing WSC daily flows. The data frame is the same as is returned by the function \code{DailyHydrometricData} in the \pkg{HYDAT} package developed by David Hutchinson. The datframe has the columns \code{station_number}, \code{date}, \code{value} and \code{flag}. The \code{date} must be an \R date.
+#' @param WSCdailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the value in \code{station_number} will be used, followed by \option{daily}.
+#' @param WSCpeakFlows Optional. Dataframe containing WSC annual peak flows for a single station. The data frame is the same as is returned by the function \code{AnnualPeakData} in the \pkg{HYDAT} package developed by David Hutchinson. The data frame has the columns \code{station_number}, \code{data_type}, \code{year}, \code{peak_code}, \code{precision_code}, \code{month}, \code{day}, \code{hour}, \code{minute}, \code{time_zone}, \code{peak}, and \code{symbol}.
+#' @param WSCpeakFlowsLabel Optional. Labels for the annual peak flows. If not specified, then the value in \code{station_number} will be used, followed by \option{annual peak}.
 #' @param commonTime Optional. If set to \code{TRUE} then the hydrographs will only plotted over their common time range. Default is \code{FALSE}.
 #' @param fakeDates Optional. If set to \code{TRUE} then all dates have their year replaced with \code{2000}, and the actual year is added as a variable in the plotted data. This allows the plot to be faceted by year, as shown in the examples.
 #' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
@@ -36,8 +36,8 @@
 #' limits=c(mintime, maxtime), date_labels = "%b")
 #' }
 hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMdaily=FALSE,
-                       dailyFlows=NULL, dailyFlowsLabel='', peakFlows=NULL,
-                       peakFlowsLabel='', commonTime=FALSE, fakeDates=FALSE, quiet=TRUE){
+                       WSCdailyFlows=NULL, WSCdailyFlowsLabel='', WSCpeakFlows=NULL,
+                       WSCpeakFlowsLabel='', commonTime=FALSE, fakeDates=FALSE, quiet=TRUE){
 
   # suppress checking of data frame variables used by ggplot2
   datetime <- NULL
@@ -62,35 +62,70 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
     CRHMselected <- FALSE
   }
 
-  if(!is.null(dailyFlows)){
-    dailyFlowsSelected <- TRUE
+  if(!is.null(WSCdailyFlows)){
+    WSCdailyFlowsSelected <- TRUE
 
-    if(dailyFlowsLabel == '')
-      dailyFlowsLabelSpecified <- FALSE
+    if(WSCdailyFlowsLabel == '')
+      WSCdailyFlowsLabelSpecified <- FALSE
     else
-      dailyFlowsLabelSpecified <- TRUE
+      WSCdailyFlowsLabelSpecified <- TRUE
+    
+    if(!WSCdailyFlowsLabelSpecified)
+      WSCdailyFlowsLabel <- paste(WSCdailyFlows$station_number[1], ' daily', sep='')
+    
+    WSCdailyFlows <- WSCdailyFlows[,c('date', 'value')]
+    WSCdailyFlows$label <- WSCdailyFlowsLabel
+    
+    # force timezone to be same as current
+    WSCdailyFlows <- dateToDatetime(WSCdailyFlows, timezone=Sys.timezone())
+    WSCdailyFlows$year <- as.numeric(format(WSCdailyFlows$datetime, format='%Y'))
+    
+    WSCdailyMinDatetime <- min(na.omit(WSCdailyFlows$datetime))
+    WSCdailyMaxDatetime <- max(na.omit(WSCdailyFlows$datetime))
   }
   else{
     if (!quiet)
-      cat('No daily flow data selected\n')
+      cat('No WSC daily flow data selected\n')
     dailyFlowsSelected <- FALSE
   }
 
-  if(!is.null(peakFlows)){
-    peakFlowsSelected <- TRUE
-    if(peakFlowsLabel == '')
-      peakFlowsLabelSpecified <- FALSE
+  if(!is.null(WSCpeakFlows)){
+    WSCpeakFlowsSelected <- TRUE
+    if(WSCpeakFlowsLabel == '')
+      WSCpeakFlowsLabelSpecified <- FALSE
     else
-      peakFlowsLabelSpecified <- TRUE
+      WSCpeakFlowsLabelSpecified <- TRUE
+    
+    WSCpeakFlows <- WSCpeakFlows[WSCpeakFlows$peak_code == 'MAXIMUM', ]
+    # convert date + time to datetime
+    WSCpeakFlows$datetime <- paste(WSCpeakFlows$year,'-', WSCpeakFlows$month,'-', WSCpeakFlows$day,' ',
+                                   WSCpeakFlows$hour, ':', WSCpeakFlows$minute, sep='')
+    
+    # this will have to be changed
+    timezone <- Sys.timezone()
+    
+    
+    WSCpeakFlows$datetime <- as.POSIXct(WSCpeakFlows$datetime, format ='%Y-%m-%d %H:%M', tz=timezone)
+    
+    # force timezone to be same as current
+    WSCpeakFlows$datetime <- lubridate::force_tz(WSCpeakFlows$datetime, tzone=Sys.timezone())
+    WSCpeakFlows$year <- as.numeric(format(WSCpeakFlows$datetime, format='%Y'))
+    
+    WSCpeakMinDatetime <- min(na.omit(WSCpeakFlows$datetime))
+    WSCpeakMaxDatetime <- max(na.omit(WSCpeakFlows$datetime))
+    
+    # remove values with missing datetimes
+    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$datetime),]
+      
   }
   else{
     if (!quiet)
-      cat('No peak flow data selected\n')
-    peakFlowsSelected <- FALSE
+      cat('No WSC peak flow data selected\n')
+    WSCpeakFlowsSelected <- FALSE
   }
 
   # make sure there is some data to plot
-  if(!CRHMselected & !dailyFlowsSelected & !peakFlowsSelected){
+  if(!CRHMselected & !WSCdailyFlowsSelected & !WSCpeakFlowsSelected){
     cat('Error: no data selected to plot\n')
     return(FALSE)
   }
@@ -105,69 +140,39 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
  # find limits to be plotted
  if (commonTime){
    if (CRHMselected){
-     CRHMminDate <- min(CRHMflows$datetime)
-     CRHMmaxDate <- max(CRHMflows$datetime)
+     CRHMminDatetime <- min(CRHMflows$datetime)
+     CRHMmaxDatetime <- max(CRHMflows$datetime)
    }
 
-   if (dailyFlowsSelected){
-     # force timezone to be same as current
-     dailyFlows$datetime <- paste(format(dailyFlows$date, format='%Y-%m-%d'), ' 00:00', sep='')
-     dailyFlows$datetime <- as.POSIXct(dailyFlows$datetime, format='%Y-%m-%d %H:%M', tzone='')
-     dailyFlows$year <- as.numeric(format(dailyFlows$datetime, format='%Y'))
-
-     dailyMinDate <- min(na.omit(dailyFlows$datetime))
-     dailyMaxDate <- max(na.omit(dailyFlows$datetime))
-   }
-
-   if (peakFlowsSelected){
-
-     peakFlows <- peakFlows[peakFlows$peak_code == 'MAXIMUM', ]
-     # convert date + time to datetime
-     peakFlows$datetime <- paste(peakFlows$year,'-', peakFlows$month,'-', peakFlows$day,' ',
-                                 peakFlows$hour, ':', peakFlows$minute, sep='')
-     timezone <- peakFlows$time_zone[1]
-     peakFlows$datetime <- as.POSIXct(peakFlows$datetime, format ='%Y-%m-%d %H:%M', tz=timezone)
-
-     # force timezone to be same as current
-     peakFlows$datetime <- lubridate::force_tz(peakFlows$datetime, tzone='')
-     peakFlows$year <- as.numeric(format(peakFlows$datetime, format='%Y'))
-
-     peakMinDate <- min(na.omit(peakFlows$datetime))
-     peakMaxDate <- max(na.omit(peakFlows$datetime))
-
-     # remove values with missing datetimes
-     peakFlows <- peakFlows[!is.na(peakFlows$datetime),]
-
-   }
 
    # check for min and max of all common dates
-   if (CRHMselected & dailyFlowsSelected & peakFlowsSelected){
-     commonMinTime <- pmax(CRHMminDate, dailyMinDate, peakMinDate)
-     commonMaxTime <- pmin(CRHMmaxDate, dailyMaxDate, peakMaxDate)
+   if (CRHMselected & WSCdailyFlowsSelected & WSCpeakFlowsSelected){
+     commonMinTime <- pmax(CRHMminDatetime, WSCdailyMinDatetime, WSCpeakMinDatetime)
+     commonMaxTime <- pmin(CRHMmaxDatetime, WSCdailyMaxDatetime, WSCpeakMaxDatetime)
    }
-   else if(CRHMselected & dailyFlowsSelected & !peakFlowsSelected){
-     commonMinTime <- pmax(CRHMminDate, dailyMinDate)
-     commonMaxTime <- pmin(CRHMmaxDate, dailyMaxDate)
+   else if(CRHMselected & WSCdailyFlowsSelected & !WSCpeakFlowsSelected){
+     commonMinTime <- pmax(CRHMminDatetime, WSCdailyMinDatetime)
+     commonMaxTime <- pmin(CRHMmaxDatetime, WSCdailyMaxDatetime)
    }
-   else if(CRHMselected & !dailyFlowsSelected & peakFlowsSelected){
-     commonMinTime <- pmax(CRHMminDate, peakMinDate)
-     commonMaxTime <- pmin(CRHMmaxDate, peakMaxDate)
+   else if(CRHMselected & !WSCdailyFlowsSelected & WSCpeakFlowsSelected){
+     commonMinTime <- pmax(CRHMminDatetime, WSCpeakMinDatetime)
+     commonMaxTime <- pmin(CRHMmaxDatetime, WSCpeakMaxDatetime)
    }
-   else if(!CRHMselected & dailyFlowsSelected & peakFlowsSelected){
-     commonMinTime <- pmax(dailyMinDate, peakMinDate)
-     commonMaxTime <- pmin(dailyMaxDate, peakMaxDate)
+   else if(!CRHMselected & WSCdailyFlowsSelected & WSCpeakFlowsSelected){
+     commonMinTime <- pmax(WSCdailyMinDatetime, WSCpeakMinDatetime)
+     commonMaxTime <- pmin(WSCdailyMaxDatetime, WSCpeakMaxDatetime)
    }
-   else if(CRHMselected & !dailyFlowsSelected & !peakFlowsSelected){
-     commonMinTime <- CRHMminDate
-     commonMaxTime <- CRHMmaxDate
+   else if(CRHMselected & !WSCdailyFlowsSelected & !WSCpeakFlowsSelected){
+     commonMinTime <- CRHMminDatetime
+     commonMaxTime <- CRHMmaxDatetime
    }
-   else if(!CRHMselected & dailyFlowsSelected & !peakFlowsSelected){
-     commonMinTime <- dailyMinDate
-     commonMaxTime <- dailyMaxDate
+   else if(!CRHMselected & WSCdailyFlowsSelected & !WSCpeakFlowsSelected){
+     commonMinTime <- WSCdailyMinDatetime
+     commonMaxTime <- WSCdailyMaxDatetime
    }
    else{
-     commonMinTime <- peakMinDate
-     commonMaxTime <- peakMaxDate
+     commonMinTime <- WSCpeakMinDatetime
+     commonMaxTime <- WSCpeakMaxDatetime
    }
  }
 
@@ -178,7 +183,7 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
     originalNames <- names(CRHMflows)[-1]
 
     # force timezone to be same as current
-    CRHMflows$datetime <- lubridate::force_tz(CRHMflows$datetime, tzone='')
+    CRHMflows$datetime <- lubridate::force_tz(CRHMflows$datetime, tzone=Sys.timezone())
 
 
     if (CRHMdaily){
@@ -189,8 +194,9 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
 
       # convert date to datetime
       # get timezone of data
-      tz <- format(CRHMflows[1,1], format='%Z')
+      tz <- Sys.timezone()
       CRHMflows  <- dateToDatetime(CRHMflowsDaily, timezone=tz)
+      
       if (CRHMlabelSpecified)
         names(CRHMflows)[-1] <- CRHMflowsLabels
       else
@@ -219,57 +225,41 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
 
       }
 
-      p <- p +  ggplot2::geom_step(direction='hv', data=CRHMmelted,
+      p <- p + ggplot2::geom_step(direction='hv', data=CRHMmelted,
                                    ggplot2::aes(x=datetime,y=value, colour=variable))
 
     }
 
 
-  if (dailyFlowsSelected){
-    if(!dailyFlowsLabelSpecified)
-      dailyFlowsLabel <- paste(dailyFlows$station_number[1], ' daily', sep='')
+  if (WSCdailyFlowsSelected){
 
-
-
-    # convert date to datetime
-
-    if(CRHMselected)
-      tz <- format(CRHMflows$datetime[1], format='%Z')
-    else if(peakFlowsSelected)
-      tz <- format(peakFlows$datetime[1], format='%Z')
-    else
-      tz <- Sys.timezone()
-
-    dailyFlows <- dailyFlows[,c('date', 'value')]
-    dailyFlows$label <- dailyFlowsLabel
-    dailyFlows <- dateToDatetime(dailyFlows, timezone=tz)
 
     # use common time limits if selected
     if (commonTime)
-      dailyFlows <- dailyFlows[(dailyFlows$datetime >= commonMinTime) &
-                                 (dailyFlows$datetime <= commonMaxTime),]
+      WSCdailyFlows <- WSCdailyFlows[(WSCdailyFlows$datetime >= commonMinTime) &
+                                 (WSCdailyFlows$datetime <= commonMaxTime),]
 
     # check to see if fakedates to be used
     if(fakeDates){
        fakeyear=2000
        # add year to use for faceting
-       dailyFlows$year <- as.numeric(format(dailyFlows$datetime, format='%Y'))
-       dailyFlows$datetime <- fakeDatetime(dailyFlows$datetime, fakeyear)
+       WSCdailyFlows$year <- as.numeric(format(WSCdailyFlows$datetime, format='%Y'))
+       WSCdailyFlows$datetime <- fakeDatetime(WSCdailyFlows$datetime, fakeyear)
     }
 
-    p <- p + ggplot2::geom_step(direction='hv', data=dailyFlows,
+    p <- p + ggplot2::geom_step(direction='hv', data=WSCdailyFlows,
                                ggplot2::aes(x=datetime, y=value, color=label))
   }
 
-  if (peakFlowsSelected){
-    if(!peakFlowsLabelSpecified)
-      peakFlowsLabel <- paste(peakFlows$station_number, ' annual peak', sep='')
-    peakFlows$label <- peakFlowsLabel
+  if (WSCpeakFlowsSelected){
+    if(!WSCpeakFlowsLabelSpecified)
+      WSCpeakFlowsLabel <- paste(WSCpeakFlows$station_number, ' annual peak', sep='')
+    WSCpeakFlows$label <- WSCpeakFlowsLabel
 
     # use common time limits if selected
     if (commonTime)
-      peakFlows <- peakFlows[(peakFlows$datetime >= commonMinTime) &
-                               (peakFlows$datetime <= commonMaxTime),]
+      WSCpeakFlows <- WSCpeakFlows[(WSCpeakFlows$datetime >= commonMinTime) &
+                               (WSCpeakFlows$datetime <= commonMaxTime),]
 
     # check to see if fakedates to be used
     if(fakeDates){
@@ -277,10 +267,10 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
       fakedatetimes <- paste(fakeyear,'-', format(peakFlows$datetime, format='%m-%d %H:%M'), sep='')
       peakFlows$datetime <- as.POSIXct(fakedatetimes, format='%Y-%m-%d %H:%M', tzone='')
     }
-    peakFlows <- peakFlows[,c('label', 'datetime', 'peak', 'year')]
-    peakFlows <- na.omit(peakFlows)
+    WSCpeakFlows <- WSCpeakFlows[,c('label', 'datetime', 'peak', 'year')]
+    WSCpeakFlows <- na.omit(WSCpeakFlows)
 
-    p <- p + ggplot2::geom_point(data=peakFlows, ggplot2::aes(x=datetime, y=peak,
+    p <- p + ggplot2::geom_point(data=WSCpeakFlows, ggplot2::aes(x=datetime, y=peak,
                         fill=label), color='black', shape=3, size=2)
   }
 
