@@ -55,6 +55,9 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
       CRHMlabelSpecified <- FALSE
     else
       CRHMlabelSpecified <- TRUE
+    # force timezone to be same as current
+    CRHMflows$datetime <- lubridate::force_tz(CRHMflows$datetime, tzone=Sys.timezone())
+
   }
   else{
     if (!quiet)
@@ -69,17 +72,17 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
       WSCdailyFlowsLabelSpecified <- FALSE
     else
       WSCdailyFlowsLabelSpecified <- TRUE
-    
+
     if(!WSCdailyFlowsLabelSpecified)
       WSCdailyFlowsLabel <- paste(WSCdailyFlows$station_number[1], ' daily', sep='')
-    
+
     WSCdailyFlows <- WSCdailyFlows[,c('date', 'value')]
     WSCdailyFlows$label <- WSCdailyFlowsLabel
-    
+
     # force timezone to be same as current
     WSCdailyFlows <- dateToDatetime(WSCdailyFlows, timezone=Sys.timezone())
     WSCdailyFlows$year <- as.numeric(format(WSCdailyFlows$datetime, format='%Y'))
-    
+
     WSCdailyMinDatetime <- min(na.omit(WSCdailyFlows$datetime))
     WSCdailyMaxDatetime <- max(na.omit(WSCdailyFlows$datetime))
   }
@@ -95,28 +98,28 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
       WSCpeakFlowsLabelSpecified <- FALSE
     else
       WSCpeakFlowsLabelSpecified <- TRUE
-    
+
     WSCpeakFlows <- WSCpeakFlows[WSCpeakFlows$peak_code == 'MAXIMUM', ]
     # convert date + time to datetime
     WSCpeakFlows$datetime <- paste(WSCpeakFlows$year,'-', WSCpeakFlows$month,'-', WSCpeakFlows$day,' ',
                                    WSCpeakFlows$hour, ':', WSCpeakFlows$minute, sep='')
-    
+
     # this will have to be changed
     timezone <- Sys.timezone()
-    
-    
+
+
     WSCpeakFlows$datetime <- as.POSIXct(WSCpeakFlows$datetime, format ='%Y-%m-%d %H:%M', tz=timezone)
-    
+
     # force timezone to be same as current
     WSCpeakFlows$datetime <- lubridate::force_tz(WSCpeakFlows$datetime, tzone=Sys.timezone())
     WSCpeakFlows$year <- as.numeric(format(WSCpeakFlows$datetime, format='%Y'))
-    
+
     WSCpeakMinDatetime <- min(na.omit(WSCpeakFlows$datetime))
     WSCpeakMaxDatetime <- max(na.omit(WSCpeakFlows$datetime))
-    
+
     # remove values with missing datetimes
     WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$datetime),]
-      
+
   }
   else{
     if (!quiet)
@@ -182,8 +185,6 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
     CRHMflows <- CRHMflows[,c(1, CRHMcols)]
     originalNames <- names(CRHMflows)[-1]
 
-    # force timezone to be same as current
-    CRHMflows$datetime <- lubridate::force_tz(CRHMflows$datetime, tzone=Sys.timezone())
 
 
     if (CRHMdaily){
@@ -196,7 +197,7 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
       # get timezone of data
       tz <- Sys.timezone()
       CRHMflows  <- dateToDatetime(CRHMflowsDaily, timezone=tz)
-      
+
       if (CRHMlabelSpecified)
         names(CRHMflows)[-1] <- CRHMflowsLabels
       else
@@ -232,8 +233,6 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
 
 
   if (WSCdailyFlowsSelected){
-
-
     # use common time limits if selected
     if (commonTime)
       WSCdailyFlows <- WSCdailyFlows[(WSCdailyFlows$datetime >= commonMinTime) &
