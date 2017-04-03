@@ -9,6 +9,7 @@
 #' @param WSCdailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the value in \code{station_number} will be used, followed by \option{daily}.
 #' @param WSCpeakFlows Optional. Dataframe containing WSC annual peak flows for a single station. The data frame is the same as is returned by the function \code{AnnualPeakData} in the \pkg{HYDAT} package developed by David Hutchinson. The data frame has the columns \code{station_number}, \code{data_type}, \code{year}, \code{peak_code}, \code{precision_code}, \code{month}, \code{day}, \code{hour}, \code{minute}, \code{time_zone}, \code{peak}, and \code{symbol}.
 #' @param WSCpeakFlowsLabel Optional. Labels for the annual peak flows. If not specified, then the value in \code{station_number} will be used, followed by \option{annual peak}.
+#' @param forceMissingPeakTimes Optional. Some peaks are missing their time of day and/or time zone. If \code{TRUE}, the peak times will be set to noon (if required) on the date of record. The time zone (if required) will be set to that of the user. If \code{FALSE} (the default value) peaks missing times and/or timezones will be deleted from the plot.
 #' @param commonTime Optional. If set to \code{TRUE} then the hydrographs will only plotted over their common time range. Default is \code{FALSE}.
 #' @param fakeDates Optional. If set to \code{TRUE} then all dates have their year replaced with \code{2000}, and the actual year is added as a variable in the plotted data. This allows the plot to be faceted by year, as shown in the examples.
 #' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
@@ -37,7 +38,7 @@
 #' }
 hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMdaily=FALSE,
                        WSCdailyFlows=NULL, WSCdailyFlowsLabel='', WSCpeakFlows=NULL,
-                       WSCpeakFlowsLabel='', commonTime=FALSE, fakeDates=FALSE, quiet=TRUE){
+                       WSCpeakFlowsLabel='', forceMissingPeakTimes=FALSE, commonTime=FALSE, fakeDates=FALSE, quiet=TRUE){
 
   # suppress checking of data frame variables used by ggplot2
   datetime <- NULL
@@ -100,15 +101,56 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels='', CRHMcols=NULL, CRHMda
       WSCpeakFlowsLabelSpecified <- TRUE
 
     WSCpeakFlows <- WSCpeakFlows[WSCpeakFlows$peak_code == 'MAXIMUM', ]
+    WSCtimezone <- WSCpeakFlows$time_zone
+
+    if (forceMissingPeakTimes){
+      WSCpeakFlows$hour[is.na(WSCpeakFlows$hour)] <- 12
+      WSCpeakFlows$minute[is.na(WSCpeakFlows$minute)] <- 0
+
+      # see if there are any non-missing time zones, and use them
+
+      goodTimeZone <- WSCtimezone[!is.na(WSCtimezone)]
+      goodTimeZone <- goodTimeZone[goodTimeZone != '*']
+      goodTimeZone <- goodTimeZone[goodTimeZone != '0']
+
+      if (length(goodTimeZone) > 0)
+        fakeTZ <- goodTimeZone[1]
+      else
+        fakeTZ <- WSCpeakFlows$time_zone
+
+      WSCtimezone[is.na(WSCtimezone)] <- fakeTZ
+    }
+
+    # change timezone for Windows
+    # From Dave Hutchinson, the abberviations are: EST, AST, CST, NST, MST, MDT, PST, YST, *, AKST, 0
+      WSCtimezone[WSCtimezone == 'EST'] <- 'Etc/GMT+5'
+      WSCtimezone[WSCtimezone == 'AST'] <- 'Etc/GMT+4'
+      WSCtimezone[WSCtimezone == 'CST'] <- 'Etc/GMT+6'
+      WSCtimezone[WSCtimezone == 'NST'] <- 'Etc/GMT+3:30'
+      WSCtimezone[WSCtimezone == 'MST'] <- 'Etc/GMT+7'
+      WSCtimezone[WSCtimezone == 'MDT'] <- 'America/Edmonton'
+      WSCtimezone[WSCtimezone == 'PST'] <- 'Etc/GMT+8'
+      WSCtimezone[WSCtimezone == 'YST'] <- 'Etc/GMT+9'
+      WSCtimezone[WSCtimezone == 'AKST'] <- 'Etc/GMT+9'
+
+    WSCpeakFlows$time_zone <- WSCtimezone
+
+    # remove rows with missing dates and times
+    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$year),]
+    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$month),]
+    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$day),]
+    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$hour),]
+    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$minute),]
+    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$time_zone),]
+
     # convert date + time to datetime
     WSCpeakFlows$datetime <- paste(WSCpeakFlows$year,'-', WSCpeakFlows$month,'-', WSCpeakFlows$day,' ',
                                    WSCpeakFlows$hour, ':', WSCpeakFlows$minute, sep='')
 
-    # this will have to be changed
-    timezone <- Sys.timezone()
 
 
-    WSCpeakFlows$datetime <- as.POSIXct(WSCpeakFlows$datetime, format ='%Y-%m-%d %H:%M', tz=timezone)
+    # convert to POSIXct datetime
+    WSCpeakFlows$datetime <- as.POSIXct(WSCpeakFlows$datetime, format ='%Y-%m-%d %H:%M', tz=WSCpeakFlows$time_zone[1])
 
     # force timezone to be same as current
     WSCpeakFlows$datetime <- lubridate::force_tz(WSCpeakFlows$datetime, tzone=Sys.timezone())
