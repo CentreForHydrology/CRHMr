@@ -4,10 +4,10 @@ citEntry(entry = "Manual",
   title        = "{CRHMr}: pre- and post- processing for the Cold Regions Hydrological Modelling (CRHM) platform",
   author       = personList(as.person("Kevin Shook")),
   year         = "2016",
-  url          = "www.usask.ca/hydrology/RPkgs.php/",
+  url          = "https://github.com/CentreForHydrology/CRHMr",
 
   textVersion  =
   paste("Kevin Shook (2016).",
         "CRHMr: pre- and post- processing for the Cold Regions Hydrological Modelling (CRHM) platform.",
-        "URL www.usask.ca/hydrology/RPkgs.php/.")
+        "URL https://github.com/CentreForHydrology/CRHMr")
 )
