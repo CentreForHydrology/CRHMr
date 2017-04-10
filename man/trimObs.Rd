@@ -17,7 +17,7 @@ trimObs(obs, quiet = TRUE, logfile = "")
 If successful, returns the trimmed dataframe. If unsuccessful, returns \code{FALSE}.
 }
 \description{
-Removes values before 01:00 on the first complete day of the data, and after 00:00 on the last complete rows. Used before exporting observations to a CRHM .obs file. For daily obs, removes values before the first complete row and after the last complete row.
+Removes values before 01:00 on the first complete day of the data, and after 00:00 on the last complete rows. Because it is destructive, this command should \emph{only} be used immediately before exporting observations to a CRHM .obs file. For daily obs, removes values before the first complete row and after the last complete row.
 }
 \examples{
 BadLake.trimmed <- trimObs(BadLake7376)
