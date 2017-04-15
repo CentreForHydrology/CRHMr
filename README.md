@@ -6,8 +6,7 @@ Functions are provided to create time series of forcing meteorological data, rea
 
 CRHMr also contains functions for gap removal, infilling and imputation of time series data, which may be useful for other models. Functions are also provided to deaccumulate, plot and correct weighing gauge precipitation data.
 
-##Installation
-
+## Installation
 You can download the complete package, as well as the manual .pdf by clicking on **releases**. However, you can download and install the most up-to-date version directly from this repository. The procedure is
 1. Install the package "devtools" - you only have to do this once. Note that this will also install several dependancies
 2. Load the devtools library
