@@ -17,47 +17,47 @@
 #' @export
 
 interpolate <-
-function(obs, varcols=1, methods='linear', maxlength=5, 
-         quiet=TRUE, logfile=''){ 
+function(obs, varcols=1, methods='linear', maxlength=5,
+         quiet=TRUE, logfile=''){
   # check parameters
   if (nrow(obs) == 0){
     cat('Error: missing values\n')
     return(FALSE)
   }
   obsName <- deparse(substitute(obs))
-  
+
   varcols <- varcols + 1
   variable.names <- names(obs)[varcols]
   rh.loc.num <- length(grep("rh", tolower(variable.names), fixed=TRUE))
-  
+
   if(rh.loc.num > 0){
     cat("Error: can't interpolate RH data\n")
     return(FALSE)
   }
-  
+
   p.loc.num <- length(grep("p", tolower(variable.names), fixed=TRUE))
   if(p.loc.num > 0){
     if (!quiet)
       cat("Warning: you should only interpolate cumulative precip data\n")
   }
-  
+
   # get selected variables
   varcols.with.time <- c(1, varcols)
   obs <- obs[, varcols.with.time]
-  
+
   first.datetime <- obs$datetime[1]
   last.datetime <- obs$datetime[nrow(obs)]
-  # now trim missing values at beginning and end  
+  # now trim missing values at beginning and end
   dt <- timestep.hours(obs[2,1], obs[1,1])
-  
+
   if (dt == 24){
-    # daily 
+    # daily
     clean <- na.omit(obs)
     last.row <- nrow(clean)
     first.clean.datetime <- clean$datetime[1]
     last.clean.datetime <- clean$datetime[last.row]
-    trimmed <- obs[(obs$datetime >= first.clean.datetime) & 
-                     (obs$datetime <= last.clean.datetime) ,] 
+    trimmed <- obs[(obs$datetime >= first.clean.datetime) &
+                     (obs$datetime <= last.clean.datetime) ,]
   }
   else{
     # non-daily
@@ -65,23 +65,23 @@ function(obs, varcols=1, methods='linear', maxlength=5,
     last.row <- nrow(clean)
     first.clean.datetime <- clean$datetime[1]
     last.clean.datetime <- clean$datetime[last.row]
-    trimmed <- obs[(obs$datetime >= first.clean.datetime) & 
+    trimmed <- obs[(obs$datetime >= first.clean.datetime) &
                         (obs$datetime <= last.clean.datetime),]
   }
-    
+
   # generate time synthetic series from beginning to end
   datetime <- seq(from=first.clean.datetime, to=last.clean.datetime, by=dt*3600)
-  
+
   # create data frame of times and merge variables into it
-  filled <- as.data.frame(datetime) 
+  filled <- as.data.frame(datetime)
   filled <- merge(filled, trimmed, by='datetime', all=TRUE)
-  
+
   # see if worth doing
   filled.good <- na.omit(filled)
   if (nrow(filled) == nrow(filled.good)){
     cat('Error: NO missing values\n')
     return(FALSE)
-  } 
+  }
 
   # get interpolation methods
   method <- tolower(methods)
@@ -91,7 +91,7 @@ function(obs, varcols=1, methods='linear', maxlength=5,
   }
 
   # interpolate columns according to methods
-  
+
   spline.cols <- which(methods=='spline') + 1
   linear.cols <- which(methods=='linear') + 1
   output.data <- filled
@@ -102,42 +102,42 @@ function(obs, varcols=1, methods='linear', maxlength=5,
   if (length(spline.cols) > 0){
     splines.original <- filled[, spline.cols]
     splines.type <- output.type[, spline.cols]
-    splines.filled <- as.data.frame(zoo::na.spline(splines.original, maxgap=maxlength, 
+    splines.filled <- as.data.frame(zoo::na.spline(splines.original, maxgap=maxlength,
                                               na.rm=TRUE))
-    
+
     # figure out type of data now in data frame
     original.na <- is.na(splines.original)
     filled.na <- is.na(splines.filled)
-    
+
     splines.type[!original.na] <- 'original'
     splines.type[xor(original.na, filled.na)] <- 'spline interpolation'
     splines.type[filled.na] <- 'NA'
-    
+
     output.data[, spline.cols] <- splines.filled
     output.type[, spline.cols] <- splines.type
   }
-  
+
   if (length(linear.cols) > 0){
     linears.original <- filled[, linear.cols]
     linears.type <- output.type[, linear.cols]
-    linears.filled <- as.data.frame(zoo::na.approx(linears.original, 
+    linears.filled <- as.data.frame(zoo::na.approx(linears.original,
                                               maxgap=maxlength, na.rm=TRUE))
-    
+
     # figure out type of data now in data frame
     original.na <- is.na(linears.original)
     filled.na <- is.na(linears.filled)
-    
+
     linears.type[!original.na] <- 'original'
     linears.type[xor(original.na, filled.na)] <- 'linear interpolation'
     linears.type[filled.na] <- 'NA'
-    
+
     output.data[, linear.cols] <- linears.filled
     output.type[, linear.cols] <- linears.type
   }
-  
+
   # now reassemble obs data, inclufing missing rows at beginning and end
   if (first.clean.datetime != first.datetime){
-    first.bad <- obs[(obs$datetime < first.clean.datetime),] 
+    first.bad <- obs[(obs$datetime < first.clean.datetime),]
     output.data <- rbind(first.bad, output.data)
     first.type <- first.bad
     first.type[,-1] <- NA_real_
@@ -155,19 +155,19 @@ function(obs, varcols=1, methods='linear', maxlength=5,
   obs.info <- CRHM_summary(obs)
   if (!quiet)
     print(obs.info)
-  
-  comment <- paste('interpolate dataframe:', obsName, 
+
+  comment <- paste('interpolate dataframe:', obsName,
                    ' Variables:', stringr::str_c(names(filled)[-1], collapse=','),
                    ' methods:', stringr::str_c(methods, collapse=','),
                    ' maxlength:', maxlength,
-                   sep='')  
-  
+                   sep='')
+
   result <- logAction(comment, logfile)
-  
+
 
   original.data.info <- CRHM_summary(obs)
   new.data.info <- CRHM_summary(output.data)
-  
+
   comment1 <- paste('Data infilled by interpolation:', obsName, sep='\t')
   comment2 <- paste('Variables:', stringr::str_c(names(filled)[-1], collapse=','), sep='\t')
   comment3 <- paste('Interpolation method:', stringr::str_c(methods, collapse=','), sep='\t')
