@@ -23,6 +23,7 @@ Removes rows where all values are missing, keeps the remainder.
 BadLake.good <- keepGood(BadLake7376)
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 \seealso{
 \code{\link{trimObs}}
 }
@@ -38,3 +39,11 @@ Kevin Shook
 }
 
 >>>>>>> 38e687f7be6412517ba30e505d371543fddf3102
+=======
+\seealso{
+\code{\link{trimObs}}
+}
+\author{
+Kevin Shook
+}
+>>>>>>> 885648775cd4bc033f311b418452a30aac53dc41
