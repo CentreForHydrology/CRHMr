@@ -16,6 +16,6 @@ Suggests: HYDAT, RSQLite, EcoHydRology
 License: GPL-3
 LazyData: true
 URL: https://github.com/CentreForHydrology/CRHMr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
 Packaged: 2016-07-06 18:16:30 UTC; kevin
