@@ -23,4 +23,3 @@ quantiles <- qqplotValues(runif(20), runif(50))
 \author{
 Kevin Shook
 }
-

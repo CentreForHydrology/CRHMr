@@ -66,4 +66,3 @@ limits=c(mintime, maxtime), date_labels = "\%b")
 \author{
 Kevin Shook
 }
-

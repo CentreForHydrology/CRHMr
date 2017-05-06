@@ -23,4 +23,3 @@ Reads numeric values from a project file variable. The number of values to be re
 \dontrun{
 hru_names <- readPrjTextVals(Bologna,'hru_names',19)}
 }
-

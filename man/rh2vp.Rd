@@ -20,10 +20,9 @@ This is an internal \pkg{CRHMr} function and should \emph{never} need to be call
 \examples{
 rh2vp(-5, 50)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{changeRHtoEa}}
 }
-
+\author{
+Kevin Shook
+}

@@ -38,10 +38,9 @@ In addition to the usual notation in the logfile, this function also writes a se
 v.filled <- impute(veg, c(1,2,3), st,
 c(2,3,1), c(0.895,0.708,1.1209), c(-0.8128, 0.0607, 9.005))}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{interpolate}} \code{\link{regress}} \code{\link{distributeP}}
 }
-
+\author{
+Kevin Shook
+}

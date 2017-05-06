@@ -22,10 +22,9 @@ Removes rows where all values are missing, keeps the remainder.
 \examples{
 BadLake.good <- keepGood(BadLake7376)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{trimObs}}
 }
-
+\author{
+Kevin Shook
+}

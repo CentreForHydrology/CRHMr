@@ -38,10 +38,9 @@ Downscales incoming shortwave radiation to shorter time intervals, based on the 
 hourlyShortwave <- distributeQsi(QsiObs=SWobs, QsiColnum=1, latitude=51.1, timeStep=1)}
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{simpleMaxSolar}} \code{\link{distributeQli}}
 }
-
+\author{
+Kevin Shook
+}

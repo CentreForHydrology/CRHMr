@@ -26,10 +26,9 @@ Calculates mean total precipitation for each calendar month in the observation d
 marmot_monthly_plot <- monthlyPrecipTotals(marmot)
 marmot_monthly_means <- monthlyPrecipTotals(marmot, plot=FALSE)}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{aggDataframe}} \code{\link{monthlyQQplot}}
 }
-
+\author{
+Kevin Shook
+}

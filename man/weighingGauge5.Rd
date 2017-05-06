@@ -33,10 +33,9 @@ wg1 <- weighingGauge1(wg,  maxGapLength=500)
 wg5 <- weighingGauge5(wg1,  resetThreshold=70)}
 
 }
-\author{
-Kevin Shook, based on an algorithm developed by Thai Nguyen of Alberta Environment.
-}
 \seealso{
 \code{\link{weighingGauge1}} \code{\link{weighingGaugePlot}} \code{\link{weighingGaugeInterval}}
 }
-
+\author{
+Kevin Shook, based on an algorithm developed by Thai Nguyen of Alberta Environment.
+}

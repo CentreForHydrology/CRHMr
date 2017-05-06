@@ -22,10 +22,9 @@ Removes values before 01:00 on the first complete day of the data, and after 00:
 \examples{
 BadLake.trimmed <- trimObs(BadLake7376)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{writeObsFile}}
 }
-
+\author{
+Kevin Shook
+}

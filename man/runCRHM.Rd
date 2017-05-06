@@ -34,10 +34,9 @@ If \code{Wine} is required, the function will copy the specified .obs, and .par 
 result <- runCRHM('c:/CRHM/CRHM.exe', 'c:/BadLake/BadLake1975.prj',
 outfile='c:/BadLake/BadLake1975Output.txt')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{automatePrj}}
 }
-
+\author{
+Kevin Shook
+}

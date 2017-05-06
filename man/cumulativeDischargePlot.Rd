@@ -33,10 +33,9 @@ Creates a \pkg{ggplot} object of annual cumulative flows from data frames of CRH
 \dontrun{
 p <- cumulativeDischargePlot(crhm, 'CRHM', 1, dailyflows, 'HYDAT', facetCols=4, quiet=FALSE)}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{hydrograph}}
 }
-
+\author{
+Kevin Shook
+}

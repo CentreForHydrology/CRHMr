@@ -1,8 +1,8 @@
 Package: CRHMr
 Type: Package
 Title: Pre- and post- processing for CRHM
-Version: 2.4.10
-Date: 2017-03-30
+Version: 2.4.11
+Date: 2017-05-05
 Author: Kevin Shook, Centre for Hydrology, University of Saskatchewan
 Maintainer: Kevin Shook <kevin.shook@usask.ca>
 Description: The package is pronounced 'Krimmer' in honour of my wife's family.
@@ -16,6 +16,6 @@ Suggests: HYDAT, RSQLite, EcoHydRology
 License: GPL-3
 LazyData: true
 URL: https://github.com/CentreForHydrology/CRHMr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
 Packaged: 2016-07-06 18:16:30 UTC; kevin

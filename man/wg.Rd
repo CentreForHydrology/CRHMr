@@ -19,4 +19,3 @@ wg
 A dataframe containing data for use with the weighingGauge functions.
 }
 \keyword{datasets}
-

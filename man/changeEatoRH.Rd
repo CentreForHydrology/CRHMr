@@ -29,10 +29,9 @@ BadLake7376.ea <- changeRHtoEa(BadLake7376)
 # now convert Ea values back to RH
 BadLake7376.rh <- changeEatoRH(BadLake7376.ea)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{changeRHtoEa}}
 }
-
+\author{
+Kevin Shook
+}

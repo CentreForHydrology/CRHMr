@@ -33,4 +33,3 @@ Distributes instantaneous values to a shorter time interval. The missing datetim
 \dontrun{
 hourly_vals <- distributeInst(vegreville, c(1,2,3), timeStep = 1)}
 }
-

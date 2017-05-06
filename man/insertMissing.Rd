@@ -25,10 +25,9 @@ This function should be used before doing interpolation or imputation of variabl
 \examples{
 BadLake.withmissing <- insertMissing(BadLake7376, quiet=FALSE)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{findGaps}} \code{\link{interpolate}} \code{\link{impute}}
 }
-
+\author{
+Kevin Shook
+}

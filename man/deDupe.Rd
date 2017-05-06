@@ -27,10 +27,9 @@ If action=\option{min}, \option{max}, or \option{mean}, the action function is a
 \examples{
 BadLake.deduped <- deDupe(BadLake7376, action='mean')
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{findDupes}}
 }
-
+\author{
+Kevin Shook
+}

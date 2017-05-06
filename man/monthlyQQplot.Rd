@@ -34,10 +34,9 @@ badlake75 <- subset(BadLake, year==1975)
 p <- monthlyQQplot(badlake73, 1, badlake75, 1, samePeriod=FALSE)
 print(p)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{monthlyPrecipTotals}}
 }
-
+\author{
+Kevin Shook
+}

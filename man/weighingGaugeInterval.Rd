@@ -26,10 +26,9 @@ Converts weighing gauged cumulative precipitation to interval values. The interv
 test5 <- weightingGaugeStep5(wg)}
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge3}}  \code{\link{weighingGauge4}}  \code{\link{weighingGauge5}} \code{\link{weighingGaugePlot}}
 }
-
+\author{
+Kevin Shook
+}

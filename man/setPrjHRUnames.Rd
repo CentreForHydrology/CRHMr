@@ -29,10 +29,9 @@ Currently, this function has only been tested on simple \code{.prj} files, i.e. 
 \dontrun{
 result <- setPrjHRUnames('c:/CRHM/Bad74_Frozen.prj', c('fallow', 'stubble', 'grass'))}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{runCRHM}} \code{\link{setPrjParameters}} \code{\link{setPrjDates}}
 }
-
+\author{
+Kevin Shook
+}

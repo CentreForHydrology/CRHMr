@@ -35,10 +35,9 @@ Creates \pkg{ggplot2} ribbon plots of the daily minimum, maximum and mean values
 \dontrun{
 p <- ribbonPlot(waterYearCumul, waterYear=TRUE, units='mm', facet=TRUE, facetCols=2}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{cumulDailyWater}}
 }
-
+\author{
+Kevin Shook
+}

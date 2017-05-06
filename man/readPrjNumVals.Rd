@@ -23,4 +23,3 @@ Reads specified number of numeric values from a project file variable.
 \dontrun{
 hru_area <- readPrjNumVals(Bologna,'hru_area',19)}
 }
-

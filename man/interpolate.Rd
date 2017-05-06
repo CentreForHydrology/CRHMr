@@ -33,10 +33,9 @@ In addition to the usual notation in the logfile, this function also writes a se
 \dontrun{
 v.filled <- interpolate(v, c(1,3))}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{impute}}  \code{\link{distributeP}}
 }
-
+\author{
+Kevin Shook
+}

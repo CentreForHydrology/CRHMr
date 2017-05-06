@@ -25,10 +25,9 @@ Finds the annual maxima (and, optionally, minima) of the specfied columns in a C
 \dontrun{
 p <- yearlyPeaks(BrandonObs, columns=c(1,2), minvals=TRUE)}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{aggDataframe}}
 }
-
+\author{
+Kevin Shook
+}

@@ -27,4 +27,3 @@ regular <- makeRegular(BadLake7376, timezone='CST')
 \author{
 Kevin Shook
 }
-

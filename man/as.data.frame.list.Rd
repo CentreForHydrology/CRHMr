@@ -58,10 +58,9 @@ as.data.frame(test5)
 test6 <- list(list(letters), letters)
 as.data.frame(test6)}
 }
-\author{
-Jason Bryer <<jason@bryer.org>>
-}
 \references{
 \url{http://stackoverflow.com/questions/4227223/r-list-to-data-frame}
 }
-
+\author{
+Jason Bryer <<jason@bryer.org>>
+}

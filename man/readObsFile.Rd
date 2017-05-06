@@ -27,10 +27,9 @@ BadLake7376.obs <- writeObsFile(BadLake7376, 'BadLake7376.obs')
 # now read data back in
 BadLake <- readObsFile('BadLake7376.obs', 'etc/GMT+6')
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{readExportFile}} \code{\link{readOutputFile}}
 }
-
+\author{
+Kevin Shook
+}

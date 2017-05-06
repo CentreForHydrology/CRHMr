@@ -33,4 +33,3 @@ p <- doubleMass(primaryObs=CamrosePPT, secondaryObs=WetaskiwinPPT, plot=TRUE)}
 \author{
 Kevin Shook
 }
-

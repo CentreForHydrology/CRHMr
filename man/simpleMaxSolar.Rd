@@ -38,10 +38,9 @@ This version is valid for latitudes between 49 \eqn{^\circ}{ }N and 55\eqn{^\cir
 \examples{
 maxSolar <- simpleMaxSolar(BadLake7376, 51.366)
 }
-\author{
-Kevin Shook
-}
 \references{
 This code is based on Shook, K., and J. Pomeroy (2011), \dQuote{Synthesis of incoming shortwave radiation for hydrological simulation}, Hydrol. Res., 42(6), 433, doi:10.2166/nh.2011.074. \cr Please cite this paper if you use this function in a publication.
 }
-
+\author{
+Kevin Shook
+}

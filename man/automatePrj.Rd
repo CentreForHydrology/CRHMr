@@ -26,10 +26,9 @@ Converts a CRHM .prj file to be able to be run automatically. It adds the settin
 \dontrun{
 result <- automatePrj('Bad Lake 1974-1975.prj','Bad Lake 1974-1975 auto.prj')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{runCRHM}}
 }
-
+\author{
+Kevin Shook
+}

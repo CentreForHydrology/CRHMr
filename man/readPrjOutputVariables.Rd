@@ -29,10 +29,9 @@ variables <- readPrjOutputVariables('Bad_Lake_1974-1975.prj', asDataframe=TRUE)
 # change value
 variables$HRUs[1] <- '1 2'}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{setPrjOutputVariables}}
 }
-
+\author{
+Kevin Shook
+}

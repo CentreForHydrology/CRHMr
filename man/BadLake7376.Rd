@@ -26,4 +26,3 @@ BadLake7376
 A data frame containing meteorological data from Bad Lake, Saskatchewan, from January 1, 1973 to January 1, 1976. This data was collected by the Division of Hydrology at the University of Saskatchewan.
 }
 \keyword{datasets}
-

@@ -31,10 +31,9 @@ If there are missing values in the obs dataframe, the last line of the header wi
 # write sample obs dataframe to .obs file
 result <- writeObsFile(BadLake7376, 'BadLake7376.obs')
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{trimObs}} \code{\link{changeEatoRH}}
 }
-
+\author{
+Kevin Shook
+}

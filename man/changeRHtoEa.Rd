@@ -26,10 +26,9 @@ This function converts values of RH to Ea. \pkg{CRHMr} does not allow interpolat
 \examples{
 BadLake7376.ea <- changeRHtoEa(BadLake7376)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{changeEatoRH}}
 }
-
+\author{
+Kevin Shook
+}

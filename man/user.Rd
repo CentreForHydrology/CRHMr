@@ -24,4 +24,3 @@ user()
 \author{
 Kevin Shook
 }
-

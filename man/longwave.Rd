@@ -20,10 +20,9 @@ Calculates the incoming longwave radiation from the specified emissivity and air
 \examples{
 longwave(0.2, 293)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{distributeQli}} \code{\link{emissivity}}
 }
-
+\author{
+Kevin Shook
+}

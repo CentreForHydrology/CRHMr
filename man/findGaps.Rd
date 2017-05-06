@@ -29,10 +29,9 @@ If quiet=FALSE, the functions gives a summary of the gaps (number of gaps, their
 \examples{
 findGaps(BadLake7376, quiet=FALSE)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{insertMissing}} \code{\link{interpolate}} \code{\link{impute}}
 }
-
+\author{
+Kevin Shook
+}

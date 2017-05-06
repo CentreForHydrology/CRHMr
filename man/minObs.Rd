@@ -37,10 +37,9 @@ bad.min2 <- minObs(BadLake7376, varcols=c(1,2), actions='NA')
 # use specfied columns with specified min values and actions
 bad.min3 <- minObs(BadLake7376, minvals=c(-30, 22), varcols=c(1,2), actions=c('min', 'NA'))
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{minObs}}
 }
-
+\author{
+Kevin Shook
+}

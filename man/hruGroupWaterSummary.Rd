@@ -47,4 +47,3 @@ daily_group <- hruGroupSummary(daily, prjFile = 'Bologna1984_02.prj',
 HRUgroups=groups, basinMean=FALSE)
 }
 }
-

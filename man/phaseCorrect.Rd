@@ -35,10 +35,9 @@ Applies an iterative solution to calculate the psychrometric hydrometeor tempera
 \examples{
 corrected <- phaseCorrect(BadLake7376, Tcol=1, RHcol=2, Ucol=3, Pcol=5)
 }
-\author{
-Phillip Harder
-}
 \references{
 \cite{Harder, P., and J. Pomeroy (2013), \dQuote{Estimating precipitation phase using a psychrometric energy balance method}, Hydrol. Process., 27(13), 1901-1914, doi:10.1002/hyp.9799.} \cr\cr \cite{Macdonald, J., and J. Pomeroy (2007), \dQuote{Gauge Undercatch of Two Common Snowfall Gauges in a Prairie Environment}, Proc. 64th East. Snow Conf. St. John's, Canada., 119-126.}
 }
-
+\author{
+Phillip Harder
+}

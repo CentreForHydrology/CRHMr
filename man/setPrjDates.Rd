@@ -38,10 +38,9 @@ result <- setPrjDates('c:/CRHM/Bad Lake 1974-1975.prj',
 '1974 10 1', '1975 10 1', initialStateFile='c:\\\\CRHM\\\\Model_Initial_State.int',
  finalStateFile='c:\\\\CRHM\\\\Model_Final_State.int')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{runCRHM}}
 }
-
+\author{
+Kevin Shook
+}

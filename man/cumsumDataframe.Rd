@@ -22,10 +22,9 @@ This function is used by other \pkg{CRHMr} functions, so it does \emph{NO} param
 \dontrun{
 cumul <- cumsumDataframe(modelOutput)}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{cumulDailyWater}}
 }
-
+\author{
+Kevin Shook
+}

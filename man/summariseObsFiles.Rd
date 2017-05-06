@@ -26,10 +26,9 @@ This function summarises all of the obs files in specified directory, optionally
 \dontrun{
 summariseObsFiles('c:/data/BadLake/MSC', timezone='etc/GMT+6', plot=TRUE)}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{plotObs}}
 }
-
+\author{
+Kevin Shook
+}

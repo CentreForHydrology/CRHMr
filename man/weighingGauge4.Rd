@@ -37,10 +37,9 @@ This function is potentially destructive, as it smooths the accumulated precipit
 test4 <- weighingGauge4(wg, smallDropThreshold = 0.05, serviceThreshold = -50)}
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{PcpFiltPosTh}} \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge3}} \code{\link{weighingGaugePlot}} \code{\link{weighingGaugeInterval}}
 }
-
+\author{
+Kevin Shook
+}

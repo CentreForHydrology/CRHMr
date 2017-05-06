@@ -27,10 +27,9 @@ As described, this function is potentially dangerous, and its action \emph{CANNO
 \examples{
 BadLake7376.clean <- zeroMissingPrecip(BadLake7376, quiet=FALSE) 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{writeObsFile}}
 }
-
+\author{
+Kevin Shook
+}
