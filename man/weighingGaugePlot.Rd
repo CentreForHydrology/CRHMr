@@ -28,10 +28,9 @@ Plots culumative precipitation data from a weighting gauge. The plot contains fa
 \dontrun{
 p <- weighingGaugePlot(test1) }
 }
-\author{
-Kevin Shook.
-}
 \seealso{
 \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge3}} \code{\link{weighingGauge4}}  \code{\link{weighingGauge5}}
 }
-
+\author{
+Kevin Shook.
+}

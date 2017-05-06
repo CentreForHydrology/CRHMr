@@ -20,10 +20,9 @@ This is an internal \pkg{CRHMr} function and should \emph{never} need to be call
 \examples{
 vp2rh(-5, 0.2007355)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{changeEatoRH}}
 }
-
+\author{
+Kevin Shook
+}

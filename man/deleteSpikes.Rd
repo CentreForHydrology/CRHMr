@@ -27,10 +27,9 @@ BadLake <- BadLake7376
 # and sets their values to NA_real_
 BadLake$u.nospikes <- deleteSpikes(BadLake7376, 3, 10)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{findSpikes}}
 }
-
+\author{
+Kevin Shook
+}

@@ -39,10 +39,9 @@ bad.max2 <- maxObs(BadLake7376, varcols=c(1,2), actions='NA')
 bad.max3 <- maxObs(BadLake7376, maxvals=c(35, 10), varcols=c(1,3), actions=c('NA', 'max'))
 summary(bad.max3)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{minObs}}
 }
-
+\author{
+Kevin Shook
+}

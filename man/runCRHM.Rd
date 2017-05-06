@@ -24,20 +24,19 @@ runCRHM(CRHMfile = "", prjFile = "", obsFiles = "", parFiles = "",
 If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 }
 \description{
-Runs CRHM with a specified \code{.prj} file and (optionally) \code{.obs} file(s) and \code{.par} file(s). Under OSX and Linux, CRHM requires either 1) the program \code{Wine} to run \code{CRHM.exe} or 2) a native-compiled version. This function will use \code{Wine} if it is required.
+Runs CRHM with a specified \code{.prj} file and (optionally) \code{.obs} file(s) and \code{.par} file(s). Under OSX and Linux, CRHM requires either 1) the program \code{Wine} to run \code{CRHM.exe} or 2) a native-compiled version. This function will use \code{Wine} if it is required. Note that none of the file names or their paths can contain spaces.
 }
 \details{
 If \code{Wine} is required, the function will copy the specified .obs, and .par files to the directory of the .prj file, before execution of CRHM. After the program has finished, the copies will be deleted. Running a CRHM model requires that the .prj file has been setup to run autmatically, as shown in the function automatePrj.
 }
 \examples{
 \dontrun{
-result <- runCRHM('c:/CRHM/CRHM.exe', 'c:/BadLake/BadLake1975.prj', 
+result <- runCRHM('c:/CRHM/CRHM.exe', 'c:/BadLake/BadLake1975.prj',
 outfile='c:/BadLake/BadLake1975Output.txt')}
-}
-\author{
-Kevin Shook
 }
 \seealso{
 \code{\link{automatePrj}}
 }
-
+\author{
+Kevin Shook
+}

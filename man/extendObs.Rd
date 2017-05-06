@@ -32,4 +32,3 @@ BadLake7378 <- extendObs(BadLake7376, endDate='1978-01-01', timezone='CST')
 \author{
 Kevin Shook
 }
-

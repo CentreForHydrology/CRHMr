@@ -21,4 +21,3 @@ parseText(' red  green    blue      black')
 \author{
 Kevin Shook
 }
-

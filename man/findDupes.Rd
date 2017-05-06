@@ -27,10 +27,9 @@ If quiet=\code{FALSE}, the function gives a list of the duplicate datetimes. Use
 \examples{
 findDupes(BadLake7376, quiet=FALSE)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{findGaps}} \code{\link{interpolate}} \code{\link{impute}} \code{\link{writeObsFile}}
 }
-
+\author{
+Kevin Shook
+}

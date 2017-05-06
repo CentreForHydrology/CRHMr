@@ -35,10 +35,9 @@ The names for the variables in the data fame are derived from the specified vari
 vars <- c('t','rh','u')
 stoon <- createObsDataframe('1/1/1960', '31/12/1960', variables=vars, reps=2, timezone='etc/GMT+6')
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{impute}}
 }
-
+\author{
+Kevin Shook
+}

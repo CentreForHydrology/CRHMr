@@ -44,10 +44,9 @@ daily_basin <- simpleDailyWater(b, prjFile='Bologna1984_02.prj', basinMean=TRUE,
 
 }
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{cumulDailyWater}}
 }
-
+\author{
+Kevin Shook
+}

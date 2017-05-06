@@ -31,4 +31,3 @@ class <- readCLASSfile('driv.met', timezone='Etc/GMT+7')}
 \author{
 Kevin Shook, with assistance from Andrew Ireson.
 }
-

@@ -37,10 +37,9 @@ obs2 <- oldformatdata[[2]]
 # read in a new format Campbell file
 obs3 <- readCampbell('BowHut_Fifteen.dat', timezone='MST')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{readObsFile}} \code{\link{readExportFile}} \code{\link{readOutputFile}}
 }
-
+\author{
+Kevin Shook
+}

@@ -32,10 +32,9 @@ This version does not explicitly incorporate the effects of evaporation.
 test1 <- weighingGauge1(wg,  maxGapLength=6)}
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{weighingGauge2}} \code{\link{weighingGauge3}} \code{\link{weighingGauge4}} \code{\link{weighingGaugePlot}} \code{\link{weighingGaugeInterval}}
 }
-
+\author{
+Kevin Shook
+}

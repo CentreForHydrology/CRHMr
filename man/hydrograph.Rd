@@ -5,8 +5,9 @@
 \title{Plots hydrograph of CRHM output and/or WSC daily and/or peak flows}
 \usage{
 hydrograph(CRHMflows = NULL, CRHMflowsLabels = "", CRHMcols = NULL,
-  dailyFlows = NULL, dailyFlowsLabel = "", peakFlows = NULL,
-  peakFlowsLabel = "", commonTime = FALSE, fakeDates = FALSE,
+  CRHMdaily = FALSE, WSCdailyFlows = NULL, WSCdailyFlowsLabel = "",
+  WSCpeakFlows = NULL, WSCpeakFlowsLabel = "",
+  forceMissingPeakTimes = FALSE, commonTime = FALSE, fakeDates = FALSE,
   quiet = TRUE)
 }
 \arguments{
@@ -14,15 +15,19 @@ hydrograph(CRHMflows = NULL, CRHMflowsLabels = "", CRHMcols = NULL,
 
 \item{CRHMflowsLabels}{Optional. Labels for the CRHM data. If not specified, and CRHM data are plotted, then the name(s) of the CRHM variables will be used.}
 
-\item{CRHMcols}{Optional. CRHM column(s) containing the flowrates.}
+\item{CRHMcols}{Required. Column(s) containing the flowrates. As always, the numbers do not include the \code{datetime}.}
 
-\item{dailyFlows}{Optional. Dataframe containing WSC daily flows. The data frame is the same as is returned by the function \code{DailyHydrometricData} in the \pkg{HYDAT} package developed by David Hutchinson. The datframe has the columns \code{station_number}, \code{date}, \code{value} and \code{flag}. The \code{date} must be an \R date.}
+\item{CRHMdaily}{Optional. Should CRHM flows be plotted as daily values? Default is \code{FALSE}.}
 
-\item{dailyFlowsLabel}{Optional. Labels for the daily flows. If not specified, then the value in \code{station_number} will be used, followed by \option{daily}.}
+\item{WSCdailyFlows}{Optional. Dataframe containing WSC daily flows. The data frame is the same as is returned by the function \code{DailyHydrometricData} in the \pkg{HYDAT} package developed by David Hutchinson. The datframe has the columns \code{station_number}, \code{date}, \code{value} and \code{flag}. The \code{date} must be an \R date.}
 
-\item{peakFlows}{Optional. Dataframe containing WSC annual peak flows for a single station. The data frame is the same as is returned by the function \code{AnnualPeakData} in the \pkg{HYDAT} package developed by David Hutchinson. The data frame has the columns \code{station_number}, \code{data_type}, \code{year}, \code{peak_code}, \code{precision_code}, \code{month}, \code{day}, \code{hour}, \code{minute}, \code{time_zone}, \code{peak}, and \code{symbol}.}
+\item{WSCdailyFlowsLabel}{Optional. Labels for the daily flows. If not specified, then the value in \code{station_number} will be used, followed by \option{daily}.}
 
-\item{peakFlowsLabel}{Optional. Labels for the annual peak flows. If not specified, then the value in \code{station_number} will be used, followed by \option{annual peak}.}
+\item{WSCpeakFlows}{Optional. Dataframe containing WSC annual peak flows for a single station. The data frame is the same as is returned by the function \code{AnnualPeakData} in the \pkg{HYDAT} package developed by David Hutchinson. The data frame has the columns \code{station_number}, \code{data_type}, \code{year}, \code{peak_code}, \code{precision_code}, \code{month}, \code{day}, \code{hour}, \code{minute}, \code{time_zone}, \code{peak}, and \code{symbol}.}
+
+\item{WSCpeakFlowsLabel}{Optional. Labels for the annual peak flows. If not specified, then the value in \code{station_number} will be used, followed by \option{annual peak}.}
+
+\item{forceMissingPeakTimes}{Optional. Some peaks may be missing their time of day and/or time zone. If \code{TRUE}, the missing peak times will be set to noon on the date of record. The missing time zone will be set to that of the other values or the user's time zone if there are none specified. If \code{FALSE} (the default value) peaks missing times and/or timezones will be deleted from the plot.}
 
 \item{commonTime}{Optional. If set to \code{TRUE} then the hydrographs will only plotted over their common time range. Default is \code{FALSE}.}
 
@@ -45,20 +50,19 @@ p <- hydrograph(BadLakeModel,'CRHM Bad Lake model',1, dailyFlows, '', peakFlows,
 # once the ggplot graph has been returned, it can easily be modified:
 mintime <- as.POSIXct(as.Date('1975-04-01', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
 maxtime <- as.POSIXct(as.Date('1975-04-30', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
-p <- p + xlim(mintime, maxtime) + ylim(0, 4) 
+p <- p + xlim(mintime, maxtime) + ylim(0, 4)
 
 # re-plot with fake dates
-p2 <- hydrograph(BadLakeModel,'CRHM Bad Lake model',1, dailyFlows, '', peakFlows, '', 
+p2 <- hydrograph(BadLakeModel,'CRHM Bad Lake model',1, dailyFlows, '', peakFlows, '',
 commonTime=TRUE, fakeDates=TRUE)
 p2 <- p2 + facet_wrap(~year, scales='free_y', ncol=8)
 # set axis limits to be the specified date range, and set labels to be the month names
 mintime <- as.POSIXct(as.Date('2000-03-01', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
 maxtime <- as.POSIXct(as.Date('2000-06-30', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
 p2 <- p2 + scale_x_datetime(date_breaks = "1 month",
-limits=c(mintime, maxtime), date_labels = "\%b") 
+limits=c(mintime, maxtime), date_labels = "\%b")
 }
 }
 \author{
 Kevin Shook
 }
-

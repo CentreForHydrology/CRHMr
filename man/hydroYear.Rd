@@ -26,10 +26,9 @@ Calculates the hydrological year, based on the starting month.
 BadLake <- BadLake7376
 BadLake$hydroyear <- hydroYear(BadLake, startMonth=9)
 }
-\author{
-Kevin Shook. Inspired by a function by Chris Marsh.
-}
 \seealso{
 \code{\link{aggDataframe}}
 }
-
+\author{
+Kevin Shook. Inspired by a function by Chris Marsh.
+}

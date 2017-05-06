@@ -34,10 +34,9 @@ Currently, this function has only been tested on simple \code{.prj} files, i.e. 
 result <- setPrjParameters('c:/CRHM/Bad74_Frozen.prj',
 'fetch', c(1500, 1500, 1500))}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{runCRHM}} \code{\link{setPrjDates}}
 }
-
+\author{
+Kevin Shook
+}

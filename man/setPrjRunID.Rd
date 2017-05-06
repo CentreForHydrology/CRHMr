@@ -26,10 +26,9 @@ Sets the Run ID in a CRHM model \code{.prj} file
 \dontrun{
 result <- setPrjRunID('c:/CRHM/Bad Lake 1974-1975.prj', '5')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{runCRHM}} \code{\link{setPrjHRUnames}} \code{\link{setPrjDates}} \code{\link{setPrjParameters}}
 }
-
+\author{
+Kevin Shook
+}

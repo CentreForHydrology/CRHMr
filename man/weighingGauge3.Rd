@@ -32,10 +32,9 @@ This function is potentially destructive, as it smooths the accumulated precipit
 test3 <- weighingGauge3(wg, filterLength=5)}
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge4}} \code{\link{weighingGaugePlot}} \code{\link{weighingGaugeInterval}}
 }
-
+\author{
+Kevin Shook
+}

@@ -33,4 +33,3 @@ windspeed <- vectorsToVelocity(windObs, uColnum=1, uObs, vColnum=2)}
 \author{
 Kevin Shook
 }
-

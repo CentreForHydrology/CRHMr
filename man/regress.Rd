@@ -40,10 +40,9 @@ If successful, exports a data frame with the columns \code{xvals} (secondary dat
 \dontrun{
 reg <- regress(regina, c(1,2,3), saskatoon, c(1,2,3))}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{impute}}
 }
-
+\author{
+Kevin Shook
+}

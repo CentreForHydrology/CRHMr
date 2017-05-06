@@ -25,10 +25,9 @@ Reads a file containing output from a CRHM model into a \pkg{CRHMr} data frame. 
 \dontrun{
 stoon <- readOutputFile('CRHM_output_1.txt', 'etc/GMT+6')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{readExportFile}} \code{\link{readObsFile}} \code{\link{readOutputUnits}}
 }
-
+\author{
+Kevin Shook
+}

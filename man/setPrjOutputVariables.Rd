@@ -40,10 +40,9 @@ setPrjOutputVariables('Bad_Lake_1974-1975.prj', variables, 'Bad_Lake_1974-1975_r
 # deletes all output variables and overwrites the file
 result <- setPrjOutputVariables('Bad_Lake_1974-1975.prj', 'null')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{readPrjOutputVariables}}
 }
-
+\author{
+Kevin Shook
+}

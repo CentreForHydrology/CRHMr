@@ -41,4 +41,3 @@ writeChangeLogFile('appendObs', obs1.info, obs2.info, output.type,
 \author{
 Kevin Shook
 }
-

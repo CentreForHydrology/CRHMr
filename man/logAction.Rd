@@ -25,4 +25,3 @@ This is an internal \pkg{CRHMr} function and should normally not need to be call
 \author{
 Kevin Shook
 }
-

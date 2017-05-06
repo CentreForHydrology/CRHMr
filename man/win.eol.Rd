@@ -19,10 +19,9 @@ This function is used to make the creation of Windows-specific files work on all
 windowsEndOfLine <- win.eol()
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{automatePrj}} \code{\link{setPrjDates}} \code{\link{writeObsFile}} \code{\link{runCRHM}}
 }
-
+\author{
+Kevin Shook
+}

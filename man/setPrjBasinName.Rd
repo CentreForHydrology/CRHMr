@@ -26,10 +26,9 @@ Sets the basin name in a CRHM model \code{.prj} file
 \dontrun{
 result <- setPrjBasinName('c:/CRHM/Bad Lake 1974-1975.prj', 'NewBadLakemodel')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{runCRHM}} \code{\link{setPrjHRUnames}} \code{\link{setPrjDates}} \code{\link{setPrjParameters}}
 }
-
+\author{
+Kevin Shook
+}

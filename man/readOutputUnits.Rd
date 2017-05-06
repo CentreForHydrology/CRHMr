@@ -21,10 +21,9 @@ Gets units for all variables in a specified CRHM output file. If the file is the
 \dontrun{
 units <- readOutputFile('CRHM_output_1.txt')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{readOutputFile}}
 }
-
+\author{
+Kevin Shook
+}

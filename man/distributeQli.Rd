@@ -37,10 +37,9 @@ Downscales incoming longwave radiation to shorter time intervals, based on the a
 \dontrun{
 hourlyLongwave <- distributeQli(LWobs, 1, tobs, 1)}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{emissivity}} \code{\link{longwave}} \code{\link{interpolate}}
 }
-
+\author{
+Kevin Shook
+}

@@ -42,10 +42,9 @@ Interpolation over intervals longer than 1 day is not allowed.
 \dontrun{
 MSC.hourly <- tMinMaxToHourly(MSC.daily, timezone='etc/GMT+7')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{interpolate}}
 }
-
+\author{
+Kevin Shook
+}

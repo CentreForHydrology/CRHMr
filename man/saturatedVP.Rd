@@ -21,4 +21,3 @@ saturatedVP(-5)
 \author{
 Kevin Shook
 }
-

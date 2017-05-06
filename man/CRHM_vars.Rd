@@ -22,4 +22,3 @@ CRHM_vars
 A data frame containing information about all of the variables in CRHM that are likely to be output from a model run.
 }
 \keyword{datasets}
-

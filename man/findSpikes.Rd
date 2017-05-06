@@ -28,10 +28,9 @@ If quiet=\code{FALSE}, the function displays a list of the datetimes of the spik
 # check for spikes in wind speed - look for changes greater than 10 m/s per interval
 findSpikes(BadLake7376,3, 10)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{deleteSpikes}} \code{\link{findGaps}} \code{\link{findDupes}}
 }
-
+\author{
+Kevin Shook
+}

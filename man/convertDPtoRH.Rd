@@ -20,10 +20,9 @@ This is an internal \pkg{CRHMr} function and should normally not need to be call
 \examples{
 convertDPtoRH(10, 9)
 }
-\author{
-Kevin Shook
-}
 \references{
 Lawrence, M. 2005. The relationship between relative humidity and the dewpoint temperature in moist air. American Meteorological Society: 225-233. \url{http://andrew.rsmas.miami.edu/bmcnoldy/Humidity.htm}
 }
-
+\author{
+Kevin Shook
+}

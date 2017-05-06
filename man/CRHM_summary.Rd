@@ -22,4 +22,3 @@ summary <- CRHMsummary(BadLake7376)}
 \author{
 Kevin Shook
 }
-

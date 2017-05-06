@@ -30,10 +30,9 @@ This function is potentially destructive. If you have a missing precipitation to
 \dontrun{
 distributed <- distributeP(obs, 3)}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{impute}} \code{\link{interpolate}} \code{distributeInst} \code{distributeQli} \code{distributeQsi}
 }
-
+\author{
+Kevin Shook
+}

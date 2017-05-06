@@ -34,10 +34,9 @@ If you don't specify a large enough value for \code{maxSpikeGap}, then all of th
 test2 <- weightingGauge2(wg, spikeThreshold = 300)}
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{weighingGauge1}} \code{\link{weighingGauge3}} \code{\link{weighingGauge4}} \code{\link{weighingGaugePlot}} \code{\link{weighingGaugeInterval}}
 }
-
+\author{
+Kevin Shook
+}

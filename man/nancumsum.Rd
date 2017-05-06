@@ -18,10 +18,9 @@ Finds cumulative sum of non-missing values in an array
 \examples{
 a <- nancumsum(BadLake7376[,2])
 }
-\author{
-Kevin Shook. The code is copied from a MATLAB program nancumsum.m written by Alan Barr.
-}
 \seealso{
 \code{\link{PcpFiltPosTh}}
 }
-
+\author{
+Kevin Shook. The code is copied from a MATLAB program nancumsum.m written by Alan Barr.
+}

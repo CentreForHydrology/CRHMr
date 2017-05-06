@@ -27,10 +27,9 @@ The output from this function can be plotted using \code{simpleRibbonPlot}.
 waterYearCumul <- cumulDailyWater(CRHM_daily, waterYear=TRUE)
 }
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{simpleDailyWater}} \code{\link{simpleRibbonPlot}}
 }
-
+\author{
+Kevin Shook
+}

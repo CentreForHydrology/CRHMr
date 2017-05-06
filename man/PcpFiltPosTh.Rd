@@ -28,4 +28,3 @@ testp <- PcpFiltPosTh(dl2$precip, dPcpTh = 0.05, dpServicingTh = -50)}
 \author{
 Kevin Shook. The code is copied from a MATLAB program PcpFiltPosTh.m written by Alan Barr, 28 Aug 2012.
 }
-

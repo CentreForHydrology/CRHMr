@@ -20,10 +20,9 @@ Calculates atmospheric emissivity from specified longwave radiation and air temp
 \examples{
 emissivity(100, 293)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{distributeQli}} \code{\link{longwave}}
 }
-
+\author{
+Kevin Shook
+}

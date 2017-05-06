@@ -31,4 +31,3 @@ yearly <- aggDataframe(daily.datetime, period='hydro', funs='sum')
 p <- basinWaterBalancePlot(yearly)
 }
 }
-

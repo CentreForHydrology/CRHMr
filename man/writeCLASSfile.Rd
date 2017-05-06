@@ -23,4 +23,3 @@ Writes a standard \pkg{CRHMr} data frame to a CLASS forcing data file.
 \dontrun{
 result <- writeCLASSfile(class, 'driv.met')}
 }
-

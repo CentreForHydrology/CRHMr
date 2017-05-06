@@ -25,10 +25,9 @@ Reads output from a CRHM model, that has been manually exported, into a \pkg{CRH
 \dontrun{
 brandon <- readExportFile('Brandon_export.txt', 'etc/GMT+6')}
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{readOutputFile}} \code{\link{readObsFile}}
 }
-
+\author{
+Kevin Shook
+}

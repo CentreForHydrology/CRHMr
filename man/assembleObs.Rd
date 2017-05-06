@@ -28,4 +28,3 @@ MSC.trh <- assembleObs(MSC.t, MSC.rh)}
 \author{
 Kevin Shook
 }
-

@@ -27,10 +27,9 @@ columns=c(6,7,8), funs=c('mean'))
 BadLake.datetime <- dateToDatetime(Badlake.radiation.daily, timezone='CST')
 
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{aggDataframe}} \code{\link{datetimeToDate}}
 }
-
+\author{
+Kevin Shook
+}

@@ -34,10 +34,9 @@ Note that missing (\code{NA_real_}) values in the obs data frame will result in 
 p <- plotObs(BadLake7376)
 print(p)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{summariseObsFiles}}
 }
-
+\author{
+Kevin Shook
+}

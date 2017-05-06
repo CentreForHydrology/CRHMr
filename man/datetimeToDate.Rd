@@ -23,10 +23,9 @@ columns=c(6,7,8), funs=c('mean'))
 BadLake.datetime <- dateToDatetime(Badlake.radiation.daily, timezone='CST')
 BadLake.date <- datetimeToDate(BadLake.datetime)
 }
-\author{
-Kevin Shook
-}
 \seealso{
 \code{\link{dateToDatetime}}
 }
-
+\author{
+Kevin Shook
+}
