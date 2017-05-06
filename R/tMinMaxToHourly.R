@@ -13,7 +13,7 @@
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #' @return If successful, returns an obs dataframe with the hourly air temperatures. If not successful, returns \code{FALSE}.
 #' @author Kevin Shook
-#' @note Interpolation over intervals longer than 1 day is not allowed. 
+#' @note Interpolation over intervals longer than 1 day is not allowed.
 #' @seealso \code{\link{interpolate}}
 #' @examples
 #' \dontrun{
@@ -22,7 +22,7 @@
 
 
 tMinMaxToHourly <-
-function(obs, tmin.col=0, tmax.col=0, tmean.col=0, tmin.time='07:00', 
+function(obs, tmin.col=0, tmax.col=0, tmean.col=0, tmin.time='07:00',
          tmax.time='15:00', tmean.time='12:00', timezone="", quiet=TRUE, logfile=""){
   # converts min, max and (optionally) mean air temps to hourly values
   # it is assumed that the data are daily.
@@ -32,17 +32,17 @@ function(obs, tmin.col=0, tmax.col=0, tmean.col=0, tmin.time='07:00',
     return(FALSE)
   }
   obsName <- deparse(substitute(obs))
-  
+
   if (tmin.time == ''){
     cat('Error: missing time for tmin\n')
     return(FALSE)
   }
-  
+
   if (tmax.time == ''){
     cat('Error: missing time for tmin\n')
     return(FALSE)
   }
-  
+
   # get time intervals
   tmin.datetime <- paste('2000-01-01 ', tmin.time, sep='')
   tmax.datetime <- paste('2000-01-01 ', tmax.time, sep='')
@@ -50,8 +50,8 @@ function(obs, tmin.col=0, tmax.col=0, tmean.col=0, tmin.time='07:00',
   day1.interval <- timestep.hours(tmin.datetime, tmax.datetime)
   day2.interval <- timestep.hours(tmax.datetime, tmin.next.datetime)
   max.interpolation.length <- max(day1.interval, day2.interval)
- 
-  
+
+
   obs.names <- names(obs)
   if (tmin.col == 0){
     tmin.col <- grep("tmin", tolower(obs.names), fixed=TRUE)
@@ -60,7 +60,7 @@ function(obs, tmin.col=0, tmax.col=0, tmean.col=0, tmin.time='07:00',
   else{
     tmin.col <- tmin.col + 1
   }
-  
+
   if (tmax.col == 0){
     tmax.col <- grep("tmax", tolower(obs.names), fixed=TRUE)
     tmax.col <- tmax.col[1]
@@ -68,76 +68,79 @@ function(obs, tmin.col=0, tmax.col=0, tmean.col=0, tmin.time='07:00',
   else{
     tmax.col <- tmax.col + 1
   }
-  
-  
+
+
   if((tmin.col == 0) | (tmax.col == 0)){
     cat('Error: missing tmin/tmax values\n')
     return(FALSE)
-  } 
-  
+  }
+
   # assign times of day to min, max, and mean values
 
   tmin <- obs[, c(1, tmin.col)]
-  tmin$datetime <- as.POSIXct(paste(format(tmin$datetime, '%Y-%m-%d'), ' ', 
+  tmin$datetime <- as.POSIXct(paste(format(tmin$datetime, '%Y-%m-%d'), ' ',
                                     tmin.time, sep=''), format='%Y-%m-%d %H:%M', tz=timezone)
   tmin <- na.omit(tmin)
   names(tmin) <- c('datetime', 't')
 
   tmax <- obs[, c(1, tmax.col)]
-  tmax$datetime <- as.POSIXct(paste(format(tmax$datetime, '%Y-%m-%d'), ' ', 
+  tmax$datetime <- as.POSIXct(paste(format(tmax$datetime, '%Y-%m-%d'), ' ',
                                     tmax.time, sep=''), format='%Y-%m-%d %H:%M', tz=timezone)
   names(tmax) <- c('datetime', 't')
   tmax <- na.omit(tmax)
-  
-  
+
+
   # create synthetic dataframe of hourly values
   first.datetime <- tmin$datetime[1]
   last.row <- nrow(tmax)
   last.datetime <- tmax$datetime[last.row]
-  
-  
+
+
   # create synthetic hourly time series for merging
   datetime <- seq(from=first.datetime, to=last.datetime, by=3600)
   synthetic <- as.data.frame(datetime)
-  
-  
+
+
   # merge obs into synthetic
   merged1 <- merge(synthetic, tmin, all.x=TRUE)
   merged2 <- merge(synthetic, tmax, all.x=TRUE)
   merged <- merged1
   merged.maxtimes <- !is.na(merged2$t)
   merged[merged.maxtimes,2] <- merged2[merged.maxtimes,2]
-  
+
   if (tmean.col == 0){
     tmean.col <- grep("tmean", tolower(obs.names), fixed=TRUE)
   }
   else{
     tmean.col <- tmean.col + 1
   }
-    
+
   # check to see if mean values are to be used
   if (tmean.col > 0){
-    if (length(tmean.col) != 0){    
+    if (length(tmean.col) != 0){
       tmean.col <- tmean.col[1]
       tmean <- obs[, c(1, tmean.col)]
-      tmean$datetime <- as.POSIXct(paste(format(tmean$datetime, '%Y-%m-%d'), ' ', 
+      tmean$datetime <- as.POSIXct(paste(format(tmean$datetime, '%Y-%m-%d'), ' ',
                                          tmean.time, sep=''), format='%Y-%m-%d %H:%M', tz=timezone)
       names(tmean) <- c('datetime', 't')
-      merged <- merge(merged, tmean, all=TRUE)    
+      merged3 <- merge(synthetic, tmean, all=TRUE)
+      merged.meantimes <- !is.na(merged3$t)
+      merged[merged.meantimes,2] <- merged3[merged.meantimes,2]
+
     }
   }
-  
+
   # interpolate
-  interpolated <- interpolate(merged, varcols=1, methods='spline', 
-                              maxlength=max.interpolation.length, 
+  interpolated <- interpolate(merged, varcols=1, methods='spline',
+                              maxlength=max.interpolation.length,
                               quiet=TRUE, logfile=logfile)
   # output
   if (!quiet){
     obs.info <- CRHM_summary(interpolated)
     print(obs.info)
   }
-  
-  comment <- paste('tMinMaxToHourly dataframe:', obsName, sep='')  
+
+  comment <- paste('tMinMaxToHourly dataframe:', obsName, sep='')
   result <- logAction(comment, logfile)
   if(result)
     return(interpolated)
