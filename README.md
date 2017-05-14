@@ -6,7 +6,29 @@ Functions are provided to create time series of forcing meteorological data, rea
 
 CRHMr also contains functions for gap removal, infilling and imputation of time series data, which may be useful for other models. Functions are also provided to deaccumulate, plot and correct weighing gauge precipitation data.
 
-## Installation
+## Installation instructions
+
+### Dependencies
+CRHMr depends on several other packages, which you need to install first, from CRAN, before installing CRHMr.
+These packages are:
+- ggplot2(>= 2.0.0)
+- lubridate(>= 1.3)
+- plyr
+- reshape2
+- scales
+- signal
+- stringr(>= 1.0)
+- zoo
+
+In addition, CRHMr also supports the package **HYDAT** by Dave Hutchinsion, which is available from https://github.com/CentreForHydrology/HYDAT. If you are using this package, then you will have to install it, as well as the package RSQLite.
+
+The package **EcoHydRology** is optionally used by the CRHMr function distributeQsi. If you are going to be generating sub-daily incoming shortwave radiation data, it is hightly recommended that you install this package. 
+
+To install the dependencies, you can use the menu command **Packages | Install** in Rstudio, or the command install.packages as in
+
+	install.packages("ggplot2")
+
+### Installing CRHMr
 You can download the complete package, as well as the manual .pdf by clicking on **releases**. However, you can download and install the most up-to-date version directly from this repository. The procedure is
 1. Install the package "devtools" - you only have to do this once. Note that this will also install several dependancies
 2. Load the devtools library
