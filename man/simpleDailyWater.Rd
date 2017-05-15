@@ -33,13 +33,13 @@ Calculates daily values of the CRHM outputs of water storages and fluxes, for mo
 \examples{
 \dontrun{
 b <- readOutputFile('Bologna1984_30y_output.txt', timezone='MST')
-# get daily values without aggregation; values calculated w.r.t the HRU area 
+# get daily values without aggregation; values calculated w.r.t the HRU area
 dailyHRU <- simpleDailyWater(b, prjFile='Bologna1984_02.prj', basinMean=FALSE)
 
-# get daily values without aggregation; values calculated w.r.t the basin area 
+# get daily values without aggregation; values calculated w.r.t the basin area
 dailyHRU_per_basin <- simpleDailyWater(b, prjFile='Bologna1984_02.prj', basinMean=TRUE)
 
-get daily basin values 
+get daily basin values
 daily_basin <- simpleDailyWater(b, prjFile='Bologna1984_02.prj', basinMean=TRUE, summarize=TRUE)
 
 }
