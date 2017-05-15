@@ -188,6 +188,11 @@ simpleDailyWater <- function(CRHMoutput, vars='all', prjFile='', basinMean=TRUE,
   depth_cols <- agg_cols[depth_vars]
   variables$agg_functions[depth_cols] <- 'sum'
   
+  # SWE variables
+  depth_vars <- stringr::str_detect(variables$variable_name, stringr::fixed('SWE'))
+  depth_cols <- agg_cols[depth_vars]
+  variables$agg_functions[depth_cols] <- 'mean'
+  
   # daily variables
   daily_vars <- stringr::str_detect(variables$units, stringr::fixed('/d'))
   daily_cols <- agg_cols[daily_vars]
