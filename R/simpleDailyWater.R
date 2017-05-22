@@ -192,12 +192,12 @@ simpleDailyWater <- function(CRHMoutput, vars='all', prjFile='', basinMean=TRUE,
   depth_cols <- agg_cols[depth_vars]
   variables$agg_functions[depth_cols] <- 'sum'
 
-  # SWE variables - averaged over each day
+  # SWE variables - averaged over each period
   depth_vars <- stringr::str_detect(variables$variable_name, stringr::fixed('SWE'))
   depth_cols <- agg_cols[depth_vars]
   variables$agg_functions[depth_cols] <- 'mean'
 
-  # glacier ice variables - averaged over each day
+  # glacier ice variables - averaged over each period
   depth_vars <- stringr::str_detect(variables$variable_name, stringr::fixed('glacier_h2o'))
   depth_cols <- agg_cols[depth_vars]
   variables$agg_functions[depth_cols] <- 'mean'
