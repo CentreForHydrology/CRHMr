@@ -16,7 +16,7 @@ Returns the offset in hours as a numeric value.
 Finds offset in hours from UTC for given time zone.
 }
 \note{
-This code was based on the function \code{GMTOffsetFromTz} in \pkg{oce}, but works for more time zones and returns a negative value in the western hemisphere.
+This code was based on the function \code{GMTOffsetFromTz} in the package \pkg{oce}, but works for more time zones and returns a negative value in the western hemisphere.
 }
 \examples{
 GMToffset('MST')
