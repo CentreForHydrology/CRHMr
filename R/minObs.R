@@ -11,7 +11,7 @@
 #' @author Kevin Shook
 #' @note The default threshold values are \tabular{ll}{t\tab -40 C\cr ea \tab 0.01 kPa\cr rh \tab 0.5 percent\cr ppt\tab 0 mm\cr p\tab 0 mm\cr u \tab 0 m/s\cr SunAct\tab 0 hr\cr qsi\tab 0 W/m\eqn{^2}{^2}\cr qso\tab 0 W/m\eqn{^2}{^2}\cr qn\tab -60 W/m\eqn{^2}{^2}\cr}
 
-#' @seealso  \code{\link{minObs}}
+#' @seealso  \code{\link{maxObs}}
 #' @examples
 #' # use all of the default values
 #' bad.min <- minObs(BadLake7376)

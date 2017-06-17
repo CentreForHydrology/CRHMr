@@ -87,7 +87,7 @@ distributeQli <- function(QliObs, QliColnum=1, tObs, tColnum=1, timeStep=1,
     else
       maxInterval <- maxlength
     
-    interpolatedTemps <- interpolate(temps, methods=interpolationMethod, 
+    interpolatedTemps <- CRHMr::interpolate(temps, methods=interpolationMethod, 
                                      maxlength=maxInterval, quiet=quiet,
                                      logfile=logfile)
     

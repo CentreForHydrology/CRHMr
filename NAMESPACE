@@ -2,6 +2,7 @@
 
 S3method(as.data.frame,list)
 export(CRHM_summary)
+export(GMToffset)
 export(PcpFiltPosTh)
 export(aggDataframe)
 export(appendObs)

@@ -38,7 +38,7 @@ bad.min2 <- minObs(BadLake7376, varcols=c(1,2), actions='NA')
 bad.min3 <- minObs(BadLake7376, minvals=c(-30, 22), varcols=c(1,2), actions=c('min', 'NA'))
 }
 \seealso{
-\code{\link{minObs}}
+\code{\link{maxObs}}
 }
 \author{
 Kevin Shook
