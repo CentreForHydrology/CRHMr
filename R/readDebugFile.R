@@ -4,6 +4,7 @@
 #' @param returnData Optional. The data to be returned. If \option{all}
 #' (the default) then all sections will be returned as a list of data frames.
 #' Other options are \option{header}, \option{initalconditions},
+#' \option{finalconditions},
 #' \option{basinsummary}, and \option{groupsummary}. Note that if
 #' \option{groupsummary} is specified, and there are no groups, then an
 #' error will result.
@@ -164,7 +165,7 @@ readDebugFile <- function(debugFile="", returnData="all"){
     headerVals <- c(headerVals, groupModules)
   }
 
-  header <- data.frame(headerVars, headerVals)
+  header <- data.frame(headerVars, headerVals, stringsAsFactors = FALSE)
   names(header) <- c('Variable', 'Value')
 
 
@@ -203,7 +204,8 @@ readDebugFile <- function(debugFile="", returnData="all"){
     v2 <- cols2$v2
     v3 <- cols2$v3
 
-    initialConditions <- data.frame(HRU, group, module, variable, v1, v2, v3)
+    initialConditions <- data.frame(HRU, group, module, variable, v1, v2, v3,
+                                    stringsAsFactors = FALSE)
 
     names(initialConditions) <- c("HRU","group", "module", "variable",
                                   as.character(cols3$unit1[1]),
@@ -217,13 +219,15 @@ readDebugFile <- function(debugFile="", returnData="all"){
     v2 <- cols2$v2
     v3 <- cols2$v3
 
-    initialConditions <- data.frame(HRU, group, module, variable, v1, v2, v3)
+    initialConditions <- data.frame(HRU, group, module, variable, v1, v2, v3
+                                    , stringsAsFactors = FALSE)
 
     names(initialConditions) <- c("HRU","group", "module", "variable",
                                   as.character(cols3$unit1[1]),
                                   as.character(cols3$unit2[1]),
                                   as.character(cols3$unit3[1]))
   }
+
 
 
   ###############################################################
@@ -303,7 +307,7 @@ readDebugFile <- function(debugFile="", returnData="all"){
 
       if(groupsPresent){
         group <- pieces[1]
-        groups <- rep.int(module, numValues)
+        groups <- rep.int(group, numValues)
         allgroups <- c(allgroups, groups)
       }
 
@@ -438,12 +442,12 @@ readDebugFile <- function(debugFile="", returnData="all"){
   # assemble dataframes
   if (groupsPresent){
     finalConditions <- data.frame(allHRUs, allgroups, allmodules, allvariables,
-                                  allunits, allvalues)
+                                  allunits, allvalues, stringsAsFactors = FALSE)
     names(finalConditions) <- c("HRU", "group", "module", "variable",
                                 "unit", "value")
   } else {
     finalConditions <- data.frame(allHRUs, allmodules, allvariables,
-                                  allunits, allvalues)
+                                  allunits, allvalues, stringsAsFactors = FALSE)
     names(finalConditions) <- c("HRU", "module", "variable", "unit", "value")
   }
 
@@ -452,34 +456,36 @@ readDebugFile <- function(debugFile="", returnData="all"){
   if(groupsPresent){
     groupSummary <- data.frame(allGroupSummaryGroup, allGroupSummaryModule,
                                allGroupSummaryVariable, allGroupSummaryUnit,
-                               allGroupSummaryValue)
+                               allGroupSummaryValue, stringsAsFactors = FALSE)
     names(groupSummary) <- c("group", "module", "variable", "unit", "value")
   } else{
     moduleSummary <- data.frame(allGroupSummaryModule,
                                allGroupSummaryVariable,
                                allGroupSummaryUnit,
-                               allGroupSummaryValue)
+                               allGroupSummaryValue, stringsAsFactors = FALSE)
     names(moduleSummary) <- c("module", "variable", "unit", "value")
 
   }
 
-
   basinSummary <- data.frame(allBasinSummaryModule,
                               allBasinSummaryVariable,
                               allBasinSummaryUnit,
-                              allBasinSummaryValue)
+                              allBasinSummaryValue, stringsAsFactors = FALSE)
   names(basinSummary) <- c("module", "variable", "unit", "value")
 
   if (groupsPresent){
     if (returnData == "all")
       returnList <- list(header=header,
                          initialConditions=initialConditions,
+                         finalConditions=finalConditions,
                          groupSummary=groupSummary,
                          basinSummary=basinSummary)
       else if (stringr::str_to_lower(returnData) == "header")
         returnList <- header
       else if (stringr::str_to_lower(returnData) == "initialconditions")
         returnList <- initialConditions
+      else if (stringr::str_to_lower(returnData) == "finalconditions")
+        returnList <- finalConditions
       else if (stringr::str_to_lower(returnData) == "groupsummary")
         returnList <- groupSummary
       else

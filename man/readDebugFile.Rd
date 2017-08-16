@@ -12,6 +12,7 @@ readDebugFile(debugFile = "", returnData = "all")
 \item{returnData}{Optional. The data to be returned. If \option{all}
 (the default) then all sections will be returned as a list of data frames.
 Other options are \option{header}, \option{initalconditions},
+\option{finalconditions},
 \option{basinsummary}, and \option{groupsummary}. Note that if
 \option{groupsummary} is specified, and there are no groups, then an
 error will result.}
