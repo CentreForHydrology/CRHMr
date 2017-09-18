@@ -25,7 +25,7 @@ data frame. If unsuccessful, returns \code{FALSE}.
 Reads in CRHM debug file
 }
 \examples{
-/dontrun{
+\dontrun{
 allDebug <- readDebug("07-08_debug.txt")
 # show header
 View(allDebug$header)

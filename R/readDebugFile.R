@@ -13,7 +13,7 @@
 #' data frame. If unsuccessful, returns \code{FALSE}.
 #' @export
 #'
-#' @examples /dontrun{
+#' @examples \dontrun{
 #' allDebug <- readDebug("07-08_debug.txt")
 #' # show header
 #' View(allDebug$header)
