@@ -11,6 +11,7 @@
 ##' @return rh relative humidity, ratio of actual water mixing ratio to saturation mixing ratio
 ##' @export
 ##' @author David LeBauer \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R}. Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C.
+##' @examples qair2rh(0.01, 10)
 qair2rh <- function(qair, temp, press = 1013.25) {
   if (temp <= 0)
     es <- 0.611 * exp((21.88 * temp) / (temp + 265.5))
