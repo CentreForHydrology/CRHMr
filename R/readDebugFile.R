@@ -241,6 +241,14 @@ readDebugFile <- function(debugFile="", returnData="all"){
                                                    stringr::fixed("("), " ")
   finalConditionsLines <- stringr::str_replace_all(finalConditionsLines,
                                                    stringr::fixed(")"), " ")
+  # remove hru_cum_actet from soil module for Holly
+  SoilPresent <- stringr::str_detect(finalConditionsLines, "Soil")
+  hruactetPresent <- stringr::str_detect(finalConditionsLines, "hru_cum_actet")
+  bothPresent <- SoilPresent & hruactetPresent
+
+  finalConditionsLines <- finalConditionsLines[!bothPresent]
+
+
 
   # get HRUs
   HRUs <- unique(initialConditions$HRU)

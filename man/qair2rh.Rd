@@ -17,17 +17,15 @@ qair2rh(qair, temp, press = 1013.25)
 rh relative humidity, ratio of actual water mixing ratio to saturation mixing ratio
 }
 \description{
-Convert specific humidity to relative humidity
+From Bolton 1980 The computation of Equivalent Potential Temperature
+\url{http://www.eol.ucar.edu/projects/ceop/dm/documents/refdata_report/eqns.html}.
 }
 \details{
-converting specific humidity into relative humidity
-NCEP surface flux data does not have RH
-from Bolton 1980 The computation of Equivalent Potential Temperature
-\url{http://www.eol.ucar.edu/projects/ceop/dm/documents/refdata_report/eqns.html}
+Convert specific humidity to relative humidity
 }
 \examples{
 qair2rh(0.01, 10)
 }
 \author{
-David LeBauer \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R}. Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C.
+David LeBauer \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R}. Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C and to work for vectors or scalars.
 }
