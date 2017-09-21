@@ -14,7 +14,7 @@ The package contains functions to do the following:
 \enumerate{
   \item Read in CRHM data into a \pkg{CRHMr} data frame. This includes data from .obs files (observation data used by CRHM), and model run outputs, either output automatically, or manually exported.
   \item Manipulate obs data. Includes functions to plot the values, to find missing values, or datetimes, and to infill gaps by interpolation (linea or spline) and by imputation from other datasets.
-  \item Convert Ea values to RH and vice-versa. Interpolation and imputation require Ea values, as RH values depend on the air temperature. For safety, \pkg{CRHMr} functions do not permit both Ea and RH values in a data frame, as it would be impossible to know which was correct. 
+  \item Convert Ea values to RH and vice-versa. Interpolation and imputation require Ea values, as RH values depend on the air temperature. For safety, \pkg{CRHMr} functions do not permit both Ea and RH values in a data frame, as it would be impossible to know which was correct.
   \item Write a data frame data to a CRHM obs file.
   \item Execute CRHM. This allows CRHM to be run automatically, which is very useful for doing sensitivity analyses. There are functions to prepare a CRHM model to be executed, including setting the run start and end dates, and to run CRHM from inside R.
   \item Examine output from CRHM runs. Includes functions to read in model output and to aggregate, summarize and plot the values.
