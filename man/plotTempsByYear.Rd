@@ -12,7 +12,7 @@ plotTempsByYear(obs = "", obsNames = "", tempCols = 1,
 
 \item{obsNames}{Optional. A vector containing names for the data frames. If there are more data frames than names, the data will be named \code{obs 1}, \code{obs 2} etc.}
 
-\item{tempCols}{Optional. Column(s) containing air temperatures. Can be a single value or a scalar. Values will be recycled if necessary.}
+\item{tempCols}{Optional. Column(s) containing air temperatures. Can be a single value or a vector. Values will be recycled if necessary. Default is \code{1}.}
 
 \item{commonYears}{Optional. If \code{TRUE} (the default) then the range of years will be restricted to the common first and last years.}
 }
@@ -28,4 +28,10 @@ names <- c("Measured", "WRF")
 p <- plotTempsByYear(l, names)
 library(ggplot2)
 p <- p + scale_colour_manual(values=c("red", "blue")}
+}
+\seealso{
+\code{\link{plotPrecipsByYear}}
+}
+\author{
+Kevin Shook.
 }

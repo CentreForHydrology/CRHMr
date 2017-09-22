@@ -311,3 +311,6 @@ version 2.4.10 Thu 30 Mar 2017 08:26:02 PM CST
 
 version 2.4.11 Fri 05 May 2017 07:08:56 PM CST 
 - fixed bug in tMinMaxToHourly causing double noon values when using mean daily temps
+
+version 2.5.3 Fri 22 Sep 2017 09:15:19 AM CST 
+- added functions plotPrecipsByYear and plotTempsByYear
