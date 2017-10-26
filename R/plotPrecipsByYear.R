@@ -1,5 +1,5 @@
 #'  Creates a \pkg{ggplot2} object of cumulative precips by year
-#' @description Calcualtes cumulative precipitations and creates a \pkg{ggplot2} faceted by year. Note that this function would work for any other cumulative variable, if the Y-axis label is changed.
+#' @description Calculates cumulative precipitations and creates a \pkg{ggplot2} faceted by year. Note that this function would work for any other cumulative variable, if the Y-axis label is changed.
 #' @param obs Required. Either a \pkg{CRHMr} \code{obs} data frame or a list of data frames.
 #' @param obsNames Optional. A vector containing names for the data frames. If there are more data frames than names, the data will be named \code{obs 1}, \code{obs 2} etc.
 #' @param precipCols Optional. Column(s) containing precipitation. Can be a single value or a vector. Values will be recycled if necessary. Default is \code{1}.

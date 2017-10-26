@@ -20,7 +20,7 @@ plotPrecipsByYear(obs = "", obsNames = "", precipCols = 1,
 If successful, returns a faceted \pkg{ggplot2} object of cumulative precipitation vs time. If unsuccessful, returns \code{FALSE}.
 }
 \description{
-Calcualtes cumulative precipitations and creates a \pkg{ggplot2} faceted by year. Note that this function would work for any other cumulative variable, if the Y-axis label is changed.
+Calculates cumulative precipitations and creates a \pkg{ggplot2} faceted by year. Note that this function would work for any other cumulative variable, if the Y-axis label is changed.
 }
 \examples{
 \dontrun{ l <- list(meas, WRF)

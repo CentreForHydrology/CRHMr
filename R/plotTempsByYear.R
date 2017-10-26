@@ -76,14 +76,14 @@ plotTempsByYear <- function(obs="", obsNames="", tempCols=1,
   if (commonYears) {
     all <- all[(all$year >= maxMinYear) & (all$year <= minMaxYear), ]
   }
-
+  ylabel <-  expression(paste("Daily air temperature  (", degree, C, ")", sep = ""))
   p <- ggplot2::ggplot(all, ggplot2::aes(date, temp, colour = name)) +
     ggplot2::geom_line() +
     ggplot2::facet_wrap(~year) +
     ggplot2::xlab("") +
     ggplot2::scale_x_date(date_labels = "%b",
                 date_breaks = "2 months") +
-    ggplot2::ylab("Mean daily air temperature (C)") +
+    ggplot2::ylab(ylabel) +
     ggplot2::theme_gray(12)
 
     if (numObs > 1)

@@ -2,7 +2,7 @@ fakeDatetimeHydroyear <- function(datetime, fakeYear=2000, startMonth=10){
   fakeYear1 <-  fakeYear-1
   fakeYear2 <- fakeYear
   month <- as.numeric(format(datetime, format='%m'))
-  
+
   hYear <- rep(fakeYear1, length(datetime))
   hYear[month < startMonth] <- fakeYear2
 
