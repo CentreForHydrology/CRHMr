@@ -1,22 +1,21 @@
-#' Distribute instantaneous values
+#' Distribute mean values
 #'
-#' @description Distributes instantaneous values to a shorter time interval. The missing datetimes are inserted and then the values are interpolated. This function is typically used to downscale obs values such as t, ea, and u.
+#' @description Distributes mean values to a shorter time interval. The missing datetimes are inserted and then the values are repeated. This function is typically used to downscale obs values such as t, ea, and u.
 #' @param obs Required. The \pkg{CRHMr} data frame of obs values.
 #' @param obsCols Optional. A vector containing the columns to be imputed in the obs data frame, not including the datetime. The default \option{all} specifies all columns.
 #' @param timeStep Required. The time step (in hours) for the interpolated values. This value must be smaller than the time step in the original time series.
-#' @param interpolationMethod Optional. A vector containing the methods to be used for interpolation for each of the variables. Currently supported methods are \option{linear} and \option{spline}. The default is to use linear interpolation. If fewer methods than columns are specified, the methods are recycled.
 #' @param maxLength Optional. The maximum gap length to be interpolated. Defaults to 5 time steps.
 #' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not use
 #'
 #' @return If successful, returns a dataframe of the selected columns interpolated to the specified time step. If unsuccessful, returns \code{FALSE}.
 #' @author Kevin Shook
-#' @seealso \code{\link{distributeMean}}
+#' @seealso \code{\link{distributeInst}}
 #' @export
 #'
 #' @examples \dontrun{
-#' hourly_vals <- distributeInst(vegreville, c(1,2,3), timeStep = 1)}
-distributeInst <- function(obs,  obsCols='all', timeStep=0, interpolationMethod='linear', maxLength=5,
+#' hourly_vals <- distributeMean(vegreville, c(1,2,3), timeStep = 1)}
+distributeMean <- function(obs,  obsCols='all', timeStep=0, maxLength=5,
                            quiet=TRUE, logfile=''){
 
 
@@ -63,20 +62,30 @@ distributeInst <- function(obs,  obsCols='all', timeStep=0, interpolationMethod=
   cleanDatetime <- data.frame(cleanDatetime)
   names(cleanDatetime) <- 'datetime'
   cleanVals <- merge(cleanDatetime, obs, by = 'datetime', all.x = TRUE)
-
+  clean_rows <- nrow(cleanVals)
+  clean_cols <- ncol(cleanVals)
   # now have a dataframe with all datetimes and NA for missing values
   # now interpolate values
-  varcols <- seq(1, (ncol(cleanVals) - 1))
-  distrib <- interpolate(cleanVals, varcols, methods = interpolationMethod,
-                         maxlength = maxLength, quiet = quiet,
-                         logfile = logfile)
 
+  for (col in 2:clean_cols) {
+    vals <- cleanVals[,col]
+    vals_clean <- na.omit(vals)
+    num_original <- length(vals_clean)
+    reps <- ceiling(clean_rows / num_original)
+
+    # do reps
+    reps <- rep(vals_clean, each = reps)
+    cleanVals[,col] <- reps[1:clean_rows]
+
+  }
+
+  distrib <- cleanVals
   # output log files
   obs.info <- CRHM_summary(distrib)
   if (!quiet)
     print(obs.info)
 
-  comment <- paste('distributeInst dataframe:', obs_name,
+  comment <- paste('distributeMean dataframe:', obs_name,
                    ' Variables:', stringr::str_c(names(distrib)[-1],
                                                  collapse = ','),
                    sep = '')
