@@ -9,7 +9,7 @@
 #' @author Kevin Shook
 #' @seealso \code{\link{readExportFile}} \code{\link{readOutputFile}}
 #' @examples
-#' # output example obs data to a file 
+#' # output example obs data to a file
 #' BadLake7376.obs <- writeObsFile(BadLake7376, 'BadLake7376.obs')
 #' # now read data back in
 #' BadLake <- readObsFile('BadLake7376.obs', 'etc/GMT+6')
@@ -40,7 +40,7 @@ function(obsFile='', timezone='', quiet=TRUE, logfile=''){
 
   # get first line
   line1 <- input[header.linenum+1]
-  
+
   # get second line
   line2 <- input[header.linenum+2]
 

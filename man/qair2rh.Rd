@@ -4,28 +4,31 @@
 \alias{qair2rh}
 \title{qair2rh}
 \usage{
-qair2rh(qair, temp, press = 1013.25)
+qair2rh(qair, temp, press = 101325)
 }
 \arguments{
-\item{qair}{specific humidity, dimensionless (e.g. kg/kg) ratio of water mass / total air mass}
+\item{qair}{specific humidity, dimensionless (e.g. kg/kg) ratio of water mass / total air mass.}
 
-\item{temp}{degrees C}
+\item{temp}{degrees C.}
 
-\item{press}{pressure in mb}
+\item{press}{pressure in Pa. Optional. Default is 101325, the standard atmospheric air pressure.}
 }
 \value{
-rh relative humidity, ratio of actual water mixing ratio to saturation mixing ratio
+If successful, returns rh (relative humidity), the ratio of actual water mixing ratio to saturation mixing ratio. If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
 From Bolton 1980 The computation of Equivalent Potential Temperature
 \url{http://www.eol.ucar.edu/projects/ceop/dm/documents/refdata_report/eqns.html}.
 }
 \details{
-Convert specific humidity to relative humidity
+Converts specific humidity to relative humidity
 }
 \examples{
-qair2rh(0.01, 10)
+qair2rh(0.0001, 10)
+}
+\references{
+\url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R}.
 }
 \author{
-David LeBauer \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R}. Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C and to work for vectors or scalars.
+David LeBauer  Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C and to work for vectors or scalars.
 }

@@ -69,7 +69,7 @@ distributeMean <- function(obs,  obsCols='all', timeStep=0, maxLength=5,
 
   for (col in 2:clean_cols) {
     vals <- cleanVals[,col]
-    vals_clean <- na.omit(vals)
+    vals_clean <- na.omit(as.vector(vals))
     num_original <- length(vals_clean)
     reps <- ceiling(clean_rows / num_original)
 

@@ -22,7 +22,7 @@ If successful, returns a \pkg{CRHMr} data frame. If unsuccessful, returns the va
 Reads a file of CRHM observation data into a \pkg{CRHMr} data frame. Note that because of the way that \R reads in files, the variable names will have appended periods, e.g. \code{t.1}.
 }
 \examples{
-# output example obs data to a file 
+# output example obs data to a file
 BadLake7376.obs <- writeObsFile(BadLake7376, 'BadLake7376.obs')
 # now read data back in
 BadLake <- readObsFile('BadLake7376.obs', 'etc/GMT+6')
