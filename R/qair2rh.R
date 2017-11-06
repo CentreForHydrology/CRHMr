@@ -24,11 +24,12 @@ qair2rh <- function(qair, temp, press = 101325) {
     cat('Error: missing air temperatures')
     return(FALSE)
   }
-
-  es <- saturatedVP(temp)
-  e <- qair * press / (0.378 * qair + 0.622)
-
-  rh <- e / es
+  press <- press * 0.01                           # Pa -> mb
+  es <- saturatedVP(temp)                         # kPa
+  es <- es * 1000                                 # kPa -> Pa
+  e <- qair * press / (0.378 * qair + 0.622)      # mb
+  ea <- e * 100                                   # mb -> Pa
+  rh <- ea / es
   rh[rh > 1] <- 1
   rh[rh < 0] <- 0
   return(rh)

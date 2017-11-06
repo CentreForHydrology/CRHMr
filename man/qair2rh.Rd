@@ -29,6 +29,9 @@ qair2rh(0.0001, 10)
 \references{
 \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R}.
 }
+\seealso{
+\code{\link{qair2ea}}
+}
 \author{
-David LeBauer  Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C and to work for vectors or scalars.
+David LeBauer. Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C and to work for vectors or scalars.
 }
