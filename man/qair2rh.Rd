@@ -4,17 +4,19 @@
 \alias{qair2rh}
 \title{qair2rh}
 \usage{
-qair2rh(qair, temp, press = 101325)
+qair2rh(qair, temp, press = 101325, allowStupid = FALSE)
 }
 \arguments{
-\item{qair}{specific humidity, dimensionless (e.g. kg/kg) ratio of water mass / total air mass.}
+\item{qair}{Required. Specific humidity, dimensionless (e.g. kg/kg) ratio of water mass / total air mass.}
 
-\item{temp}{degrees C.}
+\item{temp}{Required. Air temp in degrees C.}
 
-\item{press}{pressure in Pa. Optional. Default is 101325, the standard atmospheric air pressure.}
+\item{press}{Optional. Air pressure in Pa. Default is 101325, the standard atmospheric air pressure.}
+
+\item{allowStupid}{Optional. If \code{TRUE} then impossible values (smaller than zero or greater than 1) will be allowed. The default value, \code{FALSE}, restricts the returned value to be between 0 and 1.}
 }
 \value{
-If successful, returns rh (relative humidity), the ratio of actual water mixing ratio to saturation mixing ratio. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns rh (relative humidity), the ratio of actual water mixing ratio to saturation mixing ratio. Note that this value is a fraction (i.e. between 0 and 1) rather than a percentage. If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
 From Bolton 1980 The computation of Equivalent Potential Temperature

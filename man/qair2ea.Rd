@@ -12,7 +12,7 @@ qair2ea(qair, press = 101325)
 \item{press}{Optional. Air pressure in Pa. Default is 101325, the standard atmospheric air pressure.}
 }
 \value{
-If successful, returns the vapour pressure in kPa. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns the vapour pressure in Pa. If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
 Converts specific humidity to vapour pressure.
