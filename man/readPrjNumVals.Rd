@@ -17,9 +17,9 @@ readPrjNumVals(prj, searchString, value_count)
 If successful, returns a vector with the specified number of values. If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
-Reads specified number of numeric values from a project file variable.
+Reads specified number of numeric values from a project file variable. This is an internal function and is not able to be called by a function outside of \pkg{CRHMr}, as it is not exported. This documentation is for maintenance purposes.
 }
 \examples{
 \dontrun{
-hru_area <- readPrjNumVals(Bologna,'hru_area',19)}
+hru_area <- readPrjNumVals(Bologna, 'hru_area', 19)}
 }

@@ -4,7 +4,7 @@
 #' @param CRHMdataframe Required. A valid \pkg{CRHMr} data frame.
 #' @param columns The columns to be aggregated, not including the datetime. The default is the first column. This can be a vector, i.e. c(1,2,3).
 #' @param period The period of aggregation. Must be one of \option{hourly}, \option{daily}, \option{monthly}, \option{yearly} (or \option{annual}) or \option{hydro}. Default is \option{yearly}. Multiple-hour aggregation is not yet supported.
-#' @param funs A character vector containing the function(s) for aggregation. The default is \option{mean}, but can also include \option{min}, \option{max} and \option{sum}. The function(s) will be applied to all of the specified columns
+#' @param funs A character vector containing the function(s) for aggregation. The default is \option{mean}, but can also include \option{min}, \option{max}, \option{sum} and \option{length}. The function(s) will be applied to all of the specified columns
 #' @param AggFilename Optional. File name for the aggregated data.
 #' @param startMonth Optional. Starting month, to be used when aggregating by hydrological year.
 #' @param useSecondYear Optional. Logical. Should the hydrological year be based on the first or second calendar year. In other words would January 1, 2015 be the hydrological year 2014 or 2015? The default is \code{TRUE} (i.e., the hydrological year would be 2015). Note that the Campbell Scientific program SPLIT uses the first calendar year (i.e., the hydrological year would be 2014). To emulate this program, set \code{useSecondYear} to be \code{FALSE}.
@@ -147,6 +147,15 @@ function(CRHMdataframe, columns=1, period='annual', funs=c('mean'),
     sum.names <- names(sum.vals)[-1]
     sum.vals <- data.frame(sum.vals[,-1])
     sum.names <- paste(sum.names,'.sum', sep='')
+    names(sum.vals) <- sum.names
+    agg <- cbind(agg, sum.vals)
+  }
+
+  if (sum(stringr::str_detect(funs, 'length'))){
+    sum.vals <- aggregate(selected, by=list(times), FUN=length)
+    sum.names <- names(sum.vals)[-1]
+    sum.vals <- data.frame(sum.vals[,-1])
+    sum.names <- paste(sum.names,'.length', sep='')
     names(sum.vals) <- sum.names
     agg <- cbind(agg, sum.vals)
   }

@@ -17,7 +17,7 @@ readPrjTextVals(prj, searchString, valueCount)
 If successful, returns a vector with the numeric values. If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
-Reads numeric values from a project file variable. The number of values to be read in does not need to be specified.
+Reads numeric values from a project file variable. The number of values to be read in does not need to be specified. This is an internal function and is not able to be called by a function outside of \pkg{CRHMr}, as it is not exported. This documentation is for maintenance purposes.
 }
 \examples{
 \dontrun{

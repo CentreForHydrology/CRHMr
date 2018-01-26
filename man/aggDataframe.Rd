@@ -15,7 +15,7 @@ aggDataframe(CRHMdataframe, columns = 1, period = "annual",
 
 \item{period}{The period of aggregation. Must be one of \option{hourly}, \option{daily}, \option{monthly}, \option{yearly} (or \option{annual}) or \option{hydro}. Default is \option{yearly}. Multiple-hour aggregation is not yet supported.}
 
-\item{funs}{A character vector containing the function(s) for aggregation. The default is \option{mean}, but can also include \option{min}, \option{max} and \option{sum}. The function(s) will be applied to all of the specified columns}
+\item{funs}{A character vector containing the function(s) for aggregation. The default is \option{mean}, but can also include \option{min}, \option{max}, \option{sum} and \option{length}. The function(s) will be applied to all of the specified columns}
 
 \item{AggFilename}{Optional. File name for the aggregated data.}
 

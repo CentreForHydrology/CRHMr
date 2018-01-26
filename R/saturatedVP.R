@@ -11,16 +11,16 @@
 #' saturatedVP(-5)
 saturatedVP <- function(airTemp){
   #check parameter
-  
+
   if (length(airTemp) == 0){
     cat('Error: air temps missing\n')
-    return(FALSE)  
+    return(FALSE)
   }
 
   if(max(airTemp) > 200){
     cat('Error: air temps must be in C NOT K\n')
-    return(FALSE) 
-  }  
+    return(FALSE)
+  }
 
   if (length(airTemp) == 1){
     if (airTemp <= 0)
@@ -30,7 +30,7 @@ saturatedVP <- function(airTemp){
   }
   else{
     estar <- 0.611 * exp((21.88 * airTemp) / ( airTemp + 265.5))
-    estar[airTemp > 0] <- 0.611 * exp((17.27 * airTemp[airTemp > 0]) / 
+    estar[airTemp > 0] <- 0.611 * exp((17.27 * airTemp[airTemp > 0]) /
                                         ( airTemp[airTemp > 0] + 237.3))
   }
 
