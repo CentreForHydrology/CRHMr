@@ -27,7 +27,7 @@
 #' @importFrom stats aggregate coefficients lm na.omit qqplot sd
 #' @importFrom utils glob2rx read.csv read.table sessionInfo type.convert write.csv write.table
 #' @importFrom signal sgolayfilt
-#' @importFrom lubridate force_tz guess_formats year ceiling_date floor_date is.Date year
+#' @importFrom lubridate force_tz guess_formats year ceiling_date floor_date is.Date year tz
 #' @importFrom plyr ddply
 #' @importFrom reshape2 melt
 #' @importFrom zoo zoo na.spline na.approx
