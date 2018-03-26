@@ -23,7 +23,7 @@ Finds spikes, and sets their values to be NA_real_.
 }
 \examples{
 BadLake <- BadLake7376
-# finds all windspeeds which change by more than 10 m/s per interval, 
+# finds all windspeeds which change by more than 10 m/s per interval,
 # and sets their values to NA_real_
 BadLake$u.nospikes <- deleteSpikes(BadLake7376, 3, 10)
 }

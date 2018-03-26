@@ -14,75 +14,82 @@
 #' @examples
 #' \dontrun{
 #' result <- automatePrj('Bad Lake 1974-1975.prj','Bad Lake 1974-1975 auto.prj')}
-automatePrj <- function(inputPrjFile='', outputPrjFile='', quiet=TRUE, 
-                        logfile='') {
+automatePrj <- function(inputPrjFile="", outputPrjFile="", quiet=TRUE,
+                        logfile="") {
   # adds parameters to CRHM .prj file to allow it to be run automatically
   # check parameters
   eol_val <- win.eol()
-  
+
   # check parameters
-  if (inputPrjFile == ''){
-    cat('Missing CRHM input .prj file name\n')
-    return(FALSE)  
+  if (inputPrjFile == "") {
+    cat("Missing CRHM input .prj file name\n")
+    return(FALSE)
   }
-  
+
   # read in .prj file
-  con <- file(inputPrjFile, "r", blocking = FALSE, encoding="ISO_8859-2")
+  con <- file(inputPrjFile, "r", blocking = FALSE, encoding = "ISO_8859-2")
   prj <- readLines(con)
   close(con)
-  
+
   # check for Auto_Run, Log_All and Auto_Exit, if any are absent then quit
-  auto_run_present <- sum(stringr::str_detect(prj, 'Auto_Run'))
-  auto_exit_present <- sum(stringr::str_detect(prj, 'Auto_Exit'))  
-  log_all_present <- sum(stringr::str_detect(prj, 'Log_All'))
-  
-  if (auto_run_present > 0){
-    if (!quiet)
+  auto_run_present <- sum(stringr::str_detect(prj, "Auto_Run"))
+  auto_exit_present <- sum(stringr::str_detect(prj, "Auto_Exit"))
+  log_all_present <- sum(stringr::str_detect(prj, "Log_All"))
+
+  if (auto_run_present > 0) {
+    if (!quiet) {
       cat("Auto_Run command already present in .prj file\n")
+    }
   }
-  else{
+  else {
     # insert Auto_Run
     last_line <- prj[length(prj)]
-    if (sum(stringr::str_detect(last_line, '#')) >= 1) 
-      prj <- c(prj, c('Auto_Run','#####')) 
-    else
-      prj <- c(prj, c('#####', 'Auto_Run','#####'))
+    if (sum(stringr::str_detect(last_line, "#")) >= 1) {
+      prj <- c(prj, c("Auto_Run", "#####"))
+    } else {
+      prj <- c(prj, c("#####", "Auto_Run", "#####"))
+    }
   }
-  if(auto_exit_present > 0){
-    if (!quiet)
-      cat("Auto_Exit command already present in .prj file\n")     
+  if (auto_exit_present > 0) {
+    if (!quiet) {
+      cat("Auto_Exit command already present in .prj file\n")
+    }
   }
-  else{
+  else {
     # insert Auto_Exit
     last_line <- prj[length(prj)]
-    if (sum(stringr::str_detect(last_line, '#')) >= 1) 
-      prj <- c(prj, c('Auto_Exit','#####')) 
-    else
-      prj <- c(prj, c('#####', 'Auto_Exit','#####'))
+    if (sum(stringr::str_detect(last_line, "#")) >= 1) {
+      prj <- c(prj, c("Auto_Exit", "#####"))
+    } else {
+      prj <- c(prj, c("#####", "Auto_Exit", "#####"))
+    }
   }
-  if(log_all_present > 0){
-    if (!quiet)
-      cat("Log_all command already present in .prj file\n")     
+  if (log_all_present > 0) {
+    if (!quiet) {
+      cat("Log_all command already present in .prj file\n")
+    }
   }
   else {
     # insert Log_All
     last_line <- prj[length(prj)]
-    if (sum(stringr::str_detect(last_line, '#')) >= 1) 
-      prj <- c(prj, c('Log_All','#####')) 
-    else
-      prj <- c(prj, c('#####', 'Log_all','#####'))
+    if (sum(stringr::str_detect(last_line, "#")) >= 1) {
+      prj <- c(prj, c("Log_All", "#####"))
+    } else {
+      prj <- c(prj, c("#####", "Log_all", "#####"))
+    }
   }
-  
+
   # write to file
-  if (outputPrjFile == '')
+  if (outputPrjFile == "") {
     outputPrjFile <- inputPrjFile
-  
+  }
+
   con <- file(outputPrjFile, "w", blocking = FALSE)
-  writeLines(prj, con, sep=eol_val)
+  writeLines(prj, con, sep = eol_val)
   close(con)
-  
+
   # log action
-  comment <- paste('automatePrj input file: ', inputPrjFile, 'output file: outputPrjFile', sep='') 
+  comment <- paste("automatePrj input file: ", inputPrjFile, "output file: outputPrjFile", sep = "")
   result <- logAction(comment, logfile)
   return(result)
 }

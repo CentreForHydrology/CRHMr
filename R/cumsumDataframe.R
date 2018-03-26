@@ -10,18 +10,18 @@
 #'
 #' @examples \dontrun{
 #' cumul <- cumsumDataframe(modelOutput)}
-cumsumDataframe <- function(df){
+cumsumDataframe <- function(df) {
   cols <- ncol(df)
   col_names <- names(df)
-  
-  for(col in 1:cols){
-    col_cumsum <- cumsum(df[,col])
-    
-    if(col == 1)
+
+  for (col in 1:cols) {
+    col_cumsum <- cumsum(df[, col])
+
+    if (col == 1) {
       all_sums <- data.frame(col_cumsum)
-    else
+    } else {
       all_sums <- cbind(all_sums, col_cumsum)
-    
+    }
   }
   names(all_sums) <- col_names
   return(all_sums)

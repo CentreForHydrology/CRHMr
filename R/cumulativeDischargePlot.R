@@ -17,112 +17,122 @@
 #' @examples
 #' \dontrun{
 #' p <- cumulativeDischargePlot(crhm, 'CRHM', 1, dailyflows, 'HYDAT', facetCols=4, quiet=FALSE)}
-cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel='', CRHMflowCol=1, 
-                               HYDATflows=NULL, HYDATflowsLabel='', facetCols=3, quiet=TRUE){
-  
+cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowCol=1,
+                                    HYDATflows=NULL, HYDATflowsLabel="", facetCols=3, quiet=TRUE) {
+
   # suppress checking of data frame variables used by ggplot2
   Q <- NULL
   cumulQ <- NULL
   variable <- NULL
-  
-  # check parameters
-  if(!is.null(CRHMflows)){
-    CRHMselected <- TRUE
-    if(CRHMflowsLabel == '')
-      CRHMflowsLabel <- names(CRHMflows)[CRHMflowCol+1]
 
+  # check parameters
+  if (!is.null(CRHMflows)) {
+    CRHMselected <- TRUE
+    if (CRHMflowsLabel == "") {
+      CRHMflowsLabel <- names(CRHMflows)[CRHMflowCol + 1]
+    }
   }
-  else{
-    if (!quiet)
-      cat('No CRHM data selected\n')
+  else {
+    if (!quiet) {
+      cat("No CRHM data selected\n")
+    }
     CRHMselected <- FALSE
   }
-  
-  if(!is.null(HYDATflows)){
+
+  if (!is.null(HYDATflows)) {
     HYDATflowsSelected <- TRUE
-    
-    if(HYDATflowsLabel == '')
+
+    if (HYDATflowsLabel == "") {
       HYDATflowsLabel <- HYDATflows$STATION_NUMBER[1]
+    }
   }
-  else{
-    if (!quiet)
-      cat('No daily flow data selected\n')
+  else {
+    if (!quiet) {
+      cat("No daily flow data selected\n")
+    }
     HYDATflowsSelected <- FALSE
   }
-  
-  if (!CRHMselected & !HYDATflowsSelected){
-    cat('Error: no data selected\n')
+
+  if (!CRHMselected & !HYDATflowsSelected) {
+    cat("Error: no data selected\n")
     return(FALSE)
   }
-  
-  if(CRHMselected){
+
+  if (CRHMselected) {
     # get selected column and aggregate it to daily
-    CRHMflows <- CRHMflows[,c(1, (CRHMflowCol+1))]
-    CRHMdaily <- aggDataframe(CRHMflows, columns=1, period='daily', funs='mean')
-    names(CRHMdaily) <- c('date', 'Q')
+    CRHMflows <- CRHMflows[, c(1, (CRHMflowCol + 1))]
+    CRHMdaily <- aggDataframe(CRHMflows, columns = 1, period = "daily", funs = "mean")
+    names(CRHMdaily) <- c("date", "Q")
     # the next line should not be necessary in CRHM version > 1.4.7
     CRHMdaily$date <- as.Date(CRHMdaily$date)
     CRHMfirstdate <- CRHMdaily$date[1]
     CRHMlastdate <- CRHMdaily$date[nrow(CRHMdaily)]
 
     # accumulate
-    CRHMcumulative <- plyr::ddply(CRHMdaily,plyr::.(lubridate::year(date)),transform, 
-                             cumulQ = cumsum(Q))
-    
+    CRHMcumulative <- plyr::ddply(CRHMdaily, plyr::.(lubridate::year(date)), transform,
+      cumulQ = cumsum(Q)
+    )
+
     names(CRHMcumulative)[1] <- "year"
     CRHMcumulative <- CRHMcumulative[, c("date", "year", "cumulQ")]
-    
+
     # convert from m3/s per day to volume (dam3)
-    CRHMcumulative$cumulQ  <- CRHMcumulative$cumulQ * 24 * 3600 / 1e6
+    CRHMcumulative$cumulQ <- CRHMcumulative$cumulQ * 24 * 3600 / 1e6
     CRHMcumulative$variable <- CRHMflowsLabel
   }
-  
-  if (HYDATflowsSelected){
+
+  if (HYDATflowsSelected) {
     # get selected column and aggregate it to daily
-    HYDATflows <- HYDATflows[,c('DATE', 'VALUE')]
-    names(HYDATflows) <- c('date', 'Q')
-    if(CRHMselected)
-      HYDATflows <- HYDATflows[(HYDATflows$date >= CRHMfirstdate) & 
-                             (HYDATflows$date <= CRHMlastdate),]
+    HYDATflows <- HYDATflows[, c("DATE", "VALUE")]
+    names(HYDATflows) <- c("date", "Q")
+    if (CRHMselected) {
+      HYDATflows <- HYDATflows[(HYDATflows$date >= CRHMfirstdate) &
+        (HYDATflows$date <= CRHMlastdate), ]
+    }
     # accumulate
     HYDATcumulative <- plyr::ddply(HYDATflows,
-                                   plyr::.(lubridate::year(date)),
-                                   transform, 
-                                   cumulQ =  cumsum(Q))
-    
+      plyr::.(lubridate::year(date)),
+      transform,
+      cumulQ = cumsum(Q)
+    )
+
     names(HYDATcumulative)[1] <- "year"
     HYDATcumulative <- HYDATcumulative[, c("date", "year", "cumulQ")]
-    
+
     # convert from m3/s per day to volume (dam3)
-    HYDATcumulative$cumulQ  <- HYDATcumulative$cumulQ * 24 * 3600 /1e6
+    HYDATcumulative$cumulQ <- HYDATcumulative$cumulQ * 24 * 3600 / 1e6
     HYDATcumulative$variable <- HYDATflowsLabel
   }
-    
- 
+
+
   # select data to plot
-  
-  if (CRHMselected & HYDATflowsSelected)
+
+  if (CRHMselected & HYDATflowsSelected) {
     plotVals <- rbind(CRHMcumulative, HYDATcumulative)
-  else if (CRHMselected)
+  } else if (CRHMselected) {
     plotVals <- CRHMcumulative
-  else
+  } else {
     plotVals <- HYDATcumulative
-  
+  }
+
   # now do plot
   numyears <- length(unique(plotVals$year))
-  colors <- c('red', 'blue')
-  p <- ggplot2::ggplot(plotVals, ggplot2::aes(date, cumulQ, color = variable)) + 
+  colors <- c("red", "blue")
+  p <- ggplot2::ggplot(plotVals, ggplot2::aes(date, cumulQ, color = variable)) +
     ggplot2::geom_line(size = 1.2) +
     ggplot2::scale_colour_manual(values = colors) +
-    ggplot2::xlab('') + 
-    ggplot2::ylab(expression(paste('Cumulative discharge (dam',''^{3}, ')', sep = ""))) +
+    ggplot2::xlab("") +
+    ggplot2::ylab(expression(paste("Cumulative discharge (dam", ""^{
+      3
+    }, ")", sep = ""))) +
     ggplot2::scale_x_date(
       labels = scales::date_format("%b"),
-      breaks = scales::date_breaks("3 months"))
-  
-  if (numyears > 1)
-    p <- p + ggplot2::facet_wrap(~year, ncol=facetCols, scales="free")
-  
+      breaks = scales::date_breaks("3 months")
+    )
+
+  if (numyears > 1) {
+    p <- p + ggplot2::facet_wrap(~ year, ncol = facetCols, scales = "free")
+  }
+
   return(p)
-  
 }
