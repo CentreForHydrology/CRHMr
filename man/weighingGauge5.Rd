@@ -10,7 +10,7 @@ weighingGauge5(obs, precipCol = 1, resetThreshold = 50, quiet = TRUE,
 \arguments{
 \item{obs}{Required. A standard \pkg{CRHMr} obs file.}
 
-\item{precipCol}{Optional. The number of the column containing the weighing gauge cumulative precipitation data, not including the \code{datetime}. Default is column 1. These values are cumulative preciptiation. This function can only work on 1 column of precipitation. The precipitaition cannot contain missing values - infill them using \code{weighingGauge1} first.}
+\item{precipCol}{Optional. The number of the column containing the weighing gauge cumulative precipitation data, not including the \code{datetime}. Default is column 1. These values are cumulative preciptiation. This function can only work on 1 column of precipitation. The precipitation cannot contain missing values - infill them using \code{weighingGauge1} first.}
 
 \item{resetThreshold}{Optional. The minimum (absolute value) of negative values considered to be gauge resets. Default is 50 mm.}
 

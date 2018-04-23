@@ -16,26 +16,26 @@
 #' @examples
 #' \dontrun{
 #' test2 <- weightingGauge2(wg, spikeThreshold = 300)}
-#' 
+#'
 weighingGauge2 <- function(obs, precipCol=1, spikeThreshold=1000, maxSpikeGap=3, quiet=TRUE, logfile=''){
   if (nrow(obs) == 0){
     cat('Error: missing obs values\n')
     return(FALSE)
   }
-  
+
   obsName <- deparse(substitute(obs))
-  
+
   if (any(is.na(obs[, precipCol+1]))){
     cat('Error: missing values. Remove before searching for spikes\n')
     return(FALSE)
   }
-  
+
   if (spikeThreshold <= 0){
     cat('Error: spikeThreshold must be greater than zero\n')
     return(FALSE)
   }
 
-  
+
   # select specified column
   datetimes <- obs[,1]
   obs <- obs[,c(1, precipCol+1)]
@@ -45,7 +45,7 @@ weighingGauge2 <- function(obs, precipCol=1, spikeThreshold=1000, maxSpikeGap=3,
   precipDiff <- c(0, diff(obs[,2]))
   precipDiff <- data.frame(obs$datetime, precipDiff)
   names(precipDiff)[1] <- 'datetime'
-  
+
   #Remove spikes
   spikeCount <- findSpikes(precipDiff, colnum=1, threshold = spikeThreshold)
   if (class(spikeCount)[[1]] == 'numeric'){
@@ -54,20 +54,20 @@ weighingGauge2 <- function(obs, precipCol=1, spikeThreshold=1000, maxSpikeGap=3,
       cat('Warning: no spikes present')
     return(FALSE)
   }
-  
+
   despiked <- deleteSpikes(precipDiff, colnum = 1, threshold = spikeThreshold)
   despiked <- interpolate(despiked, varcols=1, methods='linear', maxlength=maxSpikeGap, quiet=quiet, logfile)
   # Accumulate
   final <- data.frame(despiked[,1], cumsum(despiked[,2]))
   names(final) <- c('datetime', obsName)
-  
+
   obs.info <- CRHM_summary(final)
   if (!quiet)
     print(obs.info)
- 
+
   # output to logfile
   outputMessage <- paste(' spikeThreshold', spikeThreshold)
-  comment <- paste('weighingGauge2 obs:', obsName, outputMessage, sep='')  
+  comment <- paste('weighingGauge2 obs:', obsName, outputMessage, sep='')
   result <- logAction(comment, logfile)
   if (!result)
     return(result)

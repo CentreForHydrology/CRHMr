@@ -1,0 +1,101 @@
+---
+title: "Weighing Gauge Functions"
+author: "Kevin Shook"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Weighing Gauge Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(CRHMr)
+library(ggplot2)
+wg <- wg
+```
+
+The weighingGauge functions are designed to process cumulative precipitation values as measured by weighing precipitation gauges. However, these values cannot simply be converted to interval precipiations using the `diff` command, as this will cause significant errors.
+
+The cumulative precipitation often contains "jitter", random fluctuations caused by wind. When weighing gauges are often emptied, there are large decreases in the total precip (negative spikes). There can also be periods of missing or erroneous values.
+
+All of these artifacts need to be removed before the values are deaccumulated to produce periodic precipitation. The problem is that it is often difficult to discriminate between artifacts and actual precipitation data, so the processing of weighing gauge data is often iterative.
+
+
+## Step 1
+First, plot your time series to see how noisy it is and how large are the resets. The best way to do this is using the function `weighingGaugePlot` which is a faceted **`ggplot2`** graph showing both the cumulative and interval precipitations. Note that this function allows you to specify the start and ending dates to be used by the plot. By default, it also indicates the locations of missing values by red points on the x-axis.
+
+```{r}
+weighingGaugePlot(wg)
+```
+
+
+## Step 2 - infilling, spike removal, jitter removal
+The plot shows missing values, large negative spikes and jitter (noise) in the cumulative precipitation. For example, there is a very large negative spike in April 2011, probably caused by the gauge being emptied.
+There are two sets of functions for dealing with these issues. The simpler functions are faster, but do one job at a time. The more sophisticated functions are more complex.
+
+### Simple methods
+
+#### Simple infilling missing values
+If there are missing values in the data, they can be infilled by linear interpolation using the function `weightingGauge1`. This plot shows the result of infilling missing values in the sample data set. Note that it is necessary to set the maximum length of gap (in time intervals) to be filled, as this function calls the **`CRHMr`** function `interpolate`, which requires this value, to prevent infilling diurnally-varying values like air temperature, for excessively long periods. You can safely set this to be much larger than is actually required.
+```{r}
+wg1 <- weighingGauge1(wg, maxGapLength = 10000)
+weighingGaugePlot(wg1)
+```
+
+ 
+Once you have infilled the missing values, you need to remove the spikes, both positive and negative, and the jitter caused by the wind.
+
+#### Simple spike removal
+Spikes can be removed using the function `weighingGauge2`. The two most important parameters are `spikeThreshold` and `maxSpikeGap`. The spike threshold defines what is or is not a spike. Any change (positive or negative) more than the threshold will be treated as a spike and removed. The parameter `maxSpikeGap` defines the maximum length of spikes. Any abrupt change longer than this value will be ignored. This prevents a legitimate large increase in precipitation from being eliminated as as spike. These values may require some trial and error to set.
+In the example data set, the reset is removed using the command:
+```{r}
+wg2 <- weighingGauge2(wg1, spikeThreshold = 200, maxSpikeGap = 3)
+weighingGaugePlot(wg2)
+```
+
+Note that the jitter still remains.
+
+#### Simple jitter removal
+The second function is `weighingGauge5`. This function combines both spike and jitter removal. The function parameter `resetThreshold`, which has a default value of 50 mm, is similar to the parameter `spikeThreshold` in the function `weighingGauge2`, but it is less flexible as it assumes a maximum spike length of one interval. It is suggested that you first remove spikes using the function `weighingGauge2` before calling this function.
+
+The jitter removal is based on an algorithm implemented by Thai Nguyen of Alberta Environment (as it was at the time). It works by calculating the cumulative maximum of the values, which removes all negative jitter. This method preserves the total precipitation, but may assign the time of an increment incorrectly.
+
+```{r}
+wg3 <- weighingGauge5(wg2) # using the default value of 50 mm for resetThreshold
+weighingGaugePlot(wg3)
+```
+
+
+
+### Smith and Barr functions
+The second, more complex set of functions, are as developed by Craig Smith and Alan Barr of Environment Canada. Although their code is written in MATLAB, it is believed that this R code should give the same results.
+
+If the weighing gauge is returning very high frequency (i.e. about every minute or more frequently), then you will want to filter the values using the function `weighingGauge3`.
+
+The missing values, negative spikes and the jitter in the data can be removed using the function `weighingGauge4`, which applies Alan Barr's filter. The filtering is done using a brute-force algorithm that identifies small or negative changes (smaller than the value of the parameter `smallDropThreshold`) then transfers them to neighbouring positive changes thus aggregating all changes to values above dPcpTh. The transfers are made in ascending order, starting with the lowest (most negative). The cumulative total remains unchanged. The parameter `serviceThreshold` identifies the negative spikes caused by servicing. Note that the value of this parameter must be negative.
+
+The filter can be slow to execute and it may be difficult to set the value of the parameter `smallDropThreshold`. If you are having difficulty with this function, it is suggested that you try using the simpler functions described above.
+
+```{r}
+wg4 <- weighingGauge4(wg1, smallDropThreshold = 0.05, serviceThreshold = -50)
+weighingGaugePlot(wg4)
+```
+
+Note that the two sets of functions (simple and Smith and Barr) will produce slightly differing values.
+
+## Step 3 - deaccumulation
+The final step is to deaccummulate your values to produce interval data, using the function `weighingGaugeInterval`. Note that this function returns both the accumulated and interval precipitation.
+
+```{r}
+interval <- weighingGaugeInterval(wg3)
+plotObs(interval[, c(1, 3)]) + ggplot2::theme(legend.position = "none")
+```
+
+### Evaporation
+Currently, there are no functions supplied to remove the effects of evaporation, which can result in a long-term negative trend in the precipitation.
+
