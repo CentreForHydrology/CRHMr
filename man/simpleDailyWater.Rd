@@ -28,7 +28,7 @@ simpleDailyWater(CRHMoutput, vars = "all", prjFile = "", basinMean = TRUE,
 If successful returns a data frame containing the daily values of all of the water fluxes and storages.
 }
 \description{
-Calculates daily values of the CRHM outputs of water storages and fluxes, for models \emph{without} sub-basins, for each HRU by its area, and calculates the net fluxes for the basin and each sub-basin.
+Calculates daily values of the CRHM outputs of water storages and fluxes, for models \emph{without} sub-basins, for each HRU by its area, and calculates the net fluxes for the basin and each sub-basin. Note that this function requires a built-in dataframe \code{CRHM_vars} which contains information about \code{CRHM} variables. If your model uses a variable which is not in the dataframe, then you will get an error message.
 }
 \examples{
 \dontrun{

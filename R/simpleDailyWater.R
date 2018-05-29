@@ -1,6 +1,6 @@
 #' Aggregates simple CRHM model output flows to daily values
 #'
-#' @description Calculates daily values of the CRHM outputs of water storages and fluxes, for models \emph{without} sub-basins, for each HRU by its area, and calculates the net fluxes for the basin and each sub-basin.
+#' @description Calculates daily values of the CRHM outputs of water storages and fluxes, for models \emph{without} sub-basins, for each HRU by its area, and calculates the net fluxes for the basin and each sub-basin. Note that this function requires a built-in dataframe \code{CRHM_vars} which contains information about \code{CRHM} variables. If your model uses a variable which is not in the dataframe, then you will get an error message.
 #' @param CRHMoutput Required. The CRHM model output as a standard \pkg{CRHMr} dataframe (obs, export or output data)
 #' @param vars Optional. Variable column numbers to be used (not including the \code{datetime}). The default \option{all} selects all columns.
 #' @param prjFile Required. The CRHM .prj file.
@@ -167,13 +167,17 @@ simpleDailyWater <- function(CRHMoutput, vars='all', prjFile='', basinMean=TRUE,
     cumul_col_count <- length(cumul_cols)
 
     for (i in 1:cumul_col_count){
-      colnum <- cumul_cols[i]
+      colnum <- cumul_cols[i] - 1
       vals <- CRHM_values[,colnum]
       deaccum <- c(vals[1], diff(vals))
       CRHM_values[,colnum] <- deaccum
     }
   }
   variables$units[cumul_vars] <- paste('deaccum_', variables$units[cumul_vars], sep='')
+
+  # re-count variables in case some names were not identified
+  variable_count <- nrow(variables)
+  agg_cols <- seq(from=1, to=variable_count)
 
   # figure out aggregation functions
   variables$agg_functions <- rep.int('mean', variable_count)
