@@ -19,30 +19,30 @@ readOutputFile <- function(outputFile, timezone='', quiet=TRUE, logfile=''){
   if (outputFile == ''){
     cat('Error: must specify a file name\n')
     return(FALSE)
-  }  
+  }
   if (timezone == ''){
     cat('Error: must specify a timezone\n')
     return(FALSE)
-  }  
+  }
   # check for '#' symbols in header
   con <- file(outputFile, "r", blocking = FALSE)
   input <- readLines(con)
   close(con)
-  
+
   line1 <- input[1]
-  
+
   # remove parentheses
   variables <- stringr::str_replace_all(line1, stringr::fixed('('),'.')
   variables <- stringr::str_replace_all(variables, stringr::fixed(')'),'')
-  
+
   # replace tabs with spaces to allow for parsing
-  variables <- stringr::str_replace_all(variables, '#','.calc') 
+  variables <- stringr::str_replace_all(variables, '#','.calc')
   variables <- stringr::str_split(variables, '\t')
-  
+
   # check for units
   line2 <- input[2]
   units_present <- stringr::str_detect(line2, 'units')
-  
+
   if(units_present)
     skiplines <- 2
   else
@@ -50,24 +50,24 @@ readOutputFile <- function(outputFile, timezone='', quiet=TRUE, logfile=''){
 
   output <- read.table(outputFile, header=FALSE, skip=skiplines, stringsAsFactors=FALSE)
   names(output) <- variables[[1]]
-  
+
   # convert Excel time to timeDate
   output$time <- as.POSIXct(as.numeric(output[,1])*24*3600, origin="1899-12-30",tz='UTC')
   output$time <- lubridate::force_tz(output$time, tzone=timezone)
   names(output)[1] <- 'datetime'
   num.cols <- ncol(output)
-  
+
   # clean up dates
   output <- makeRegular(output, timezone=timezone)
-  
+
   # output info to screen and write to log file
   file.info <- CRHM_summary(output)
   if (!quiet)
     print(file.info)
-  
+
   comment <- paste('readOutputFile outputFile:', outputFile, ' Timezone:', timezone, sep='')
   result <- logAction(comment, logfile)
-  
+
   if(result)
     return(output)
   else

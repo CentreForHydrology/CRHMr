@@ -41,7 +41,7 @@ setPrjOutputVariables('Bad_Lake_1974-1975.prj', variables, 'Bad_Lake_1974-1975_r
 result <- setPrjOutputVariables('Bad_Lake_1974-1975.prj', 'null')}
 }
 \seealso{
-\code{\link{readPrjOutputVariables}}
+\code{\link{readPrjOutputVariables}} \code{\link{setPrjDates}}
 }
 \author{
 Kevin Shook

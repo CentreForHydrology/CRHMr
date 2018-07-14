@@ -21,177 +21,221 @@
 #' @export
 
 aggDataframe <-
-function(CRHMdataframe, columns=1, period='annual', funs=c('mean'),
-                         AggFilename='', startMonth=10, useSecondYear=TRUE, logfile=''){
-  # aggregates a dataframe of CRHM variables (obs or outputs) to longer time periods
-  if (period == '' | nrow(CRHMdataframe) == 0 | (length(columns) == 0)){
-    cat('Error: missing variables\n')
-    return(FALSE)
-  }
-  CRHMname <- deparse(substitute(CRHMdataframe))
-  if (length(columns) > 1){
-    selected <- CRHMdataframe[, (columns+1)]
-    selected.names <- names(selected)
-  }
-  else{
-    selected <- data.frame(CRHMdataframe[, (columns+1)])
-    selected.names <- names(CRHMdataframe)[columns+1]
-    names(selected) <- selected.names
-  }
-
-
-  if (is.numeric(period)){
-    # do sub-daily aggregation
-    period.hours <- period
-    if (period == 1){
-      time.period <- 'hour'
-      times <- lubridate::ceiling_date(CRHMdataframe$datetime, unit = time.period)
-      agg <- data.frame(unique(times))
-      names(agg) <- time.period
-    }
-    else{
-      cat('Error: multiple-hour aggregation not yet supported\n')
+  function(CRHMdataframe, columns=1, period="annual", funs=c("mean"),
+             AggFilename="", startMonth=10, useSecondYear=TRUE, logfile="") {
+    # aggregates a dataframe of CRHM variables (obs or outputs) to longer time periods
+    if (period == "" | nrow(CRHMdataframe) == 0 | (length(columns) == 0)) {
+      cat("Error: missing variables\n")
       return(FALSE)
     }
-  }
-  else{
-    period <- tolower(period)
-    if (stringr::str_detect(period, 'ann') | stringr::str_detect(period, 'year')) {
-      time.period <- 'year'
-      period.hours <- 365 * 24
+    CRHMname <- deparse(substitute(CRHMdataframe))
+    if (length(columns) > 1) {
+      selected <- CRHMdataframe[, (columns + 1)]
+      selected.names <- names(selected)
     }
-    else if (stringr::str_detect(period, 'da' )){
-      time.period <- 'day'
-      period.hours <- 24
-    }
-    else if (stringr::str_detect(period, 'mo' ) & !stringr::str_detect(period, 'year')){
-      time.period <- 'month'
-      period.hours <- 30 * 24
-
-    }
-    else if (stringr::str_detect(period, 'ho' )) {
-      time.period <- 'hour'
-      period.hours <- 1
-    }
-    else if (stringr::str_detect(period, 'hy')){
-      time.period <- 'hydrologic-year'
-      period.hours <- 365 * 24
-    }
-    else{
-      time.period <- 'year'
-      period.hours <- 365 * 24
+    else {
+      selected <- data.frame(CRHMdataframe[, (columns + 1)])
+      selected.names <- names(CRHMdataframe)[columns + 1]
+      names(selected) <- selected.names
     }
 
-  # set up time step for multi-day aggregation
-    if (time.period == 'hydrologic-year'){
-      hYear <- hydroYear(CRHMdataframe, startMonth, useSecondYear)
-      times <- hYear
-      agg <- data.frame(unique(hYear))
-      if(useSecondYear)
-        names(agg) <- 'hydrological_year_second'
-      else
-        names(agg) <- 'hydrological_year_first'
+
+    if (is.numeric(period)) {
+      # do sub-daily aggregation
+      period.hours <- period
+      if (period == 1) {
+        time.period <- "hour"
+        times <- lubridate::ceiling_date(CRHMdataframe$datetime, unit = time.period)
+        agg <- data.frame(unique(times))
+        names(agg) <- time.period
+      }
+      else {
+        cat("Error: multiple-hour aggregation not yet supported\n")
+        return(FALSE)
+      }
     }
-    else if(time.period == 'hour'){
-      times <- lubridate::ceiling_date(CRHMdataframe$datetime, unit = time.period)
-      agg <- data.frame(unique(times))
-      names(agg) <- time.period
+    else {
+      period <- tolower(period)
+      if (stringr::str_detect(period, "ann") | stringr::str_detect(period, "year")) {
+        time.period <- "year"
+        period.hours <- 365 * 24
+      }
+      else if (stringr::str_detect(period, "da")) {
+        time.period <- "day"
+        period.hours <- 24
+      }
+      else if (stringr::str_detect(period, "mo") & !stringr::str_detect(period, "year")) {
+        time.period <- "month"
+        period.hours <- 30 * 24
+      }
+      else if (stringr::str_detect(period, "ho")) {
+        time.period <- "hour"
+        period.hours <- 1
+      }
+      else if (stringr::str_detect(period, "hy")) {
+        time.period <- "hydrologic-year"
+        period.hours <- 365 * 24
+      }
+      else {
+        time.period <- "year"
+        period.hours <- 365 * 24
+      }
+
+      # set up time step for multi-day aggregation
+      if (time.period == "hydrologic-year") {
+        hYear <- hydroYear(CRHMdataframe, startMonth, useSecondYear)
+        times <- hYear
+        agg <- data.frame(unique(hYear))
+        if (useSecondYear) {
+          names(agg) <- "hydrological_year_second"
+        } else {
+          names(agg) <- "hydrological_year_first"
+        }
+      }
+      else if (time.period == "hour") {
+        times <- lubridate::ceiling_date(CRHMdataframe$datetime, unit = time.period)
+        agg <- data.frame(unique(times))
+        names(agg) <- time.period
+      }
+      else {
+        times <- lubridate::floor_date(CRHMdataframe$datetime, unit = time.period)
+        agg <- data.frame(unique(times))
+        names(agg) <- time.period
+      }
     }
-    else
-    {
-      times <- lubridate::floor_date(CRHMdataframe$datetime, unit = time.period)
-      agg <- data.frame(unique(times))
-      names(agg) <- time.period
+
+    # check period vs existing period
+
+    current.period <- timestep.hours(CRHMdataframe$datetime[1], CRHMdataframe$datetime[2])
+    if (current.period >= period.hours) {
+      cat("Error: cannot aggregate to a shorter time period\n")
+      return(FALSE)
     }
-  }
+    # do aggregation
 
-  # check period vs existing period
+    if (sum(stringr::str_detect(funs, "max"))) {
+      max.vals <- aggregate(selected, by = list(times), FUN = max)
+      max.names <- names(max.vals)[-1]
+      max.vals <- data.frame(max.vals[, -1])
+      max.names <- paste(max.names, ".max", sep = "")
+      names(max.vals) <- max.names
+      agg <- cbind(agg, max.vals)
+    }
 
-  current.period <- timestep.hours(CRHMdataframe$datetime[1], CRHMdataframe$datetime[2])
-  if (current.period >= period.hours){
-    cat('Error: cannot aggregate to a shorter time period\n')
-    return(FALSE)
-  }
+    if (sum(stringr::str_detect(funs, "min"))) {
+      min.vals <- aggregate(selected, by = list(times), FUN = min)
+      min.names <- names(min.vals)[-1]
+      min.vals <- data.frame(min.vals[, -1])
+      min.names <- paste(min.names, ".min", sep = "")
+      names(min.vals) <- min.names
+      agg <- cbind(agg, min.vals)
+    }
 
-  # do aggregation
+    if (sum(stringr::str_detect(funs, "mean"))) {
+      mean.vals <- aggregate(selected, by = list(times), FUN = mean)
+      mean.names <- names(mean.vals)[-1]
+      mean.vals <- data.frame(mean.vals[, -1])
+      mean.names <- paste(mean.names, ".mean", sep = "")
+      names(mean.vals) <- mean.names
+      agg <- cbind(agg, mean.vals)
+    }
 
-  if (sum(stringr::str_detect(funs, 'max'))){
-    max.vals <- aggregate(selected, by=list(times), FUN=max)
-    max.names <- names(max.vals)[-1]
-    max.vals <- data.frame(max.vals[,-1])
-    max.names <- paste(max.names,'.max', sep='')
-    names(max.vals) <- max.names
-    agg <- cbind(agg, max.vals)
-  }
+    if (sum(stringr::str_detect(funs, "sum"))) {
+      sum.vals <- aggregate(selected, by = list(times), FUN = sum)
+      sum.names <- names(sum.vals)[-1]
+      sum.vals <- data.frame(sum.vals[, -1])
+      sum.names <- paste(sum.names, ".sum", sep = "")
+      names(sum.vals) <- sum.names
+      agg <- cbind(agg, sum.vals)
+    }
 
-  if (sum(stringr::str_detect(funs, 'min'))){
-    min.vals <- aggregate(selected, by=list(times), FUN=min)
-    min.names <- names(min.vals)[-1]
-    min.vals <- data.frame(min.vals[,-1])
-    min.names <- paste(min.names,'.min', sep='')
-    names(min.vals) <- min.names
-    agg <- cbind(agg, min.vals)
-  }
+    if (sum(stringr::str_detect(funs, "length"))) {
+      sum.vals <- aggregate(selected, by = list(times), FUN = length)
+      sum.names <- names(sum.vals)[-1]
+      sum.vals <- data.frame(sum.vals[, -1])
+      sum.names <- paste(sum.names, ".length", sep = "")
+      names(sum.vals) <- sum.names
+      agg <- cbind(agg, sum.vals)
+    }
 
-  if (sum(stringr::str_detect(funs, 'mean'))){
-    mean.vals <- aggregate(selected, by=list(times), FUN=mean)
-    mean.names <- names(mean.vals)[-1]
-    mean.vals <- data.frame(mean.vals[,-1])
-    mean.names <- paste(mean.names,'.mean', sep='')
-    names(mean.vals) <- mean.names
-    agg <- cbind(agg, mean.vals)
-  }
+    if (sum(stringr::str_detect(funs, "delta"))) {
+      vals <- data.frame(CRHMdataframe$datetime, selected)
+      names(vals)[1] <- "datetime"
+      # get closest datetime to specified dates/times
 
-  if (sum(stringr::str_detect(funs, 'sum'))){
-    sum.vals <- aggregate(selected, by=list(times), FUN=sum)
-    sum.names <- names(sum.vals)[-1]
-    sum.vals <- data.frame(sum.vals[,-1])
-    sum.names <- paste(sum.names,'.sum', sep='')
-    names(sum.vals) <- sum.names
-    agg <- cbind(agg, sum.vals)
-  }
+      if (time.period == "year" |
+         time.period == "month" |
+         time.period == "day" |
+         time.period == "hydrologic-year") {
 
-  if (sum(stringr::str_detect(funs, 'length'))){
-    sum.vals <- aggregate(selected, by=list(times), FUN=length)
-    sum.names <- names(sum.vals)[-1]
-    sum.vals <- data.frame(sum.vals[,-1])
-    sum.names <- paste(sum.names,'.length', sep='')
-    names(sum.vals) <- sum.names
-    agg <- cbind(agg, sum.vals)
-  }
+        names(agg)[1] <- "date"
+        if (time.period == "year") {
+          agg$date <- as.Date(paste(agg$date, "-01-01", sep = ""),
+          format = "%Y-%m-%d")
+        } else if ( time.period == "hydrologic-year") {
+          agg$date <- as.Date(paste(agg$date, "-", startMonth, "-01", sep = ""),
+                              format = "%Y-%m-%d")
+        }
 
-  # remove double periods from variable names
-  agg.names <- names(agg)
-  agg.names <- stringr::str_replace(agg.names, stringr::fixed('..'), '.')
-  names(agg) <- agg.names
+        timezone <- lubridate::tz(CRHMdataframe$datetime)
+
+        agg_datetime <- dateToDatetime(agg, hour = 23, timezone = timezone)
+      }
+
+      # now merge
+      merged <- merge(agg_datetime, vals, by = "datetime")
+      colnums <- ncol(merged) - 1
+      for (i in 1:colnums) {
+        delta <- diff(merged[, (i + 1)])
+        merged[,(i + 1)] <- c(NA_real_, delta)
+      }
+
+      delta.names <- names(vals)[-1]
+      delta.names <- paste(delta.names, ".delta", sep = "")
+      names(merged)[-1] <- delta.names
+      agg <- merged
+      agg[,1] <- as.numeric(format(agg[,1], format = "%Y"))
+      names(agg)[1] <- "year"
+
+    }
+
+    # remove double periods from variable names
+    agg.names <- names(agg)
+    agg.names <- stringr::str_replace(agg.names, stringr::fixed(".."), ".")
+    names(agg) <- agg.names
 
 
-  # format dates
-  if (time.period == 'year')
-    agg[,1] <- as.numeric(format(agg[,1], format='%Y'))
-  else if (time.period == 'month')
-    agg[,1] <- format(agg[,1], format='%Y-%m')
-  else if (time.period == 'day'){
-    agg[,1] <- as.Date( agg[,1])
-    names(agg)[1] <- 'date'
-  }
-  else if (time.period == 'hour')
-    names(agg)[1] <- 'datetime'
+    # format dates
+    if (time.period == "year") {
+      agg[, 1] <- as.numeric(format(agg[, 1], format = "%Y"))
+    } else if (time.period == "month") {
+      agg[, 1] <- format(agg[, 1], format = "%Y-%m")
+    } else if (time.period == "day") {
+      agg[, 1] <- as.Date(agg[, 1])
+      names(agg)[1] <- "date"
+    }
+    else if (time.period == "hour") {
+      names(agg)[1] <- "datetime"
+    }
 
 
-  # write to file, if name provided
-    if (AggFilename != '')
-      write.csv(agg, file=AggFilename, row.names=FALSE, col.names=TRUE)
-    else
-      AggFilename = 'NA'
+    # write to file, if name provided
+    if (AggFilename != "") {
+      write.csv(agg, file = AggFilename, row.names = FALSE, col.names = TRUE)
+    } else {
+      AggFilename <- "NA"
+    }
 
-    comment <- paste('aggDataframe dataframe:', CRHMname, ' Aggfuns:',
-                     stringr::str_c(funs, collapse=','),
-                     ' period:', period, ' file:', AggFilename, sep='')
+    comment <- paste("aggDataframe dataframe:", CRHMname, " Aggfuns:",
+      stringr::str_c(funs, collapse = ","),
+      " period:", period, " file:", AggFilename,
+      sep = ""
+    )
     result <- logAction(comment, logfile)
 
-    if (result)
-      return (agg)
-    else
+    if (result) {
+      return(agg)
+    } else {
       return(result)
-}
+    }
+  }

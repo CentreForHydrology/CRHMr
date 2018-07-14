@@ -22,7 +22,7 @@ If successful, returns a data frame where the first column is a standard \pkg{CR
 The \code{aggDataframe} function produces non-standard data frames, which have dates rather than datetimes as their first column. This function will convert a data frame with dates in the first column to have datetimes with the time being set to a constant value.
 }
 \examples{
-Badlake.radiation.daily <- aggDataframe(BadLake7376, period='daily', 
+Badlake.radiation.daily <- aggDataframe(BadLake7376, period='daily',
 columns=c(6,7,8), funs=c('mean'))
 BadLake.datetime <- dateToDatetime(Badlake.radiation.daily, timezone='CST')
 

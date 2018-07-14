@@ -7,7 +7,7 @@
 #'
 #' @return If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 #' @author Kevin Shook
-#' @seealso  \code{\link{readPrjOutputVariables}}
+#' @seealso  \code{\link{readPrjOutputVariables}} \code{\link{setPrjDates}}
 #' @export
 #'
 #' @examples

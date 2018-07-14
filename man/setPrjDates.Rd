@@ -34,12 +34,12 @@ If you are using Windows, the paths for the state files must use \option{\\\\} i
 }
 \examples{
 \dontrun{
-result <- setPrjDates('c:/CRHM/Bad Lake 1974-1975.prj', 
+result <- setPrjDates('c:/CRHM/Bad Lake 1974-1975.prj',
 '1974 10 1', '1975 10 1', initialStateFile='c:\\\\CRHM\\\\Model_Initial_State.int',
  finalStateFile='c:\\\\CRHM\\\\Model_Final_State.int')}
 }
 \seealso{
-\code{\link{runCRHM}}
+\code{\link{runCRHM}} \code{\link{setPrjObs}} \code{\link{setPrjParameters}}
 }
 \author{
 Kevin Shook
