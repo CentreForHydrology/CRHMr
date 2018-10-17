@@ -7,8 +7,8 @@
 hydrograph(CRHMflows = NULL, CRHMflowsLabels = "", CRHMcols = NULL,
   CRHMdaily = FALSE, WSCdailyFlows = NULL, WSCdailyFlowsLabel = "",
   WSCpeakFlows = NULL, WSCpeakFlowsLabel = "",
-  forceMissingPeakTimes = FALSE, commonTime = FALSE, fakeDates = FALSE,
-  quiet = TRUE)
+  forceMissingPeakTimes = FALSE, commonTime = FALSE,
+  fakeDates = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{CRHMflows}{Optional. A data frame of CRHM modelled flows. The flows must be in m\eqn{^3}{^3}/s.}
@@ -50,6 +50,8 @@ p <- hydrograph(BadLakeModel,'CRHM Bad Lake model',1, dailyFlows, '', peakFlows,
 # once the ggplot graph has been returned, it can easily be modified:
 mintime <- as.POSIXct(as.Date('1975-04-01', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
 maxtime <- as.POSIXct(as.Date('1975-04-30', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
+# load in all of ggplot2 to modify plots
+# library(ggplot2)
 p <- p + xlim(mintime, maxtime) + ylim(0, 4)
 
 # re-plot with fake dates

@@ -4,8 +4,8 @@
 \alias{maxObs}
 \title{Sets maximum values for an obs data frame}
 \usage{
-maxObs(obs, varcols = "", maxvals = "", actions = "max", quiet = TRUE,
-  logfile = "")
+maxObs(obs, varcols = "", maxvals = "", actions = "max",
+  quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} obs data frame.}

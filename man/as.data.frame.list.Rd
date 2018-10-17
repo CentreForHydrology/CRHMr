@@ -4,7 +4,8 @@
 \alias{as.data.frame.list}
 \title{Convert a list of vectors to a data frame.}
 \usage{
-\method{as.data.frame}{list}(x, row.names = NULL, optional = FALSE, ...)
+\method{as.data.frame}{list}(x, row.names = NULL, optional = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{a list to convert to a data frame.}

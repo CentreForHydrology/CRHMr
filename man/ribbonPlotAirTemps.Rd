@@ -4,8 +4,8 @@
 \alias{ribbonPlotAirTemps}
 \title{Plots min, max and mean air temperatures for each day of the year}
 \usage{
-ribbonPlotAirTemps(obs = "", obsNames = "", tempCols = 1, facet = TRUE,
-  facetColour = "", facetCols = 2)
+ribbonPlotAirTemps(obs = "", obsNames = "", tempCols = 1,
+  facet = TRUE, facetColour = "", facetCols = 2)
 }
 \arguments{
 \item{obs}{Required. Either a \pkg{CRHMr} \code{obs} data frame or a list of data frames.}

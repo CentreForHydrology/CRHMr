@@ -4,9 +4,9 @@
 \alias{distributeQsi}
 \title{Distributes incoming shortwave radiation to shorter time interval}
 \usage{
-distributeQsi(QsiObs, QsiColnum = 1, latitude = "", sunTimeOffset = 2,
-  timeStep = 1, solarMethod = "simpleMaxSolar", details = FALSE,
-  quiet = TRUE, logfile = "")
+distributeQsi(QsiObs, QsiColnum = 1, latitude = "",
+  sunTimeOffset = 2, timeStep = 1, solarMethod = "simpleMaxSolar",
+  details = FALSE, quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{QsiObs}{Required. A \pkg{CRHMr} obs data frame containing incoming shortwave radiation in in W/m\eqn{^2}{^2}.}

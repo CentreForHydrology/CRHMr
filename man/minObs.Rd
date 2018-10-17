@@ -4,8 +4,8 @@
 \alias{minObs}
 \title{Sets minimum values for an obs data frame}
 \usage{
-minObs(obs, varcols = "", minvals = "", actions = "min", quiet = TRUE,
-  logfile = "")
+minObs(obs, varcols = "", minvals = "", actions = "min",
+  quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} obs data frame.}

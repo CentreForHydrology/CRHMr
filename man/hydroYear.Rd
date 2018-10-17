@@ -4,7 +4,8 @@
 \alias{hydroYear}
 \title{Returns a vector of the hydrological year for the input data frame}
 \usage{
-hydroYear(CRHMdata, startMonth = 10, useSecondYear = TRUE, logfile = "")
+hydroYear(CRHMdata, startMonth = 10, useSecondYear = TRUE,
+  logfile = "")
 }
 \arguments{
 \item{CRHMdata}{Required. A \pkg{CRHMr} data frame.}

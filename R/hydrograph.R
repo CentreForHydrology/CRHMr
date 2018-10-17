@@ -24,6 +24,8 @@
 #' # once the ggplot graph has been returned, it can easily be modified:
 #' mintime <- as.POSIXct(as.Date('1975-04-01', format='%Y-%m-%d'), tz='etc/GMT+6')
 #' maxtime <- as.POSIXct(as.Date('1975-04-30', format='%Y-%m-%d'), tz='etc/GMT+6')
+#' # load in all of ggplot2 to modify plots
+#' # library(ggplot2)
 #' p <- p + xlim(mintime, maxtime) + ylim(0, 4)
 #'
 #' # re-plot with fake dates
