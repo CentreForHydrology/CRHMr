@@ -43,7 +43,7 @@ function(start.date, end.date, timestep=1,
     time.seq <- seq(from=start.date, to=end.date, by=1)
   }
   else{
-    # create date/fime sequence
+    # create date/time sequence
     start.time.format <- paste(start.date.format, ' %H:%M', sep='')
     end.time.format <- paste(end.date.format, ' %H:%M', sep='')
     if (timestep == 1){

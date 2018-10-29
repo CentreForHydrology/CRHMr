@@ -1,10 +1,12 @@
 #' Reads values of specified parameter from .prj file
 #'
+#' @description This function reads numeric parameter values only. Attempting to read
+#' in character values, sucha s HRU names, will return \code{NULL}.
 #' @param prjFile Required. Name of .prj file.
 #' @param paramName Required. Name of parameter to be read.
 #' @param logfile logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #'
-#' @return If successful, returns the parameter values. If unsuccessful, returns \code{FALSE}.
+#' @return If successful, returns the parameter values as a vector. If unsuccessful, returns \code{FALSE}.
 #' @author Kevin Shook
 #' @seealso  \code{\link{setPrjOutputVariables}}
 #' @export
@@ -40,7 +42,7 @@ readPrjParameters <- function(prjFile = "", paramName = "", logfile = ""){
  # find starting point
   line_num <- start_line + 1
   done <- FALSE
-  all_vals <- c(0)
+  all_vals <- NULL
 
   while (!done) {
     # check if done
@@ -52,16 +54,21 @@ readPrjParameters <- function(prjFile = "", paramName = "", logfile = ""){
     }
     else {
       # check to see if numeric or not
-      current_vals <- parseNums(current)
-      all_vals <- c(all_vals, current_vals)
-      line_num <- line_num + 1
+      current_vals <- suppressWarnings(parseNums(current))
+      if (is.na(sum(current_vals))) {
+        # values are actually strings, therefore all values are found
+        done <- TRUE
+      } else {
+        all_vals <- c(all_vals, current_vals)
+        line_num <- line_num + 1
+      }
     }
   }
   # log action
   comment <- paste('readPrjParameters prjFile: ', prjFile, sep = "")
   result <- logAction(comment, logfile)
-  if (result) {
-    return(all)
+  if (!result) {
+    return(result)
   }
   else{
     return(all_vals)

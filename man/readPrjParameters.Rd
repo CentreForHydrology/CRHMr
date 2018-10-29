@@ -14,10 +14,11 @@ readPrjParameters(prjFile = "", paramName = "", logfile = "")
 \item{logfile}{logfile Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns the parameter values. If unsuccessful, returns \code{FALSE}.
+If successful, returns the parameter values as a vector. If unsuccessful, returns \code{FALSE}.
 }
 \description{
-Reads values of specified parameter from .prj file
+This function reads numeric parameter values only. Attempting to read
+in character values, sucha s HRU names, will return \code{NULL}.
 }
 \examples{
 \dontrun{
