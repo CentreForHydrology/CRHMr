@@ -23,28 +23,28 @@ function(exportFile, timezone='', quiet=TRUE, logfile=''){
     cat('Error: must specify a timezone\n')
     return(FALSE)
   }
-  
+
   con <- file(exportFile, "r", blocking = FALSE)
   input <- readLines(con, encoding = "latin1")
   close(con)
   # find header
   header.linenum <- grep("##", input, fixed=TRUE)
   line1 <- input[header.linenum+1]
-  
+
   # read in, skipping header
-  export <- read.table(file=exportFile, header=FALSE, skip=header.linenum, 
+  export <- read.table(file=exportFile, header=FALSE, skip=header.linenum,
                        stringsAsFactors=FALSE, sep='\t')
   export.column.count <- ncol(export)
-  
+
   # find type of date/time
   date1 <- export[1,1]
-  
-  
+
+
   if (date1 > 3000)
     Excel <- TRUE
   else
     Excel <- FALSE
-  
+
   if (stringr::str_detect(line1,','))
     ExcelJdate <- TRUE
   else
@@ -54,7 +54,7 @@ function(exportFile, timezone='', quiet=TRUE, logfile=''){
     DMY <- TRUE
   else
     DMY <- FALSE
- 
+
   if (DMY & !ExcelJdate)
     date.type <- 'DMY'
   else if (ExcelJdate)
@@ -63,73 +63,73 @@ function(exportFile, timezone='', quiet=TRUE, logfile=''){
     date.type <- 'Excel'
   else
     date.type <- 'Obs'
-  
+
   # read header and extract variables
   header <- input[2:(header.linenum-1)]
   variables <- header[!stringr::str_detect(header,stringr::fixed('$'))]
-  
+
   # get variable name and count
   variables <- stringr::str_trim(variables)
-  
+
   # remove parentheses
   variables <- stringr::str_replace_all(variables, stringr::fixed('('),'.')
   variables <- stringr::str_replace_all(variables, stringr::fixed(')'),'')
-  
+
   # replace spaces with tabs to allow for parsing
   variables <- stringr::str_replace_all(variables, ' ','\t')
 
   # check for '#' symbols in header
   hash.present <- sum(stringr::str_detect(variables, '#'))
   if (hash.present > 0)
-    variables <- stringr::str_replace_all(variables, '#','.calc') 
-    
+    variables <- stringr::str_replace_all(variables, '#','.calc')
+
   variables <- stringr::str_split(variables, '\t')
-  
+
   variable.type.count <- length(variables)
-  variable.data.frame <- as.data.frame.list(variables)
+  variable.data.frame <- list2df(variables)
   variable.name <- as.character(variable.data.frame[,1])
   variable.count <-  as.numeric(as.character(variable.data.frame[,2]))
-  
+
   # get date and name columns
   if (date.type == 'Obs'){
-    # have to re-parse        
+    # have to re-parse
     datecol <- export[,1]
     datetime <- as.POSIXct(datecol, format='%Y %m %d %H %M',tz=timezone)
     variable.column.count <- export.column.count - 1
-    export.vars <- export[, 2:export.column.count]   
+    export.vars <- export[, 2:export.column.count]
   }
   else if (date.type == 'Excel'){
     # convert Excel time to POSIX
     datetime <- as.POSIXct(as.numeric(export[,1])*24*3600, origin="1899-12-30", tz='UTC')
     datetime <- lubridate::force_tz(datetime, tzone=timezone)
     variable.column.count <- export.column.count - 1
-    export.vars <- export[, 2:export.column.count]  
+    export.vars <- export[, 2:export.column.count]
   }
   else if (date.type == 'DMY'){
     datetime <- as.POSIXct(export[,1], format='%d/%m/%Y %H:%M',tz=timezone)
-  
+
     variable.column.count <- export.column.count - 1
     export.vars <- export[, 2:export.column.count]
-  } 
+  }
   else if (date.type == 'ExcelJdate'){
     # this is a horrible format, as it has to be parsed twice
-    col1 <- export[,1] 
+    col1 <- export[,1]
     cols1_4 <- stringr::str_split(col1,',')
     datetimecol <- as.character(as.data.frame(cols1_4)[,4])
-    if (stringr::str_detect(date1,'/'))   
+    if (stringr::str_detect(date1,'/'))
       datetime <- as.POSIXct(datetimecol, format='%d/%m/%Y %H:%M ',tz=timezone)
     else
       datetime <- as.POSIXct(datetimecol, format='%Y-%m-%d %H:%M ',tz=timezone)
-    
+
     variable.column.count <- export.column.count - 1
     export.vars <- export[, 2:export.column.count]
   }
   else
   {
     cat('File type is unknown\n')
-    return(FALSE)   
+    return(FALSE)
   }
-  
+
   # assemble data frame and assign names to columns
   datetime <- as.data.frame(datetime)
   export <- cbind(datetime, export.vars)
@@ -142,11 +142,11 @@ function(exportFile, timezone='', quiet=TRUE, logfile=''){
   names(export) <- var.names
   if(date.type == 'Excel')
     export <- makeRegular(export, timezone)
-  
+
   file.info <- CRHM_summary(export)
   if (!quiet)
     print(file.info)
-  
+
   # write to log file
   comment <- paste('readExportFile exportFile:',exportFile,
                    ' datetype:',date.type, ' Timezone: ', timezone, sep='')
