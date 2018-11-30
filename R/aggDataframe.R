@@ -8,6 +8,10 @@
 #' @param AggFilename Optional. File name for the aggregated data.
 #' @param startMonth Optional. Starting month, to be used when aggregating by hydrological year.
 #' @param useSecondYear Optional. Logical. Should the hydrological year be based on the first or second calendar year. In other words would January 1, 2015 be the hydrological year 2014 or 2015? The default is \code{TRUE} (i.e., the hydrological year would be 2015). Note that the Campbell Scientific program SPLIT uses the first calendar year (i.e., the hydrological year would be 2014). To emulate this program, set \code{useSecondYear} to be \code{FALSE}.
+#' @param omitMissing Optional. If \code{FALSE} missing (i.e. \code{NA_real_}) values will
+#' be included in the aggregation, causing the aggregated values to also be \code{NA_real_}, If
+#' \code{TRUE}, then the missing values will be omitted from the calculations. This option
+#' is only used by the functions \code{max}, \code{min}, \code{mean} and \code{sum}.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #' @return Returns a data frame with the aggregated values.
 #' @note The period of aggregation must be smaller than the time step of the CRHM data. This function does NOT remove \code{NA} values before aggregation. Use \command{na.omit} or one of the infilling functions (\code{\link{interpolate}} or \code{\link{impute}}) if you want to remove missing values.
@@ -22,7 +26,8 @@
 
 aggDataframe <-
   function(CRHMdataframe, columns=1, period="annual", funs=c("mean"),
-             AggFilename="", startMonth=10, useSecondYear=TRUE, logfile="") {
+             AggFilename="", startMonth=10, useSecondYear=TRUE,
+           omitMissing = FALSE, logfile="") {
     # aggregates a dataframe of CRHM variables (obs or outputs) to longer time periods
     if (period == "" | nrow(CRHMdataframe) == 0 | (length(columns) == 0)) {
       cat("Error: missing variables\n")
@@ -114,7 +119,8 @@ aggDataframe <-
     # do aggregation
 
     if (sum(stringr::str_detect(funs, "max"))) {
-      max.vals <- aggregate(selected, by = list(times), FUN = max)
+      max.vals <- aggregate(selected, by = list(times), FUN = "max",
+                            na.rm = omitMissing)
       max.names <- names(max.vals)[-1]
       max.vals <- data.frame(max.vals[, -1])
       max.names <- paste(max.names, ".max", sep = "")
@@ -123,7 +129,8 @@ aggDataframe <-
     }
 
     if (sum(stringr::str_detect(funs, "min"))) {
-      min.vals <- aggregate(selected, by = list(times), FUN = min)
+      min.vals <- aggregate(selected, by = list(times), FUN = "min",
+                            na.rm = omitMissing)
       min.names <- names(min.vals)[-1]
       min.vals <- data.frame(min.vals[, -1])
       min.names <- paste(min.names, ".min", sep = "")
@@ -132,7 +139,8 @@ aggDataframe <-
     }
 
     if (sum(stringr::str_detect(funs, "mean"))) {
-      mean.vals <- aggregate(selected, by = list(times), FUN = mean)
+      mean.vals <- aggregate(selected, by = list(times), FUN = "mean",
+                             na.rm = omitMissing)
       mean.names <- names(mean.vals)[-1]
       mean.vals <- data.frame(mean.vals[, -1])
       mean.names <- paste(mean.names, ".mean", sep = "")
@@ -141,7 +149,8 @@ aggDataframe <-
     }
 
     if (sum(stringr::str_detect(funs, "sum"))) {
-      sum.vals <- aggregate(selected, by = list(times), FUN = sum)
+      sum.vals <- aggregate(selected, by = list(times), FUN = "sum",
+                            na.rm = omitMissing)
       sum.names <- names(sum.vals)[-1]
       sum.vals <- data.frame(sum.vals[, -1])
       sum.names <- paste(sum.names, ".sum", sep = "")
@@ -150,7 +159,7 @@ aggDataframe <-
     }
 
     if (sum(stringr::str_detect(funs, "length"))) {
-      sum.vals <- aggregate(selected, by = list(times), FUN = length)
+      sum.vals <- aggregate(selected, by = list(times), FUN = "length")
       sum.names <- names(sum.vals)[-1]
       sum.vals <- data.frame(sum.vals[, -1])
       sum.names <- paste(sum.names, ".length", sep = "")

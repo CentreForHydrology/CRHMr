@@ -6,7 +6,7 @@
 \usage{
 aggDataframe(CRHMdataframe, columns = 1, period = "annual",
   funs = c("mean"), AggFilename = "", startMonth = 10,
-  useSecondYear = TRUE, logfile = "")
+  useSecondYear = TRUE, omitMissing = FALSE, logfile = "")
 }
 \arguments{
 \item{CRHMdataframe}{Required. A valid \pkg{CRHMr} data frame.}
@@ -22,6 +22,11 @@ aggDataframe(CRHMdataframe, columns = 1, period = "annual",
 \item{startMonth}{Optional. Starting month, to be used when aggregating by hydrological year.}
 
 \item{useSecondYear}{Optional. Logical. Should the hydrological year be based on the first or second calendar year. In other words would January 1, 2015 be the hydrological year 2014 or 2015? The default is \code{TRUE} (i.e., the hydrological year would be 2015). Note that the Campbell Scientific program SPLIT uses the first calendar year (i.e., the hydrological year would be 2014). To emulate this program, set \code{useSecondYear} to be \code{FALSE}.}
+
+\item{omitMissing}{Optional. If \code{FALSE} missing (i.e. \code{NA_real_}) values will
+be included in the aggregation, causing the aggregated values to also be \code{NA_real_}, If
+\code{TRUE}, then the missing values will be omitted from the calculations. This option
+is only used by the functions \code{max}, \code{min}, \code{mean} and \code{sum}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
