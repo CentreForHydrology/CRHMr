@@ -4,8 +4,8 @@
 #' @param CRHMoutput Required. The CRHM model output as a standard \pkg{CRHMr} dataframe (obs, export or output data)
 #' @param vars Optional. Variable column numbers to be used (not including the \code{datetime}). The default \option{all} selects all columns.
 #' @param prjFile Required. The CRHM .prj file.
-#' @param basinMean Optional. If \code{TRUE} (the default) then the fluxes and storages will be averaged over the entire basin. If \code{FALSE}, then fluxes and storages are computed for each HRU's area.
-#' @param summarize Optional. If \code{TRUE} (the default), then fluxes and storages are aggregated over the basin  for all HRUs. If \code{FALSE} then fluxes and storages are not aggregated and will be returned for all HRUs.
+#' @param basinMean Optional. If \code{TRUE} (the default) then the fluxes and storages will be reported as depths over the entire basin. If \code{FALSE}, then fluxes and storages are reported as depths over each HRU's area.
+#' @param summarize Optional. If \code{TRUE} (the default), then a single basin-wide value of each flux and storage is returned. If \code{FALSE} then the values of the fluxes and storages are returned for each HRU.
 #' @param units Optional. The units for output. The default is \option{mm}, but \option{m3/s} can also be specified.
 #' @param quiet Optional. Suppresses display of messages, except for errors. The default is TRUE. If you are calling this function in an R script, you will usually leave quiet=TRUE (i.e. the default). If you are working interactively, you will probably want to set quiet=FALSE.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.

@@ -15,9 +15,9 @@ simpleDailyWater(CRHMoutput, vars = "all", prjFile = "",
 
 \item{prjFile}{Required. The CRHM .prj file.}
 
-\item{basinMean}{Optional. If \code{TRUE} (the default) then the fluxes and storages will be averaged over the entire basin. If \code{FALSE}, then fluxes and storages are computed for each HRU's area.}
+\item{basinMean}{Optional. If \code{TRUE} (the default) then the fluxes and storages will be reported as depths over the entire basin. If \code{FALSE}, then fluxes and storages are reported as depths over each HRU's area.}
 
-\item{summarize}{Optional. If \code{TRUE} (the default), then fluxes and storages are aggregated over the basin  for all HRUs. If \code{FALSE} then fluxes and storages are not aggregated and will be returned for all HRUs.}
+\item{summarize}{Optional. If \code{TRUE} (the default), then a single basin-wide value of each flux and storage is returned. If \code{FALSE} then the values of the fluxes and storages are returned for each HRU.}
 
 \item{units}{Optional. The units for output. The default is \option{mm}, but \option{m3/s} can also be specified.}
 
