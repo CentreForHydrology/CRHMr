@@ -2,7 +2,7 @@
 #'
 #' A data frame containing information about all of the variables in CRHM that are likely to be output from a model run.
 #'
-#' @format A data frame with 674 rows and 5 variables:
+#' @format A data frame with 370 rows and 5 variables:
 #' \describe{
 #'   \item{name}{name of the variable}
 #'   \item{type}{type of variable (its dimensions)}

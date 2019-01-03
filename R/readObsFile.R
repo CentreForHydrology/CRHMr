@@ -60,6 +60,10 @@ function(obsFile='', timezone='', quiet=TRUE, logfile=''){
   header <- input[2:(header.linenum-1)]
   variables <- header[!stringr::str_detect(header,stringr::fixed('$'))]
 
+  # remove parentheses
+  variables <- stringr::str_replace_all(variables, stringr::fixed('('),'.')
+  variables <- stringr::str_replace_all(variables, stringr::fixed(')'),'')
+
   # get variable name and count
   variables <- stringr::str_trim(variables)
   # replace tabs with spaces to allow for parsing
@@ -127,7 +131,7 @@ function(obsFile='', timezone='', quiet=TRUE, logfile=''){
     datetime <- as.POSIXct(datetime, format='%Y-%m-%d %H %M',tz=timezone)
 
     variable.column.count <- obs.column.count - datetime.colcount
-    obs.vars <- obs[, (datetime.colcount+1):obs.column.count]
+    obs.vars <- obs[, (datetime.colcount + 1):obs.column.count]
   }
   else{
     # convert Excel time to POSIX
@@ -142,8 +146,20 @@ function(obsFile='', timezone='', quiet=TRUE, logfile=''){
   var.names <- c('datetime')
   for (i in 1:variable.type.count){
     var.nums <- seq(1:variable.count[i])
-    var.seq <- paste(variable.name[i],'.',var.nums, sep='')
-    var.names <- c(var.names, var.seq)
+    var.nam <- variable.name[i]
+
+    # check for new style CRHM variables,
+    # i.e. where each variable contains the HRU number
+    # and there is only 1 of each type
+
+    period_present <- stringr::str_detect(var.nam, stringr::fixed("."))
+
+    if(variable.count[i] == 1 & period_present){
+      var.names <- c(var.names, var.nam)
+    } else {
+      var.seq <- paste(variable.name[i],'.',var.nums, sep = '')
+      var.names <- c(var.names, var.seq)
+    }
   }
   names(obs) <- var.names
 

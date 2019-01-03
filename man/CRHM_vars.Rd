@@ -4,7 +4,7 @@
 \name{CRHM_vars}
 \alias{CRHM_vars}
 \title{CRHM variables}
-\format{A data frame with 674 rows and 5 variables:
+\format{A data frame with 370 rows and 5 variables:
 \describe{
   \item{name}{name of the variable}
   \item{type}{type of variable (its dimensions)}
