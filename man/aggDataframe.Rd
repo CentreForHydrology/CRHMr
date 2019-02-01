@@ -37,7 +37,8 @@ Returns a data frame with the aggregated values.
 CRHM data (observations and outputs) are generally produced at hourly time steps. This function aggregates CRHM data to daily, monthly or yearly values. The data can be aggregated by their maxima, minima, means, sums and any combination of these statistics.
 }
 \note{
-The period of aggregation must be smaller than the time step of the CRHM data. This function does NOT remove \code{NA} values before aggregation. Use \command{na.omit} or one of the infilling functions (\code{\link{interpolate}} or \code{\link{impute}}) if you want to remove missing values.
+The period of aggregation must be greater than the time step of the CRHM data.
+This function does NOT remove \code{NA} values before differencing.
 }
 \examples{
 Badlake.t.monthly <- aggDataframe(BadLake7376, period='monthly',

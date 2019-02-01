@@ -19,7 +19,7 @@
 #' variables$HRUs[1] <- '1 2'}
 readPrjOutputVariables <- function(prjFile, asDataframe=FALSE, logfile=''){
 
-  # check variables
+  # check parameters
   if (prjFile == ''){
     cat('Missing CRHM input .prj file name\n')
     return(FALSE)

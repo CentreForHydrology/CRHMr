@@ -14,7 +14,8 @@
 #' is only used by the functions \code{max}, \code{min}, \code{mean} and \code{sum}.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #' @return Returns a data frame with the aggregated values.
-#' @note The period of aggregation must be smaller than the time step of the CRHM data. This function does NOT remove \code{NA} values before aggregation. Use \command{na.omit} or one of the infilling functions (\code{\link{interpolate}} or \code{\link{impute}}) if you want to remove missing values.
+#' @note The period of aggregation must be greater than the time step of the CRHM data.
+#' This function does NOT remove \code{NA} values before differencing.
 #' @seealso \code{\link{interpolate}} \code{\link{impute}} \code{\link{yearlyPeaks}} \code{\link{hydroYear}}
 #' @author Kevin Shook
 #' @examples
