@@ -50,7 +50,7 @@ readPrjModuleParams <- function(moduleName, prjFile) {
 
   if (distr) {
     # inicio parámetros distribuidos en capas
-    if (moduleName != 'Shared*') {
+    if (moduleName != 'Shared*' | moduleName != 'Ayers*') {
       index   <- grep(pattern = moduleName, x = prj, ignore.case = FALSE)
       Naux    <- c(diff(index) - 1, 1) # number of rows to fill per iteration
       N       <- sum(Naux)             # total rows in matrix
