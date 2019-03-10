@@ -4,26 +4,38 @@
 #' output and/or WSC daily flows. The WSC flows are obtained from the \pkg{tidyhydat} package.
 #' The WSC data is truncated so that it only includes the range of the CRHM data.
 #' If more than a single year of data is specified, then the plot will be faceted by year.
-#' @param CRHMflows Optional. Optional. A data frame of CRHM modelled flows. The flows must be in m\eqn{^3}{^3}/s.
-#' @param CRHMflowsLabel Optional. Labels for the CRHM data. If not specified, and CRHM data are plotted, then the name(s) of the CRHM variable(s) will be used.
-#' @param CRHMflowCol Optional. Column containing the flowrates, not including the datetime. Default is 1.
-#' @param WSCdailyFlowsID Optional. If \code{NULL} (the default) the WSC daily flows will not be plotted. If a WSC station ID
-#' is specified , e.g. \code{WSCdailyFlowsID = "05CC001"}, then the daily flows will be obtained from \pkg{tidyhydat} and plotted.
-#' @param WSCdailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the WSC station number will be used, followed by \option{daily}.
-#' @param facetCols Optional. Number of columns to wrap the facets (if they are used). Setting a value less than 1 will cause an error.
-#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
+#' @param CRHMflows Optional. Optional. A data frame of CRHM modelled flows. The flows must
+#' be in m\eqn{^3}{^3}/s.
+#' @param CRHMflowsLabel Optional. Labels for the CRHM data. If not specified, and CRHM data
+#' are plotted, then the name of the CRHM variable will be used.
+#' @param CRHMflowCol Optional. Column containing the flowrates, not including the datetime.
+#' Default is 1.
+#' @param WSCdailyFlowsID Optional. If \code{NULL} (the default) the WSC daily flows will not be
+#' plotted. If a WSC station ID is specified , e.g. \code{WSCdailyFlowsID = "05CC001"}, then
+#' the daily flows will be obtained from \pkg{tidyhydat} and plotted.
+#' @param WSCdailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the
+#' WSC station number will be used, followed by \option{daily}.
+#' @param facetCols Optional. Number of columns to wrap the facets (if they are used).
+#' Setting a value less than 1 will cause an error.
+#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling
+#' this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default).
+#' If you are working interactively, you will probably want to set \code{quiet=FALSE}.
 #' @param hydat_path Optional. Path to the HYDAT database. This can usually be left blank.
-#' @return If successful, returns a \pkg{ggplot2} object containing the cumulative discharge plot. If unsuccessful, the value \code{FALSE} will be returned.
+#' @return If successful, returns a \pkg{ggplot2} object containing the cumulative discharge
+#' plot. If unsuccessful, the value \code{FALSE} will be returned.
 #' @author Kevin Shook
 #' @seealso \code{\link{hydrograph}}
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' p <- cumulativeDischargePlot(crhm, 'CRHM', 1, dailyflows, 'HYDAT', facetCols=4, quiet=FALSE)}
+#' p <- cumulativeDischargePlot(CRHMflows = crhm_output, WSCdailyFlowsID = "05FA025",
+#'  facetCols=2, quiet=FALSE)}
 cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowCol=1,
-                                    WSCdailyFlowsID=NULL, WSCdailyFlowsLabel="", facetCols=3,
-                                    quiet=TRUE, hydat_path=NULL) {
+                                    WSCdailyFlowsID=NULL, WSCdailyFlowsLabel="",
+                                    facetCols=3,
+                                    quiet=TRUE,
+                                    hydat_path=NULL) {
 
   # suppress checking of data frame variables used by ggplot2
   Q <- NULL
@@ -89,7 +101,6 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
   if (WSCflowsSelected) {
     # get WSC daily flows using tidyhydat
 
-
     if (CRHMselected) {
       WSCdailyFlows <- tidyhydat::hy_daily_flows(station_number = WSCdailyFlowsID,
                                                  hydat_path = hydat_path,
@@ -119,7 +130,6 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
 
 
   # select data to plot
-
   if (CRHMselected & WSCflowsSelected) {
     plotVals <- rbind(CRHMcumulative, WSCcumulative)
   } else if (CRHMselected) {
