@@ -1,18 +1,30 @@
 #' Plots hydrograph of CRHM output and/or WSC daily and/or peak flows
 #'
 #' @description Creates a \pkg{ggplot} hydrograph from any of CRHM flows, WSC daily flows and/or WSC peak flows.
-#' @param CRHMflows Optional. A data frame of CRHM modelled flows. The flows must be in m\eqn{^3}{^3}/s.
+#' @param CRHMflows Optional. A data frame of CRHM modelled flows. The flows must be in m\eqn{^3}{^3}/s. Remember
+#' to divide interval flows by their length in seconds, i.e. 3600 if hourly.
 #' @param CRHMflowsLabels Optional. Labels for the CRHM data. If not specified, and CRHM data are plotted, then the name(s) of the CRHM variables will be used.
 #' @param CRHMcols Required. Column(s) containing the flowrates. As always, the numbers do not include the \code{datetime}.
 #' @param CRHMdaily Optional. Should CRHM flows be plotted as daily values? Default is \code{FALSE}.
-#' @param WSCdailyFlows Optional. Dataframe containing WSC daily flows. The data frame is the same as is returned by the function \code{DailyHydrometricData} in the \pkg{HYDAT} package developed by David Hutchinson. The datframe has the columns \code{station_number}, \code{date}, \code{value} and \code{flag}. The \code{date} must be an \R date.
-#' @param WSCdailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the value in \code{station_number} will be used, followed by \option{daily}.
-#' @param WSCpeakFlows Optional. Dataframe containing WSC annual peak flows for a single station. The data frame is the same as is returned by the function \code{AnnualPeakData} in the \pkg{HYDAT} package developed by David Hutchinson. The data frame has the columns \code{station_number}, \code{data_type}, \code{year}, \code{peak_code}, \code{precision_code}, \code{month}, \code{day}, \code{hour}, \code{minute}, \code{time_zone}, \code{peak}, and \code{symbol}.
-#' @param WSCpeakFlowsLabel Optional. Labels for the annual peak flows. If not specified, then the value in \code{station_number} will be used, followed by \option{annual peak}.
-#' @param forceMissingPeakTimes Optional. Some peaks may be missing their time of day and/or time zone. If \code{TRUE}, the missing peak times will be set to noon on the date of record. The missing time zone will be set to that of the other values or the user's time zone if there are none specified. If \code{FALSE} (the default value) peaks missing times and/or timezones will be deleted from the plot.
-#' @param commonTime Optional. If set to \code{TRUE} then the hydrographs will only plotted over their common time range. Default is \code{FALSE}.
-#' @param fakeDates Optional. If set to \code{TRUE} then all dates have their year replaced with \code{2000}, and the actual year is added as a variable in the plotted data. This allows the plot to be faceted by year, as shown in the examples.
-#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
+#' @param WSCdailyFlowsID Optional. If \code{NULL} (the default) the WSC daily flows will not be plotted. If a WSC station ID
+#' is specified , e.g. \code{WSCdailyFlowsID = "05CC001"}, then the daily flows will be obtained from \pkg{tidyhydat} and plotted.
+#' @param WSCdailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the WSC station number will be used, followed by \option{daily}.
+#' @param WSCpeakFlowsID Optional. If \code{NULL} (the default) the WSC peak flows will not be plotted. If a WSC station number
+#' is specified , e.g. \code{WSCpeakFlows = "05CC001"}, then the daily flows will be obtained from \pkg{tidyhydat} and plotted.
+#' @param WSCpeakFlowsLabel Optional. Labels for the annual peak flows. If not specified, then the WSC station ID will be used,
+#' followed by \option{annual peak}.
+#' @param forceMissingPeakTimes Optional. Some peaks may be missing their time of day and/or time zone. If \code{TRUE},
+#' the missing peak times will be set to noon on the date of record. The missing time zone will be set to that of the other
+#' values or the user's time zone if there are none specified. If \code{FALSE} (the default value) peaks missing times and/or
+#' timezones will be deleted from the plot.
+#' @param commonTime Optional. If set to \code{TRUE} then the hydrographs will only plotted over their common time range.
+#' Default is \code{FALSE}.
+#' @param fakeDates Optional. If set to \code{TRUE} then all dates have their year replaced with \code{2000}, and the a
+#' ctual year is added as a variable in the plotted data. This allows the plot to be faceted by year, as shown in the examples.
+#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script,
+#' you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to
+#' set \code{quiet=FALSE}.
+#' @param hydat_path Optional. Path to the HYDAT database. This can usually be left blank.
 #' @return If successful, returns a \pkg{ggplot2} object. If unsuccessful, returns \code{FALSE}.
 #' @author Kevin Shook
 #' @note The CRHM flows are plotted as lines, the daily flows are plotted as steps, and the annual peaks are plotted as points.
@@ -20,7 +32,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' p <- hydrograph(BadLakeModel,'CRHM Bad Lake model',1, dailyFlows, '', peakFlows, '')
+#' p <- hydrograph(CRHMflows = "BadLakeModelOutput", CRHMflowsLabels = "CRHM Bad Lake model",
+#' CRHMcols = 1, WSCpeakFlowsID = "05HF014")
 #' # once the ggplot graph has been returned, it can easily be modified:
 #' mintime <- as.POSIXct(as.Date('1975-04-01', format='%Y-%m-%d'), tz='etc/GMT+6')
 #' maxtime <- as.POSIXct(as.Date('1975-04-30', format='%Y-%m-%d'), tz='etc/GMT+6')
@@ -29,7 +42,8 @@
 #' p <- p + xlim(mintime, maxtime) + ylim(0, 4)
 #'
 #' # re-plot with fake dates
-#' p2 <- hydrograph(BadLakeModel,'CRHM Bad Lake model',1, dailyFlows, '', peakFlows, '',
+#' p2 <- hydrograph(CRHMflows = "BadLakeModelOutput", CRHMflowsLabels = "CRHM Bad Lake model",
+#' CRHMcols = 1, WSCdailyFlowsID = "05HF014", WSCpeakFlowsID = "05HF014",
 #' commonTime=TRUE, fakeDates=TRUE)
 #' p2 <- p2 + facet_wrap(~year, scales='free_y', ncol=8)
 #' # set axis limits to be the specified date range, and set labels to be the month names
@@ -39,19 +53,21 @@
 #' limits=c(mintime, maxtime), date_labels = "%b")
 #' }
 hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMdaily=FALSE,
-                       WSCdailyFlows=NULL, WSCdailyFlowsLabel="", WSCpeakFlows=NULL,
-                       WSCpeakFlowsLabel="", forceMissingPeakTimes=FALSE, commonTime=FALSE, fakeDates=FALSE, quiet=TRUE) {
+                       WSCdailyFlowsID=NULL, WSCdailyFlowsLabel="", WSCpeakFlowsID=NULL,
+                       WSCpeakFlowsLabel="", forceMissingPeakTimes=FALSE, commonTime=FALSE,
+                       fakeDates=FALSE, quiet=TRUE, hydat_path = NULL) {
 
   # suppress checking of data frame variables used by ggplot2
   datetime <- NULL
   value <- NULL
+  Value <- NULL
   variable <- NULL
-  value <- NULL
   label <- NULL
   peak <- NULL
 
 
-  # check parameters
+  # check parameters to see which data sets are to be plotted
+
   if (!is.null(CRHMflows)) {
     CRHMselected <- TRUE
     if (CRHMflowsLabels == "") {
@@ -69,7 +85,7 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMda
     CRHMselected <- FALSE
   }
 
-  if (!is.null(WSCdailyFlows)) {
+  if (!is.null(WSCdailyFlowsID)) {
     WSCdailyFlowsSelected <- TRUE
 
     if (WSCdailyFlowsLabel == "") {
@@ -79,10 +95,13 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMda
     }
 
     if (!WSCdailyFlowsLabelSpecified) {
-      WSCdailyFlowsLabel <- paste(WSCdailyFlows$station_number[1], " daily", sep = "")
+      WSCdailyFlowsLabel <- paste(WSCdailyFlowsID, " daily", sep = "")
     }
 
-    WSCdailyFlows <- WSCdailyFlows[, c("date", "value")]
+    # get WSC daily flows using tidyhydat
+    WSCdailyFlows <- tidyhydat::hy_daily_flows(station_number = WSCdailyFlowsID, hydat_path = hydat_path)
+    WSCdailyFlows <- WSCdailyFlows[, c("Date", "Value")]
+    names(WSCdailyFlows) <- c("date", "value")
     WSCdailyFlows$label <- WSCdailyFlowsLabel
 
     # force timezone to be same as current
@@ -99,7 +118,7 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMda
     dailyFlowsSelected <- FALSE
   }
 
-  if (!is.null(WSCpeakFlows)) {
+  if (!is.null(WSCpeakFlowsID)) {
     WSCpeakFlowsSelected <- TRUE
     if (WSCpeakFlowsLabel == "") {
       WSCpeakFlowsLabelSpecified <- FALSE
@@ -107,8 +126,13 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMda
       WSCpeakFlowsLabelSpecified <- TRUE
     }
 
-    WSCpeakFlows <- WSCpeakFlows[WSCpeakFlows$peak_code == "MAXIMUM", ]
-    WSCtimezone <- WSCpeakFlows$time_zone
+    # get WSC peak flows using tidyhydat
+
+    WSCpeakFlows <- tidyhydat::hy_annual_instant_peaks(station_number = WSCpeakFlowsID, hydat_path = hydat_path)
+    names(WSCpeakFlows)[2] <- "datetime"
+
+    # select max flows
+    WSCpeakFlows <- WSCpeakFlows[WSCpeakFlows$Parameter == "Flow" & WSCpeakFlows$PEAK_CODE == "MAX",]
 
     if (forceMissingPeakTimes) {
       WSCpeakFlows$hour[is.na(WSCpeakFlows$hour)] <- 12
@@ -129,40 +153,7 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMda
       WSCtimezone[is.na(WSCtimezone)] <- fakeTZ
     }
 
-    # change timezone for Windows
-    # From Dave Hutchinson, the abberviations are: EST, AST, CST, NST, MST, MDT, PST, YST, *, AKST, 0
-    WSCtimezone[WSCtimezone == "EST"] <- "Etc/GMT+5"
-    WSCtimezone[WSCtimezone == "AST"] <- "Etc/GMT+4"
-    WSCtimezone[WSCtimezone == "CST"] <- "Etc/GMT+6"
-    WSCtimezone[WSCtimezone == "NST"] <- "Etc/GMT+3:30"
-    WSCtimezone[WSCtimezone == "MST"] <- "Etc/GMT+7"
-    WSCtimezone[WSCtimezone == "MDT"] <- "America/Edmonton"
-    WSCtimezone[WSCtimezone == "PST"] <- "Etc/GMT+8"
-    WSCtimezone[WSCtimezone == "YST"] <- "Etc/GMT+9"
-    WSCtimezone[WSCtimezone == "AKST"] <- "Etc/GMT+9"
-
-    WSCpeakFlows$time_zone <- WSCtimezone
-
-    # remove rows with missing dates and times
-    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$year), ]
-    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$month), ]
-    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$day), ]
-    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$hour), ]
-    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$minute), ]
-    WSCpeakFlows <- WSCpeakFlows[!is.na(WSCpeakFlows$time_zone), ]
-
-    # convert date + time to datetime
-    WSCpeakFlows$datetime <- paste(WSCpeakFlows$year, "-", WSCpeakFlows$month, "-", WSCpeakFlows$day, " ",
-      WSCpeakFlows$hour, ":", WSCpeakFlows$minute,
-      sep = ""
-    )
-
-
-
-    # convert to POSIXct datetime
-    WSCpeakFlows$datetime <- as.POSIXct(WSCpeakFlows$datetime, format = "%Y-%m-%d %H:%M", tz = WSCpeakFlows$time_zone[1])
-
-    # force timezone to be same as current
+      # force timezone to be same as current
     WSCpeakFlows$datetime <- lubridate::force_tz(WSCpeakFlows$datetime, tzone = Sys.timezone())
     WSCpeakFlows$year <- as.numeric(format(WSCpeakFlows$datetime, format = "%Y"))
 
@@ -309,7 +300,7 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMda
 
   if (WSCpeakFlowsSelected) {
     if (!WSCpeakFlowsLabelSpecified) {
-      WSCpeakFlowsLabel <- paste(WSCpeakFlows$station_number, " annual peak", sep = "")
+      WSCpeakFlowsLabel <- paste(WSCpeakFlowsID, " annual peak", sep = "")
     }
     WSCpeakFlows$label <- WSCpeakFlowsLabel
 
@@ -325,11 +316,11 @@ hydrograph <- function(CRHMflows=NULL, CRHMflowsLabels="", CRHMcols=NULL, CRHMda
       fakedatetimes <- paste(fakeyear, "-", format(WSCpeakFlows$datetime, format = "%m-%d %H:%M"), sep = "")
       WSCpeakFlows$datetime <- as.POSIXct(fakedatetimes, format = "%Y-%m-%d %H:%M", tzone = "")
     }
-    WSCpeakFlows <- WSCpeakFlows[, c("label", "datetime", "peak", "year")]
+    WSCpeakFlows <- WSCpeakFlows[, c("label", "datetime", "Value", "year")]
     WSCpeakFlows <- na.omit(WSCpeakFlows)
 
     p <- p + ggplot2::geom_point(data = WSCpeakFlows, ggplot2::aes(
-      x = datetime, y = peak,
+      x = datetime, y = Value,
       fill = label
     ), color = "black", shape = 3, size = 2)
   }

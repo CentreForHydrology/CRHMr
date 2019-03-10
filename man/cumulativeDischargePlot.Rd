@@ -2,11 +2,11 @@
 % Please edit documentation in R/cumulativeDischargePlot.R
 \name{cumulativeDischargePlot}
 \alias{cumulativeDischargePlot}
-\title{Plots cumulative CRHM and/or HYDAT flows}
+\title{Plots cumulative CRHM and/or WSC flows}
 \usage{
 cumulativeDischargePlot(CRHMflows = NULL, CRHMflowsLabel = "",
-  CRHMflowCol = 1, HYDATflows = NULL, HYDATflowsLabel = "",
-  facetCols = 3, quiet = TRUE)
+  CRHMflowCol = 1, WSCdailyFlowsID = NULL, WSCdailyFlowsLabel = "",
+  facetCols = 3, quiet = TRUE, hydat_path = NULL)
 }
 \arguments{
 \item{CRHMflows}{Optional. Optional. A data frame of CRHM modelled flows. The flows must be in m\eqn{^3}{^3}/s.}
@@ -15,19 +15,25 @@ cumulativeDischargePlot(CRHMflows = NULL, CRHMflowsLabel = "",
 
 \item{CRHMflowCol}{Optional. Column containing the flowrates, not including the datetime. Default is 1.}
 
-\item{HYDATflows}{Optional. Data frame containing WSC daily flows. The data frame is the same as is returned by the function \code{DailyHydrometric} in the package \pkg{HYDAT} developed by David Hutchinson. The data frame has the columns \code{STATION_NUMBER}, \code{DATE}, \code{VALUE} and \code{FLAG}. The \code{DATE} must be an \R date.}
+\item{WSCdailyFlowsID}{Optional. If \code{NULL} (the default) the WSC daily flows will not be plotted. If a WSC station ID
+is specified , e.g. \code{WSCdailyFlowsID = "05CC001"}, then the daily flows will be obtained from \pkg{tidyhydat} and plotted.}
 
-\item{HYDATflowsLabel}{Optional. Labels for the daily flows. If not specified, then the value in \code{STATION_NUMBER} will be used, followed by 'daily'.}
+\item{WSCdailyFlowsLabel}{Optional. Labels for the daily flows. If not specified, then the WSC station number will be used, followed by \option{daily}.}
 
 \item{facetCols}{Optional. Number of columns to wrap the facets (if they are used). Setting a value less than 1 will cause an error.}
 
 \item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+
+\item{hydat_path}{Optional. Path to the HYDAT database. This can usually be left blank.}
 }
 \value{
 If successful, returns a \pkg{ggplot2} object containing the cumulative discharge plot. If unsuccessful, the value \code{FALSE} will be returned.
 }
 \description{
-Creates a \pkg{ggplot} object of annual cumulative flows from data frames of CRHM and/or HYDAT data. The HYDAT flows can be obtained using the \pkg{HYDAT} package created by David Hutchinson. The HYDAT data is truncated so that it only includes the range of the CRHM data. If more than a single year of data is specified, then the plot will be faceted by year.
+Creates a \pkg{ggplot} object of annual cumulative flows from a data frame of CRHM
+output and/or WSC daily flows. The WSC flows are obtained from the \pkg{tidyhydat} package.
+The WSC data is truncated so that it only includes the range of the CRHM data.
+If more than a single year of data is specified, then the plot will be faceted by year.
 }
 \examples{
 \dontrun{

@@ -20,7 +20,8 @@ These packages are:
 - stringr(>= 1.0)
 - zoo
 
-In addition, CRHMr also supports the package **HYDAT** by Dave Hutchinsion, which is available from https://github.com/CentreForHydrology/HYDAT. If you are using this package, then you will have to install it, as well as the package RSQLite.
+In addition, CRHMr also supports the package **tidyhydat** , which is available from CRAN. If you are using this package, then you will have to install it, as well as all of its dependencies. You will also have to download the current HYDAT database. It is strongly recommended that you use tidyhydat on its
+own before using it in CRHMr.
 
 The package **EcoHydRology** is optionally used by the CRHMr function distributeQsi. If you are going to be generating sub-daily incoming shortwave radiation data, it is hightly recommended that you install this package. 
 

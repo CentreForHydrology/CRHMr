@@ -1,14 +1,18 @@
-#' Plots cumulative CRHM and/or HYDAT flows
+#' Plots cumulative CRHM and/or WSC flows
 #'
-#' @description Creates a \pkg{ggplot} object of annual cumulative flows from data frames of CRHM and/or HYDAT data. The HYDAT flows can be obtained using the \pkg{HYDAT} package created by David Hutchinson. The HYDAT data is truncated so that it only includes the range of the CRHM data. If more than a single year of data is specified, then the plot will be faceted by year.
+#' @description Creates a \pkg{ggplot} object of annual cumulative flows from a data frame of CRHM
+#' output and/or WSC daily flows. The WSC flows are obtained from the \pkg{tidyhydat} package.
+#' The WSC data is truncated so that it only includes the range of the CRHM data.
+#' If more than a single year of data is specified, then the plot will be faceted by year.
 #' @param CRHMflows Optional. Optional. A data frame of CRHM modelled flows. The flows must be in m\eqn{^3}{^3}/s.
 #' @param CRHMflowsLabel Optional. Labels for the CRHM data. If not specified, and CRHM data are plotted, then the name(s) of the CRHM variable(s) will be used.
 #' @param CRHMflowCol Optional. Column containing the flowrates, not including the datetime. Default is 1.
-#' @param HYDATflows Optional. Data frame containing WSC daily flows. The data frame is the same as is returned by the function \code{DailyHydrometric} in the package \pkg{HYDAT} developed by David Hutchinson. The data frame has the columns \code{STATION_NUMBER}, \code{DATE}, \code{VALUE} and \code{FLAG}. The \code{DATE} must be an \R date.
-#' @param HYDATflowsLabel Optional. Labels for the daily flows. If not specified, then the value in \code{STATION_NUMBER} will be used, followed by 'daily'.
+#' @param WSCdailyFlowsID Optional. If \code{NULL} (the default) the WSC daily flows will not be plotted. If a WSC station ID
+#' is specified , e.g. \code{WSCdailyFlowsID = "05CC001"}, then the daily flows will be obtained from \pkg{tidyhydat} and plotted.
+#' @param WSCdailyFlowsLabel Optional. Labels for the daily flows. If not specified, then the WSC station number will be used, followed by \option{daily}.
 #' @param facetCols Optional. Number of columns to wrap the facets (if they are used). Setting a value less than 1 will cause an error.
 #' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
-#'
+#' @param hydat_path Optional. Path to the HYDAT database. This can usually be left blank.
 #' @return If successful, returns a \pkg{ggplot2} object containing the cumulative discharge plot. If unsuccessful, the value \code{FALSE} will be returned.
 #' @author Kevin Shook
 #' @seealso \code{\link{hydrograph}}
@@ -18,7 +22,8 @@
 #' \dontrun{
 #' p <- cumulativeDischargePlot(crhm, 'CRHM', 1, dailyflows, 'HYDAT', facetCols=4, quiet=FALSE)}
 cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowCol=1,
-                                    HYDATflows=NULL, HYDATflowsLabel="", facetCols=3, quiet=TRUE) {
+                                    WSCdailyFlowsID=NULL, WSCdailyFlowsLabel="", facetCols=3,
+                                    quiet=TRUE, hydat_path=NULL) {
 
   # suppress checking of data frame variables used by ggplot2
   Q <- NULL
@@ -39,21 +44,21 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
     CRHMselected <- FALSE
   }
 
-  if (!is.null(HYDATflows)) {
-    HYDATflowsSelected <- TRUE
+  if (!is.null(WSCdailyFlowsID)) {
+    WSCflowsSelected <- TRUE
 
-    if (HYDATflowsLabel == "") {
-      HYDATflowsLabel <- HYDATflows$STATION_NUMBER[1]
+    if (WSCdailyFlowsLabel == "") {
+      WSCdailyFlowsLabel <- WSCdailyFlowsID
     }
   }
   else {
     if (!quiet) {
       cat("No daily flow data selected\n")
     }
-    HYDATflowsSelected <- FALSE
+    WSCflowsSelected <- FALSE
   }
 
-  if (!CRHMselected & !HYDATflowsSelected) {
+  if (!CRHMselected & !WSCflowsSelected) {
     cat("Error: no data selected\n")
     return(FALSE)
   }
@@ -81,38 +86,46 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
     CRHMcumulative$variable <- CRHMflowsLabel
   }
 
-  if (HYDATflowsSelected) {
-    # get selected column and aggregate it to daily
-    HYDATflows <- HYDATflows[, c("DATE", "VALUE")]
-    names(HYDATflows) <- c("date", "Q")
+  if (WSCflowsSelected) {
+    # get WSC daily flows using tidyhydat
+
+
     if (CRHMselected) {
-      HYDATflows <- HYDATflows[(HYDATflows$date >= CRHMfirstdate) &
-        (HYDATflows$date <= CRHMlastdate), ]
+      WSCdailyFlows <- tidyhydat::hy_daily_flows(station_number = WSCdailyFlowsID,
+                                                 hydat_path = hydat_path,
+                                                 start_date = CRHMfirstdate,
+                                                 end_date = CRHMlastdate)
+
+    } else {
+      WSCdailyFlows <- tidyhydat::hy_daily_flows(station_number = WSCdailyFlowsID, hydat_path = hydat_path)
     }
+
+    WSCdailyFlows <- WSCdailyFlows[, c("Date", "Value")]
+    names(WSCdailyFlows) <- c("date", "Q")
     # accumulate
-    HYDATcumulative <- plyr::ddply(HYDATflows,
+    WSCcumulative <- plyr::ddply(WSCdailyFlows,
       plyr::.(lubridate::year(date)),
       transform,
       cumulQ = cumsum(Q)
     )
 
-    names(HYDATcumulative)[1] <- "year"
-    HYDATcumulative <- HYDATcumulative[, c("date", "year", "cumulQ")]
+    names(WSCcumulative)[1] <- "year"
+    WSCcumulative <- WSCcumulative[, c("date", "year", "cumulQ")]
 
     # convert from m3/s per day to volume (dam3)
-    HYDATcumulative$cumulQ <- HYDATcumulative$cumulQ * 24 * 3600 / 1e6
-    HYDATcumulative$variable <- HYDATflowsLabel
+    WSCcumulative$cumulQ <- WSCcumulative$cumulQ * 24 * 3600 / 1e6
+    WSCcumulative$variable <- WSCdailyFlowsLabel
   }
 
 
   # select data to plot
 
-  if (CRHMselected & HYDATflowsSelected) {
-    plotVals <- rbind(CRHMcumulative, HYDATcumulative)
+  if (CRHMselected & WSCflowsSelected) {
+    plotVals <- rbind(CRHMcumulative, WSCcumulative)
   } else if (CRHMselected) {
     plotVals <- CRHMcumulative
   } else {
-    plotVals <- HYDATcumulative
+    plotVals <- WSCcumulative
   }
 
   # now do plot
