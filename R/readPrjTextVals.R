@@ -1,5 +1,7 @@
 #' Reads text values from a CRHM project text object
-#' @description Reads numeric values from a project file variable. The number of values to be read in does not need to be specified. This is an internal function and is not able to be called by a function outside of \pkg{CRHMr}, as it is not exported. This documentation is for maintenance purposes.
+#' @description Reads numeric values from a project file variable. The number of values to be read in does not need to be specified.
+#' This is an internal function and is not able to be called by a function outside of \pkg{CRHMr}, as it is not exported.
+#' This documentation is for maintenance purposes.
 #'
 #' @param prj Required. A CRHM file read into memory as a sequence of lines, as returned from \code{readPrj}.
 #' @param searchString Required. The identifying string.
