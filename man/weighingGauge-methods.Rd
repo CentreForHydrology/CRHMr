@@ -4,7 +4,9 @@
 \alias{weighingGauge-methods}
 \title{Processes weighing gauge precipitation}
 \description{
-These functions clean accumulated precipitation data from a weighing gauge. The functions are wrapper for other \R and \pkg{CRHMr} functions as well as functions adapted from MATLAB code by Alan Barr. The typical sequence of operation of the functions is indicated by their numbers, however it it NOT always necessary to execute any given function.
+These functions clean accumulated precipitation data from a weighing gauge. The functions are wrapper for other
+\R and \pkg{CRHMr} functions as well as functions adapted from MATLAB code by Alan Barr. The typical sequence of operation of
+the functions is indicated by their numbers, however it it NOT always necessary to execute any given function.
 \describe{
  \item{weighingGaugePlot}{Plots cumulative and interval precipitation}
  \item{weighingGauge1}{Gap fills the data}

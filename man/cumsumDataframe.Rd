@@ -13,7 +13,8 @@ cumsumDataframe(df)
 Returns a dataframe containing the cumulative sums of all columns in the original data frame.
 }
 \description{
-Finds the cumulative sum of all columns in a data frame. Note that all columns must be numeric - date and datetime variables cannot be summed.
+Finds the cumulative sum of all columns in a data frame. Note that all columns must be numeric - date and
+datetime variables cannot be summed.
 }
 \note{
 This function is used by other \pkg{CRHMr} functions, so it does \emph{NO} parameter testing.

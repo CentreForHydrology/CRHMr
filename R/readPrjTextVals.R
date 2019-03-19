@@ -1,5 +1,5 @@
 #' Reads text values from a CRHM project text object
-#' @description Reads numeric values from a project file variable. The number of values to be read in does not need to be specified.
+#' @description Reads text values from a project file variable. The number of values to be read in does not need to be specified.
 #' This is an internal function and is not able to be called by a function outside of \pkg{CRHMr}, as it is not exported.
 #' This documentation is for maintenance purposes.
 #'
@@ -22,7 +22,6 @@ readPrjTextVals <- function(prj, searchString, valueCount){
   done <- FALSE
 
   while (!done){
-    # check to see if numeric or not
     current <- prj[line_num]
     current_vals <- parseText(current)
     current_val_count <- length(current_vals)

@@ -9,12 +9,14 @@ cumulDailyWater(dailyWaterVals, waterYear = FALSE, logfile = "")
 \arguments{
 \item{dailyWaterVals}{Required. CRHM daily water fluxes as calculated by \code{simpleDailyWater}.}
 
-\item{waterYear}{Optional. If \code{FALSE} the fluxes are accumlated by calendar year. If \code{TRUE} the fluxes are accumulated by the water year, based on the first month of the model output.}
+\item{waterYear}{Optional. If \code{FALSE} the fluxes are accumlated by calendar year. If \code{TRUE} the fluxes
+are accumulated by the water year, based on the first month of the model output.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a data frame containing the date and the cumulative values of each variable. If unsuccessful, returns \code{FALSE}.
+If successful, returns a data frame containing the date and the cumulative values of each variable.
+If unsuccessful, returns \code{FALSE}.
 }
 \description{
 Accumulates water fluxes by year or water year. The values are cumulative for each day.

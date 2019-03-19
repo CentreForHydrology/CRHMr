@@ -2,12 +2,19 @@
 #'
 #' @description CRHM data (observations and outputs) are generally produced at hourly time steps. This function aggregates CRHM data to daily, monthly or yearly values. The data can be aggregated by their maxima, minima, means, sums and any combination of these statistics.
 #' @param CRHMdataframe Required. A valid \pkg{CRHMr} data frame.
-#' @param columns The columns to be aggregated, not including the datetime. The default is the first column. This can be a vector, i.e. c(1,2,3).
-#' @param period The period of aggregation. Must be one of \option{hourly}, \option{daily}, \option{monthly}, \option{yearly} (or \option{annual}) or \option{hydro}. Default is \option{yearly}. Multiple-hour aggregation is not yet supported.
-#' @param funs A character vector containing the function(s) for aggregation. The default is \option{mean}, but can also include \option{min}, \option{max}, \option{sum} and \option{length}. The function(s) will be applied to all of the specified columns
+#' @param columns The columns to be aggregated, not including the datetime. The default is the first column.
+#' This can be a vector, i.e. c(1,2,3).
+#' @param period The period of aggregation. Must be one of \option{hourly}, \option{daily}, \option{monthly}, \option{yearly}
+#' (or \option{annual}) or \option{hydro}. Default is \option{yearly}. Multiple-hour aggregation is not yet supported.
+#' @param funs A character vector containing the function(s) for aggregation. The default is \option{mean},
+#' but can also include \option{min}, \option{max}, \option{sum}, \option{length}, \code{delta}, and \code{first}. The function(s) will be applied to all of the specified columns
 #' @param AggFilename Optional. File name for the aggregated data.
 #' @param startMonth Optional. Starting month, to be used when aggregating by hydrological year.
-#' @param useSecondYear Optional. Logical. Should the hydrological year be based on the first or second calendar year. In other words would January 1, 2015 be the hydrological year 2014 or 2015? The default is \code{TRUE} (i.e., the hydrological year would be 2015). Note that the Campbell Scientific program SPLIT uses the first calendar year (i.e., the hydrological year would be 2014). To emulate this program, set \code{useSecondYear} to be \code{FALSE}.
+#' @param useSecondYear Optional. Logical. Should the hydrological year be based on the first or second calendar year.
+#' In other words would January 1, 2015 be the hydrological year 2014 or 2015? The default is \code{TRUE}
+#' (i.e., the hydrological year would be 2015). Note that the Campbell Scientific program SPLIT uses the
+#' first calendar year (i.e., the hydrological year would be 2014). To emulate this program, set \code{useSecondYear}
+#' to be \code{FALSE}.
 #' @param omitMissing Optional. If \code{FALSE} missing (i.e. \code{NA_real_}) values will
 #' be included in the aggregation, causing the aggregated values to also be \code{NA_real_}, If
 #' \code{TRUE}, then the missing values will be omitted from the calculations. This option
@@ -25,10 +32,10 @@
 #' columns=c(6,7,8), funs=c('mean'))
 #' @export
 
-aggDataframe <-
-  function(CRHMdataframe, columns=1, period="annual", funs=c("mean"),
+aggDataframe <- function (CRHMdataframe, columns=1, period="annual", funs=c("mean"),
              AggFilename="", startMonth=10, useSecondYear=TRUE,
            omitMissing = FALSE, logfile="") {
+
     # aggregates a dataframe of CRHM variables (obs or outputs) to longer time periods
     if (period == "" | nrow(CRHMdataframe) == 0 | (length(columns) == 0)) {
       cat("Error: missing variables\n")
@@ -160,12 +167,23 @@ aggDataframe <-
     }
 
     if (sum(stringr::str_detect(funs, "length"))) {
-      sum.vals <- aggregate(selected, by = list(times), FUN = "length")
-      sum.names <- names(sum.vals)[-1]
-      sum.vals <- data.frame(sum.vals[, -1])
-      sum.names <- paste(sum.names, ".length", sep = "")
-      names(sum.vals) <- sum.names
-      agg <- cbind(agg, sum.vals)
+      length.vals <- aggregate(selected, by = list(times), FUN = "length")
+      length.names <- names(sum.vals)[-1]
+      length.vals <- data.frame(sum.vals[, -1])
+      length.names <- paste(length.names, ".length", sep = "")
+      names(length.vals) <- length.names
+      agg <- cbind(agg, length.vals)
+    }
+
+    if (sum(stringr::str_detect(funs, "first"))) {
+      first_days <- lubridate::floor_date(CRHMdataframe$datetime, "month")
+      first.vals <- selected[CRHMdataframe$datetime == first_days,]
+      first_dates <- CRHMdataframe$datetime[CRHMdataframe$datetime == first_days]
+      first.names <- names(selected)
+      first.vals <- data.frame(first_dates, first.vals)
+      first.names <- paste(first.names, ".first", sep = "")
+      names(first.vals) <- c(names(agg)[1], first.names)
+      agg <- merge(agg, first.vals, all.x = TRUE)
     }
 
     if (sum(stringr::str_detect(funs, "delta"))) {

@@ -7,15 +7,19 @@
 basinWaterBalancePlot(yearlyWater, negCols = "")
 }
 \arguments{
-\item{yearlyWater}{Required. A data frame of water balance components. The first column must be the year. Note that this function does not allow you to select columns - all columns will be plotted.}
+\item{yearlyWater}{Required. A data frame of water balance components. The first column must be the year. Note that
+this function does not allow you to select columns - all columns will be plotted.}
 
-\item{negCols}{Optional. Columns to be plotted as negative values. If not specified (the default) the columns will be guessed from their names.}
+\item{negCols}{Optional. Columns to be plotted as negative values. If not specified (the default) the columns will
+be guessed from their names.}
 }
 \value{
-If successful returns a \pkg{ggplot2} object showing stacked bars of the water balance components for each year. If unsuccessful returns \code{FALSE}.
+If successful returns a \pkg{ggplot2} object showing stacked bars of the water balance components for each year.
+If unsuccessful returns \code{FALSE}.
 }
 \description{
-Creates a stacked bar plot of all water balance components computed for a basin. Basin inputs are plotted as positive values, outputs are plotted as negative.
+Creates a stacked bar plot of all water balance components computed for a basin. Basin inputs are plotted
+as positive values, outputs are plotted as negative.
 }
 \examples{
 \dontrun{

@@ -9,13 +9,18 @@ readOutputUnits(outputFile, quiet = TRUE)
 \arguments{
 \item{outputFile}{Required. A CRHM output file.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script,
+you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to
+set \code{quiet = FALSE}.}
 }
 \value{
-If successful, returns a \pkg{CRHMr} data frame containing the name of each variable and its units. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns a \pkg{CRHMr} data frame containing the name of each variable and its units. If unsuccessful,
+returns the value \code{FALSE}.
 }
 \description{
-Gets units for all variables in a specified CRHM output file. If the file is the new CRHM format, then the units are read directly from the second line of the file. If the file is in the older CRHM format, then units are found by matching the variables to those in the internal data frame \code{CRHM_vars}.
+Gets units for all variables in a specified CRHM output file. If the file is the new CRHM format,
+then the units are read directly from the second line of the file. If the file is in the older CRHM format,
+then units are found by matching the variables to those in the internal data frame \code{CRHM_vars}.
 }
 \examples{
 \dontrun{

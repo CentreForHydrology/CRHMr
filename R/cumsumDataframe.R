@@ -1,5 +1,6 @@
 #' Cumulative sums for a data frame
-#' @description Finds the cumulative sum of all columns in a data frame. Note that all columns must be numeric - date and datetime variables cannot be summed.
+#' @description Finds the cumulative sum of all columns in a data frame. Note that all columns must be numeric - date and
+#' datetime variables cannot be summed.
 #' @param df Required. Data frame to be summed.
 #'
 #' @return Returns a dataframe containing the cumulative sums of all columns in the original data frame.

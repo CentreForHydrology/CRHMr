@@ -15,7 +15,8 @@ longwave(em, tK)
 Returns the longwave radiation in W/m\eqn{^2}{^2}.
 }
 \description{
-Calculates the incoming longwave radiation from the specified emissivity and air temperatures. This is an internal \pkg{CRHMr} function and should \emph{never} need to be called directly, as it does \emph{NO} data checking.
+Calculates the incoming longwave radiation from the specified emissivity and air temperatures.
+This is an internal \pkg{CRHMr} function and should \emph{never} need to be called directly, as it does \emph{NO} data checking.
 }
 \examples{
 longwave(0.2, 293)
