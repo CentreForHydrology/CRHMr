@@ -116,19 +116,29 @@ wetland_pond_size <- function(CRHM_output = NULL,
 
   # create data structure to hold pond area, and depth
   wetland_pond_depths <- matrix(nrow = intervals, ncol = num_wetlands)
-  wetland_pond_areas <- matrix(nrow = intervals, ncol = num_wetlands)
+  wetland_pond_areas <- wetland_pond_depths
+  wetland_pond_volumes <- wetland_pond_depths
 
   output_names <- names(CRHM_output)
 
-  # calculate the area and depth for each interva;
-  pond_volumes <- (wetland_sd_vals / 1000 ) * wetland_area   # m
-  depths <- wetland_pond_depth(pond_volume = pond_volumes, p = wetland_dimensions$p, s = wetland_dimensions$s)
-  areas <- wetland_pond_area(pond_depth = depths, p = wetland_dimensions$p, s = wetland_dimensions$s)
+  # calculate the area and depth for each interval
+ numcols <- ncol(wetland_sd_vals)
+ for (col in 1:numcols) {
+    wetland_pond_volumes[, col] <- (wetland_sd_vals[, col] / 1000) * wetland_area[col]
+    wetland_pond_depths[, col] <- wetland_pond_depth(pond_volume = wetland_pond_volumes[, col],
+                                                    p = wetland_dimensions$p[col],
+                                                    s = wetland_dimensions$s[col])
+
+    wetland_pond_areas[, col] <- wetland_pond_area(pond_depth = wetland_pond_depths[, col],
+                                                   p = wetland_dimensions$p[col],
+                                                   s = wetland_dimensions$s[col])
+  }
+
 
   # now assemble output
-  wetland_pond_perimeters <- 2 * sqrt(areas * pi)
+  wetland_pond_perimeters <- 2 * sqrt(wetland_pond_areas * pi)
 
-  all_values <- data.frame(CRHM_output[, 1], areas, depths, wetland_pond_perimeters)
+  all_values <- data.frame(CRHM_output[, 1], wetland_pond_areas, wetland_pond_depths, wetland_pond_perimeters)
 
 
   pond_nums <- seq(1:num_wetlands)
