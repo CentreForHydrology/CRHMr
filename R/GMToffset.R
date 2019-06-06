@@ -1,10 +1,17 @@
 #' Finds offset in hours from UTC for given time zone.
 #'
-#' @param timezone Required. A string containing the time zone. Works with designated time zones such as \option{CST} and \option{MST} for Central Standard or Mountain Standard time or offset time zones such as \option{etc/GMT+6} or \option{etc/GMT+7} for Central Standard and Mountain Standard time. Does NOT work with location time zones like \option{America/Regina}.
+#' @param timezone Required. A string containing the time zone. Works with
+#' designated time zones such as \option{CST} and \option{MST} for Central
+#' Standard or Mountain Standard time or offset time zones such as \option{etc/GMT+6}
+#' or \option{etc/GMT+7} for Central Standard and Mountain Standard time. Does NOT
+#' work with location time zones like \option{America/Regina}.
 #'
 #' @return Returns the offset in hours as a numeric value.
 #' @author Kevin Shook
-#' @note This code was based on the function \code{GMTOffsetFromTz} in the package \pkg{oce}, but works for more time zones and returns a negative value in the western hemisphere.
+#' @note This code was based on the function \code{GMTOffsetFromTz} in the
+#' package \pkg{oce}, but works for more time zones and returns a negative
+#' value in the western hemisphere.
+#' @importFrom stringr str_to_upper str_split_fixed str_detect
 #' @export
 #'
 #' @examples
@@ -17,7 +24,7 @@ GMToffset <- function (timezone) {
   }
 
   # convert to upper case
-  timezone <- stringr::str_to_upper(timezone)
+  timezone <- str_to_upper(timezone)
 
 
   # check for timezone string
@@ -185,13 +192,12 @@ GMToffset <- function (timezone) {
     return(-8)
 
   # check for etc
-  if (stringr::str_detect(timezone, 'ETC')){
-    pieces <- stringr::str_split_fixed(timezone,'GMT', 2)
+  if (str_detect(timezone, 'ETC')){
+    pieces <- str_split_fixed(timezone,'GMT', 2)
     return(-1*as.numeric(pieces[2]))
   }
   else{
-    cat('Error: could not find time zone\n')
-    return(FALSE)
+    stop('Could not find time zone')
   }
 
 

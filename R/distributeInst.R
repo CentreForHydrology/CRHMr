@@ -1,17 +1,27 @@
 #' Distribute instantaneous values
 #'
-#' @description Distributes instantaneous values to a shorter time interval. The missing datetimes are inserted and then the values are interpolated. This function is typically used to downscale obs values such as t, ea, and u.
+#' @description Distributes instantaneous values to a shorter time interval. The missing datetimes are i
+#' nserted and then the values are interpolated. This function is typically used to downscale obs values
+#' such as t, ea, and u.
 #' @param obs Required. The \pkg{CRHMr} data frame of obs values.
-#' @param obsCols Optional. A vector containing the columns to be imputed in the obs data frame, not including the datetime. The default \option{all} specifies all columns.
-#' @param timeStep Required. The time step (in hours) for the interpolated values. This value must be smaller than the time step in the original time series.
-#' @param interpolationMethod Optional. A vector containing the methods to be used for interpolation for each of the variables. Currently supported methods are \option{linear} and \option{spline}. The default is to use linear interpolation. If fewer methods than columns are specified, the methods are recycled.
+#' @param obsCols Optional. A vector containing the columns to be imputed in the obs data frame, not including
+#' the datetime. The default \option{all} specifies all columns.
+#' @param timeStep Required. The time step (in hours) for the interpolated values. This value must be smaller
+#' than the time step in the original time series.
+#' @param interpolationMethod Optional. A vector containing the methods to be used for interpolation for each of
+#' the variables. Currently supported methods are \option{linear} and \option{spline}. The default is to use
+#' linear interpolation. If fewer methods than columns are specified, the methods are recycled.
 #' @param maxLength Optional. The maximum gap length to be interpolated. Defaults to 5 time steps.
-#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
+#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function
+#' in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working
+#' interactively, you will probably want to set \code{quiet=FALSE}.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not use
 #'
-#' @return If successful, returns a dataframe of the selected columns interpolated to the specified time step. If unsuccessful, returns \code{FALSE}.
+#' @return If successful, returns a dataframe of the selected columns interpolated to the specified
+#' time step. If unsuccessful, returns an error.
 #' @author Kevin Shook
 #' @seealso \code{\link{distributeMean}}
+#' @importFrom stringr str_c
 #' @export
 #'
 #' @examples \dontrun{
@@ -19,9 +29,8 @@
 distributeInst <- function(obs,  obsCols='all', timeStep=0, interpolationMethod='linear', maxLength=5,
                            quiet=TRUE, logfile=''){
 
-
   if (nrow(obs) == 0) {
-    cat('Error: missing any values\n')
+    stop('Missing any values')
     return(FALSE)
   }
   obs_name <- deparse(substitute(obs))
@@ -41,8 +50,7 @@ distributeInst <- function(obs,  obsCols='all', timeStep=0, interpolationMethod=
   }
 
   if (timeStep <= 0) {
-    cat('Error: time step must be specified and > 0\n')
-    return(FALSE)
+    stop('Time step must be specified and > 0')
   }
 
   dt <- as.numeric(difftime(obs$datetime[2], obs$datetime[1], units = 'hours'))
@@ -77,7 +85,7 @@ distributeInst <- function(obs,  obsCols='all', timeStep=0, interpolationMethod=
     print(obs.info)
 
   comment <- paste('distributeInst dataframe:', obs_name,
-                   ' Variables:', stringr::str_c(names(distrib)[-1],
+                   ' Variables:', str_c(names(distrib)[-1],
                                                  collapse = ','),
                    sep = '')
 

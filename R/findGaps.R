@@ -11,40 +11,40 @@
 #' @note If quiet=FALSE, the functions gives a summary of the gaps (number of gaps, their total length) for each year.
 #' @seealso \code{\link{insertMissing}} \code{\link{interpolate}} \code{\link{impute}}
 #' @examples
-#' findGaps(BadLake7376, quiet=FALSE)
+#' findGaps(BadLake7376, quiet = FALSE)
+#' @importFrom stringr str_c
 #' @export
 
-findGaps <- function(obs, gapfile='', minlength=1, quiet=TRUE, logfile=''){
+findGaps <- function(obs, gapfile = "", minlength = 1, quiet = TRUE, logfile = "") {
   # Finds gaps in an obs data frame, and writes them to a file
-  if (nrow(obs) == 0){
-    cat('Error: missing obs values\n')
-    return(FALSE)
+  if (nrow(obs) == 0) {
+    stop("Error: missing obs values")
   }
 
   obsName <- deparse(substitute(obs))
 
-  if (gapfile == ''){
+  if (gapfile == "") {
     # create file name
-    gapfile <- paste(obsName, '_gaps.csv', sep='')
+    gapfile <- paste(obsName, "_gaps.csv", sep = "")
   }
 
   # add missing values
-  gap.filled <- insertMissing(obs, quiet=TRUE)
+  gap.filled <- insertMissing(obs, quiet = TRUE)
 
-  if (nrow(obs) == nrow(gap.filled)){
-    if (!quiet)
-      cat('No gaps in datetimes\n')
+  if (nrow(obs) == nrow(gap.filled)) {
+    if (!quiet) {
+      cat("No gaps in datetimes\n")
+    }
 
     # check to see if any values are missing at all
     originalRows <- nrow(obs)
     clean <- na.omit(gap.filled)
     cleanRows <- nrow(clean)
 
-    if (cleanRows == originalRows){
-      cat('No missing values in dataset\n')
+    if (cleanRows == originalRows) {
+      cat("No missing values in dataset\n")
       return(FALSE)
     }
-
   }
 
   var.names <- names(gap.filled)[-1]
@@ -52,12 +52,12 @@ findGaps <- function(obs, gapfile='', minlength=1, quiet=TRUE, logfile=''){
 
   # now look for gaps
   colcount <- 0
-  for (colnum in 1:cols){
+  for (colnum in 1:cols) {
     # find runs of NA values greater than specified
-    selected <- gap.filled[, colnum+1]
+    selected <- gap.filled[, colnum + 1]
     na.values <- is.na(selected)
     varname <- var.names[colnum]
-    if (sum(na.values) > 0){
+    if (sum(na.values) > 0) {
       colcount <- colcount + 1
       # gaps are present
       runs <- rle(na.values)
@@ -69,49 +69,56 @@ findGaps <- function(obs, gapfile='', minlength=1, quiet=TRUE, logfile=''){
       # now select only gaps > minlength
       gap.length <- c.size[c.values]
       gap.datetime <- c.datetime[c.values]
-      all.runs <- data.frame(varname, gap.datetime, gap.length, stringsAsFactors=FALSE)
-      names(all.runs) <- c('variable', 'datetime', 'gap.length')
-      output <- all.runs[(all.runs$gap.length >= minlength),]
+      all.runs <- data.frame(varname, gap.datetime, gap.length, stringsAsFactors = FALSE)
+      names(all.runs) <- c("variable", "datetime", "gap.length")
+      output <- all.runs[(all.runs$gap.length >= minlength), ]
 
-      if (!quiet){
+      if (!quiet) {
         # do summary
-        output$year <- as.numeric(format(output$datetime, format='%Y'))
-        output.summary.length <- aggregate(output$gap.length, by=list(output$year), FUN='length')
-        names(output.summary.length) <- c('year', 'number')
+        output$year <- as.numeric(format(output$datetime, format = "%Y"))
+        output.summary.length <- aggregate(output$gap.length, by = list(output$year), FUN = "length")
+        names(output.summary.length) <- c("year", "number")
         output.summary.length$year <- as.numeric(output.summary.length$year)
-        output.summary.total <- aggregate(output$gap.length, by=list(output$year), FUN='sum')
-        names(output.summary.total) <- c('year', 'total')
-        output.summary <- cbind(varname, output.summary.length,
-                                output.summary.total$total )
-        names(output.summary) <- c('variable', 'year', 'gaps', 'total.length')
+        output.summary.total <- aggregate(output$gap.length, by = list(output$year), FUN = "sum")
+        names(output.summary.total) <- c("year", "total")
+        output.summary <- cbind(
+          varname, output.summary.length,
+          output.summary.total$total
+        )
+        names(output.summary) <- c("variable", "year", "gaps", "total.length")
         output.summary$variable <- as.character(output.summary$variable)
-        if (colcount == 1)
+        if (colcount == 1) {
           gap.summary <- output.summary
-        else
+        } else {
           gap.summary <- rbind(gap.summary, output.summary)
+        }
       }
 
-      if (colcount == 1)
+      if (colcount == 1) {
         gaps <- output
-      else
+      } else {
         gaps <- rbind(gaps, output)
+      }
     }
-
   }
 
   # check for output
 
-  if(nrow(gaps > 0))
-    write.csv(gaps, file=gapfile, row.names=FALSE)
+  if (nrow(gaps > 0)) {
+    write.csv(gaps, file = gapfile, row.names = FALSE)
+  }
 
-  if (!quiet)
-    if (nrow(gap.summary > 0))
+  if (!quiet) {
+    if (nrow(gap.summary > 0)) {
       print(gap.summary)
+    }
+  }
 
   # output to logfile
-  comment <- paste('findGaps obs:', obsName,
-                   ' variables:', stringr::str_c(var.names, collapse=','),
-                   sep='')
+  comment <- paste("findGaps obs:", obsName,
+    " variables:", str_c(var.names, collapse = ","),
+    sep = ""
+  )
 
   result <- logAction(comment, logfile)
 

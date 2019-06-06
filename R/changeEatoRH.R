@@ -14,49 +14,50 @@
 #' BadLake7376.ea <- changeRHtoEa(BadLake7376)
 #' # now convert Ea values back to RH
 #' BadLake7376.rh <- changeEatoRH(BadLake7376.ea)
+#' @importFrom stringr str_detect fixed
 #' @export
 
 changeEatoRH <-
 function(obs, t.cols=1, ea.cols=1, quiet=TRUE, logfile=''){
   # changes columns of ea values to RH, which are used for output
-  
+
   # the code will look for variable names containing 't' and 'ea'
   # if the columns are not specified explicitly
-  
+
   obsName <- deparse(substitute(obs))
-  
+
   # see if it needs to be done
   obs.names <- names(obs)[-1]
   obs.names.lowercase <- tolower(obs.names)
 
   # look for t and rh data
-  t.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('t.')))
-  ppt.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('ppt.')))
-  act.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('act.')))
-  
+  t.loc <- which(str_detect(obs.names.lowercase, fixed('t.')))
+  ppt.loc <- which(str_detect(obs.names.lowercase, fixed('ppt.')))
+  act.loc <- which(str_detect(obs.names.lowercase, fixed('act.')))
+
   # exclude PPT
   if (sum(ppt.loc) > 0)
     ok <- obs.names.lowercase[-ppt.loc]
   else
     ok <- obs.names.lowercase
-  
+
   # exclude SunAct
   if (sum(act.loc) > 0)
     ok <- ok[-act.loc]
-  
-  t.loc <- which(stringr::str_detect(ok, stringr::fixed('t.')))
-  ea.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('ea.')))
-  
+
+  t.loc <- which(str_detect(ok, fixed('t.')))
+  ea.loc <- which(str_detect(obs.names.lowercase, fixed('ea.')))
+
   if ((t.cols == ea.cols) & (length(t.loc) == 0) | (length(ea.loc) == 0)){
     cat('T and/or Ea missing\n')
-    return(FALSE)  
+    return(FALSE)
   }
-  
+
   if (length(t.cols) != length(ea.cols)){
     cat('Unequal numbers of T and Ea values\n')
-    return(FALSE)  
-  }  
-  
+    return(FALSE)
+  }
+
   if (t.cols != ea.cols){
     # locations are specified
     t.cols <- t.cols + 1
@@ -64,36 +65,36 @@ function(obs, t.cols=1, ea.cols=1, quiet=TRUE, logfile=''){
   }
   else{
     t.cols <- t.loc + 1
-    ea.cols <- ea.loc + 1 
+    ea.cols <- ea.loc + 1
   }
-  
+
   t.vals <- obs[,t.cols]
   t.vals.na <- is.na(t.vals)
   ea.vals <- obs[,ea.cols]
   ea.vals.na <- is.na(ea.vals)
   bad.vals <- t.vals.na | ea.vals.na
   good.vals <- !bad.vals
-  
+
   # call rh function
   rh.vals <- ea.vals
   rh.vals[good.vals] <- mapply(FUN='vp2rh', t.vals[good.vals], ea.vals[good.vals])
   rh.vals[bad.vals] <- NA_real_
   rh.vals <- as.data.frame(rh.vals)
   rh.count <- ncol(rh.vals)
-  
+
   rh.nums <- seq(1:rh.count)
   rh.names <- paste('rh.',rh.nums, sep='')
-  
+
   # replace ea values with rh
   obs[ea.cols] <- rh.vals
   names(obs)[ea.cols] <- rh.names
-  
-  
+
+
   # output info to screen and write to log file
   obs.info <- CRHM_summary(obs)
   if (!quiet)
     print(obs.info)
-  
+
   comment <- paste('changeEAtoRH dataframe: ', obsName, sep='')
   result <- logAction(comment, logfile)
   if (result)

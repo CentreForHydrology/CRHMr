@@ -1,17 +1,29 @@
 #' Distributes daily precipitation according to hourly values
 #'
-#' @description Used to distrbute daily percipitation totals, according to hourly values. Typically, this is used when the hourly values are of lower quality than the daily values, such as when they are imputed from another location.
+#' @description Used to distrbute daily percipitation totals, according to hourly values. Typically,
+#' this is used when the hourly values are of lower quality than the daily values, such as when
+#' they are imputed from another location.
 #'
 #' @param dailyObs obs Required. A \pkg{CRHMr} data frame containing daily precipitation values.
-#' @param dailyPcol Optional. The number of the column containing the daily precipitation. If not specified, the column will be guessed from the variable name. Note that the variable name MUST include the letter 'p', even if the number is specified.
+#' @param dailyPcol Optional. The number of the column containing the daily precipitation. If not
+#' specified, the column will be guessed from the variable name. Note that the variable name MUST
+#' include the letter 'p', even if the number is specified.
 #' @param hourlyObs obs Required. A \pkg{CRHMr} data frame containing hourly precipitation values.
-#' @param hourlyPcol Optional. The number of the column containing the hourly precipitation. If not specified, the column will be guessed from the variable name. Note that the variable name MUST include the letter 'p', even if the number is specified.
-#' @param missingRatio Optional. The value of the ratio used to multiply the hourly preciptiation when daily precipitation data are not available. The default is 1. If you want to omit these values, use \code{NA_real_}.
-#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
+#' @param hourlyPcol Optional. The number of the column containing the hourly precipitation. If not
+#' specified, the column will be guessed from the variable name. Note that the variable name MUST
+#' include the letter 'p', even if the number is specified.
+#' @param missingRatio Optional. The value of the ratio used to multiply the hourly preciptiation when
+#' daily precipitation data are not available. The default is 1. If you want to omit these values,
+#' use \code{NA_real_}.
+#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this
+#' function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are
+#' working interactively, you will probably want to set \code{quiet=FALSE}.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #'
-#' @return If sucessful, returns a modified version of the obs data frame, consiting of the original hourly precipitation data, and the \code{adjusted_precip}.
+#' @return If sucessful, returns a modified version of the obs data frame, consiting of the original
+#' hourly precipitation data, and the \code{adjusted_precip}.
 #' @author Kevin Shook
+#' @importFrom lubridate tz
 #' @export
 #'
 #' @examples \dontrun{ hourly <- dailyByHourlyP(dailyObs = daily, hourlyObs = hourly)
@@ -21,8 +33,7 @@ dailyByHourlyP <- function(dailyObs, dailyPcol=0, hourlyObs, hourlyPcol=0,
 
   # check variables
   if (nrow(dailyObs) == 0) {
-    cat('Error: missing any daily values\n')
-    return(FALSE)
+    stop("Missing any daily values")
   }
 
   dailyObsName <- deparse(substitute(dailyObs))
@@ -97,7 +108,7 @@ dailyByHourlyP <- function(dailyObs, dailyPcol=0, hourlyObs, hourlyPcol=0,
                                     merged$hourly_to_daily[merged$hourly_to_daily > 0 ]
   merged <- merged[,c("date", "ratio")]
   # add the date to the hourlies
-  timezone <- lubridate::tz(hourlyObs$datetime)
+  timezone <- tz(hourlyObs$datetime)
   hourlyObs$date <- as.Date(hourlyObs$datetime, tz = timezone)
 
   # merge in the ratios

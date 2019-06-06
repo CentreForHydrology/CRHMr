@@ -9,6 +9,7 @@
 #' @return If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 #' @author Kevin Shook
 #' @seealso  \code{\link{runCRHM}}
+#' @importFrom stringr str_detect
 #' @export
 #'
 #' @examples
@@ -22,8 +23,7 @@ automatePrj <- function(inputPrjFile="", outputPrjFile="", quiet=TRUE,
 
   # check parameters
   if (inputPrjFile == "") {
-    cat("Missing CRHM input .prj file name\n")
-    return(FALSE)
+    stop("Missing CRHM input .prj file name")
   }
 
   # read in .prj file
@@ -32,9 +32,9 @@ automatePrj <- function(inputPrjFile="", outputPrjFile="", quiet=TRUE,
   close(con)
 
   # check for Auto_Run, Log_All and Auto_Exit, if any are absent then quit
-  auto_run_present <- sum(stringr::str_detect(prj, "Auto_Run"))
-  auto_exit_present <- sum(stringr::str_detect(prj, "Auto_Exit"))
-  log_all_present <- sum(stringr::str_detect(prj, "Log_All"))
+  auto_run_present <- sum(str_detect(prj, "Auto_Run"))
+  auto_exit_present <- sum(str_detect(prj, "Auto_Exit"))
+  log_all_present <- sum(str_detect(prj, "Log_All"))
 
   if (auto_run_present > 0) {
     if (!quiet) {
@@ -44,7 +44,7 @@ automatePrj <- function(inputPrjFile="", outputPrjFile="", quiet=TRUE,
   else {
     # insert Auto_Run
     last_line <- prj[length(prj)]
-    if (sum(stringr::str_detect(last_line, "#")) >= 1) {
+    if (sum(str_detect(last_line, "#")) >= 1) {
       prj <- c(prj, c("Auto_Run", "#####"))
     } else {
       prj <- c(prj, c("#####", "Auto_Run", "#####"))
@@ -58,7 +58,7 @@ automatePrj <- function(inputPrjFile="", outputPrjFile="", quiet=TRUE,
   else {
     # insert Auto_Exit
     last_line <- prj[length(prj)]
-    if (sum(stringr::str_detect(last_line, "#")) >= 1) {
+    if (sum(str_detect(last_line, "#")) >= 1) {
       prj <- c(prj, c("Auto_Exit", "#####"))
     } else {
       prj <- c(prj, c("#####", "Auto_Exit", "#####"))
@@ -72,7 +72,7 @@ automatePrj <- function(inputPrjFile="", outputPrjFile="", quiet=TRUE,
   else {
     # insert Log_All
     last_line <- prj[length(prj)]
-    if (sum(stringr::str_detect(last_line, "#")) >= 1) {
+    if (sum(str_detect(last_line, "#")) >= 1) {
       prj <- c(prj, c("Log_All", "#####"))
     } else {
       prj <- c(prj, c("#####", "Log_all", "#####"))

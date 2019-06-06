@@ -11,57 +11,55 @@
 #' @examples
 #' \dontrun{
 #' MSC.trh <- assembleObs(MSC.t, MSC.rh)}
+#' @importFrom stringr str_c
 #' @export
 
 
 assembleObs <- function(obs1, obs2, quiet=TRUE, logfile=''){
   # assembles dissimilar obs data frames to produce a single obs data frame
-  
+
   # check to see if worth doing
   if (nrow(obs1) == 0){
-    cat('Error: missing first obs values\n')
-    return(FALSE)
+    stop('Missing first obs values')
   }
-  
+
   if (nrow(obs2) == 0){
-    cat('Error: missing second obs values\n')
-    return(FALSE)
+    stop('Missing second obs values\n')
   }
-  
+
   obs1Name <- deparse(substitute(obs1))
   obs2Name <- deparse(substitute(obs2))
-  
+
   # check time steps of both obs files
   ts1 <- timestep.hours(obs1$datetime[1], obs1$datetime[2])
   ts2 <- timestep.hours(obs2$datetime[1], obs2$datetime[2])
-  
+
   if (ts1 != ts2){
-    cat('Error: files have different time steps\n')
-    return(FALSE)
-  } 
-  
+    stop('Files have different time steps')
+  }
+
   # now that we have 2 OK obs, append them
   obs1.names <- names(obs1)[1]
   obs2.names <- names(obs2)[1]
   merged <- merge(obs1, obs2, by='datetime', all=TRUE)
-  
+
   new.data.info <- CRHM_summary(merged)
   if (!quiet)
     print(new.data.info)
-  
+
   comment <- paste('assembleObs obs1:', obs1Name,
-                   ' obs1_variables:', stringr::str_c(obs1.names, 
+                   ' obs1_variables:', str_c(obs1.names,
                                                 collapse=','),
                    ' obs2:', obs2Name,
-                   ' obs2_variables:', stringr::str_c(obs2.names, 
+                   ' obs2_variables:', str_c(obs2.names,
                                                   collapse=','),
-                   sep='')  
-  
+                   sep='')
+
   result <- logAction(comment, logfile)
-  
+
   if (result)
     return(merged)
   else
     return(result)
-  
+
 }

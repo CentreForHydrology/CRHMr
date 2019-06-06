@@ -3,10 +3,15 @@
 #' @description Finds spikes, and sets their values to be NA_real_.
 #' @param obs Required. A \pkg{CRHMr} obs data frame.
 #' @param colnum Optional. The number of the column to test for spikes, not including the datetime.
-#' @param threshold Required. The threshold for the \emph{change} in the observed values. The threshold is actually a rate, i.e. the change per unit time. So if you are looking at air temperature, and the threshold is set to \code{5}, then any change in temperature of +/- 5 degrees in one time interval will be considered to be a spike.
+#' @param threshold Required. The threshold for the \emph{change} in the observed values. The threshold
+#' is actually a rate, i.e. the change per unit time. So if you are looking at air temperature, and the
+#' threshold is set to \code{5}, then any change in temperature of +/- 5 degrees in one time interval
+#' will be considered to be a spike.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #'
-#' @return If successful, returns a data frame consiting of the datetime and the original obs values, where all of the spike values have been set to be \code{NA_real_}. If unsuccessful, returns the value \code{FALSE}.
+#' @return If successful, returns a data frame consiting of the datetime and the original obs values, where
+#' all of the spike values have been set to be \code{NA_real_}. If no spikes are found a message is
+#' printed and the funtion returns the value \code{FALSE}.
 #' @author Kevin Shook
 #' @seealso \code{\link{findSpikes}}
 #' @export
@@ -19,19 +24,16 @@
 deleteSpikes <- function(obs, colnum=1, threshold=0, logfile="") {
   # removes spikes by filling them with NA_real_values
   if (nrow(obs) == 0) {
-    cat("Error: missing obs values\n")
-    return(FALSE)
+    stop("Missing obs values")
   }
   obsName <- deparse(substitute(obs))
 
   if (any(is.na(obs[, colnum + 1]))) {
-    cat("Error: missing values. Remove before searching for spikes\n")
-    return(FALSE)
+    stop("Missing values. Remove before searching for spikes")
   }
 
   if (threshold == 0) {
-    cat("Error: threshold. Set before searching for spikes\n")
-    return(FALSE)
+    stop("Missing threshold. Set before searching for spikes")
   }
 
   spikeDatetimes <- findSpikes(obs, colnum = colnum, threshold = threshold, logfile = logfile)
@@ -42,8 +44,7 @@ deleteSpikes <- function(obs, colnum=1, threshold=0, logfile="") {
       return(FALSE)
     }
     if (spikeDatetimes == FALSE) {
-      cat("Error in finding spikes\n")
-      return(FALSE)
+      stop("Error in finding spikes")
     }
   }
 

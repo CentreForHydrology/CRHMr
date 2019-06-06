@@ -25,6 +25,11 @@
 #' plot. If unsuccessful, the value \code{FALSE} will be returned.
 #' @author Kevin Shook
 #' @seealso \code{\link{hydrograph}}
+#' @import plyr
+#' @import ggplot2
+#' @import scales
+#' @importFrom lubridate year
+#' @importFrom tidyhydat hy_daily_flows
 #' @export
 #'
 #' @examples
@@ -71,8 +76,7 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
   }
 
   if (!CRHMselected & !WSCflowsSelected) {
-    cat("Error: no data selected\n")
-    return(FALSE)
+    stop("No data selected")
   }
 
   if (CRHMselected) {
@@ -86,7 +90,7 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
     CRHMlastdate <- CRHMdaily$date[nrow(CRHMdaily)]
 
     # accumulate
-    CRHMcumulative <- plyr::ddply(CRHMdaily, plyr::.(lubridate::year(date)), transform,
+    CRHMcumulative <- ddply(CRHMdaily, .(year(date)), transform,
       cumulQ = cumsum(Q)
     )
 
@@ -102,20 +106,20 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
     # get WSC daily flows using tidyhydat
 
     if (CRHMselected) {
-      WSCdailyFlows <- tidyhydat::hy_daily_flows(station_number = WSCdailyFlowsID,
+      WSCdailyFlows <- hy_daily_flows(station_number = WSCdailyFlowsID,
                                                  hydat_path = hydat_path,
                                                  start_date = CRHMfirstdate,
                                                  end_date = CRHMlastdate)
 
     } else {
-      WSCdailyFlows <- tidyhydat::hy_daily_flows(station_number = WSCdailyFlowsID, hydat_path = hydat_path)
+      WSCdailyFlows <- hy_daily_flows(station_number = WSCdailyFlowsID, hydat_path = hydat_path)
     }
 
     WSCdailyFlows <- WSCdailyFlows[, c("Date", "Value")]
     names(WSCdailyFlows) <- c("date", "Q")
     # accumulate
-    WSCcumulative <- plyr::ddply(WSCdailyFlows,
-      plyr::.(lubridate::year(date)),
+    WSCcumulative <- ddply(WSCdailyFlows,
+      .(year(date)),
       transform,
       cumulQ = cumsum(Q)
     )
@@ -141,20 +145,20 @@ cumulativeDischargePlot <- function(CRHMflows=NULL, CRHMflowsLabel="", CRHMflowC
   # now do plot
   numyears <- length(unique(plotVals$year))
   colors <- c("red", "blue")
-  p <- ggplot2::ggplot(plotVals, ggplot2::aes(date, cumulQ, color = variable)) +
-    ggplot2::geom_line(size = 1.2) +
-    ggplot2::scale_colour_manual(values = colors) +
-    ggplot2::xlab("") +
-    ggplot2::ylab(expression(paste("Cumulative discharge (dam", ""^{
+  p <- ggplot(plotVals, aes(date, cumulQ, color = variable)) +
+    geom_line(size = 1.2) +
+    scale_colour_manual(values = colors) +
+    xlab("") +
+    ylab(expression(paste("Cumulative discharge (dam", ""^{
       3
     }, ")", sep = ""))) +
-    ggplot2::scale_x_date(
-      labels = scales::date_format("%b"),
-      breaks = scales::date_breaks("3 months")
+    scale_x_date(
+      labels = date_format("%b"),
+      breaks = date_breaks("3 months")
     )
 
   if (numyears > 1) {
-    p <- p + ggplot2::facet_wrap(~ year, ncol = facetCols, scales = "free")
+    p <- p + facet_wrap(~ year, ncol = facetCols, scales = "free")
   }
 
   return(p)

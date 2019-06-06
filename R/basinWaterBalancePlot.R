@@ -8,6 +8,12 @@
 #'
 #' @return If successful returns a \pkg{ggplot2} object showing stacked bars of the water balance components for each year.
 #' If unsuccessful returns \code{FALSE}.
+#' @importFrom stringr str_replace fixed
+#' @importFrom reshape2 melt
+#' @import ggplot2
+#' @author Kevin Shook
+#' @concept idea from http://www.r-bloggers.com/improved-net-stacked-distribution-graphs-via-ggplot2-trickery/
+
 #' @export
 #'
 #' @examples \dontrun{
@@ -23,7 +29,11 @@
 #' p <- basinWaterBalancePlot(yearly)
 #' }
 basinWaterBalancePlot <- function(yearlyWater, negCols=''){
-  # idea from http://www.r-bloggers.com/improved-net-stacked-distribution-graphs-via-ggplot2-trickery/
+  # check parameter
+  if (is.null(yearlyWater)) {
+    stop("yearlyWater data missing")
+  }
+
   # declare ggplot2 variables
   Year <- NULL
   value <- NULL
@@ -33,11 +43,11 @@ basinWaterBalancePlot <- function(yearlyWater, negCols=''){
   varNames <- names(yearlyWater)
   names(yearlyWater)[1] <- 'Year'
 
-  cleanNames <- stringr::str_replace(varNames, stringr::fixed('.sum', ignore_case = TRUE), '')
+  cleanNames <- str_replace(varNames, fixed('.sum', ignore_case = TRUE), '')
   names(yearlyWater) <- cleanNames
 
   # melt by year
-  yearlyMelted <- reshape2::melt(yearlyWater, id.vars=1)
+  yearlyMelted <- melt(yearlyWater, id.vars=1)
 
 
   # add direction
@@ -53,8 +63,8 @@ basinWaterBalancePlot <- function(yearlyWater, negCols=''){
     negNames <- c('basinflow', 'evap', 'subl', 'loss', 'outflow')
     negNameCount <- length(negNames)
     for (i in 1:negNameCount){
-      negLocs <- stringr::str_detect(yearlyMelted$variable,
-                                     stringr::fixed(negNames[i], ignore_case=TRUE))
+      negLocs <- str_detect(yearlyMelted$variable,
+                            fixed(negNames[i], ignore_case=TRUE))
       if (i == 1)
         negPos <- negLocs
       else
@@ -69,11 +79,11 @@ basinWaterBalancePlot <- function(yearlyWater, negCols=''){
   negatives$value <- negatives$value * -1
   # plot values
 
-  p <- ggplot2::ggplot() + ggplot2::aes(Year, value, fill = variable) +
-    ggplot2::geom_bar(data = negatives, stat = "identity") +
-    ggplot2::geom_bar(data = positives, stat = "identity") +
-    ggplot2::scale_y_continuous() +
-    ggplot2::geom_hline(yintercept=0)
+  p <- ggplot() + aes(Year, value, fill = variable) +
+    geom_bar(data = negatives, stat = "identity") +
+    geom_bar(data = positives, stat = "identity") +
+    scale_y_continuous() +
+    geom_hline(yintercept=0)
 
     return(p)
 }

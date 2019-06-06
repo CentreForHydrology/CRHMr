@@ -11,6 +11,7 @@
 #' @seealso  \code{\link{changeEatoRH}}
 #' @examples
 #' BadLake7376.ea <- changeRHtoEa(BadLake7376)
+#' @importFrom stringr str_detect fixed
 #' @export
 
 changeRHtoEa <-
@@ -24,7 +25,7 @@ function(obs, t.cols=1, rh.cols=1, quiet=TRUE, logfile=''){
   # see if it needs to be done
   obs.names <- names(obs)[-1]
   obs.names.lowercase <- tolower(obs.names)
-  ea.loc <-which(stringr::str_detect(obs.names.lowercase, stringr::fixed('ea.')))
+  ea.loc <-which(str_detect(obs.names.lowercase, fixed('ea.')))
   if (length(ea.loc) > 0){
     cat('Error ea values already present\n')
     return(FALSE)
@@ -32,9 +33,9 @@ function(obs, t.cols=1, rh.cols=1, quiet=TRUE, logfile=''){
 
   # look for t and rh data
 
-  t.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('t.')))
-  ppt.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('ppt.')))
-  act.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('act.')))
+  t.loc <- which(str_detect(obs.names.lowercase, fixed('t.')))
+  ppt.loc <- which(str_detect(obs.names.lowercase, fixed('ppt.')))
+  act.loc <- which(str_detect(obs.names.lowercase, fixed('act.')))
 
   # exclude PPT
   if (sum(ppt.loc) > 0)
@@ -46,8 +47,8 @@ function(obs, t.cols=1, rh.cols=1, quiet=TRUE, logfile=''){
   if (sum(act.loc) > 0)
     ok <- ok[-act.loc]
 
-  t.loc <- which(stringr::str_detect(ok, stringr::fixed('t.')))
-  rh.loc <- which(stringr::str_detect(obs.names.lowercase, stringr::fixed('rh.')))
+  t.loc <- which(str_detect(ok, fixed('t.')))
+  rh.loc <- which(str_detect(obs.names.lowercase, fixed('rh.')))
 
   if ((t.cols == rh.cols) & (length(t.loc) == 0) | (length(rh.loc) == 0)){
     cat('T and/or RH missing\n')

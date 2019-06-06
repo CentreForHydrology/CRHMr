@@ -1,13 +1,24 @@
 #' Removes duplicated datetimes in obs data frame
 #'
-#' @description Removes duplicated datetime values. Many time series, especially from Environment Canada, may contain duplicated datetimes. This function replaces the duplicated values. It is important to use this function before interpolating or imputing values, and especially before writing the data frame to an obs file.
+#' @description Removes duplicated datetime values. Many time series, especially from Environment
+#' Canada, may contain duplicated datetimes. This function replaces the duplicated values. It is
+#' important to use this function before interpolating or imputing values, and especially before
+#' writing the data frame to an obs file.
 #' @param obs Required. A \pkg{CRHMr} data frame containing the obs values.
-#' @param action Optional. The action used to replace the duplicate values. Must be one of \option{min}, \option{max}, \option{mean}, \option{skip}, \option{delete}, \option{split} or \option{second}. Default is \option{mean}.
-#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
+#' @param action Optional. The action used to replace the duplicate values. Must be one of \option{min},
+#' \option{max}, \option{mean}, \option{skip}, \option{delete}, \option{split} or \option{second}.
+#' Default is \option{mean}.
+#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function
+#' in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working
+#' interactively, you will probably want to set \code{quiet=FALSE}.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
-#' @return If there are no duplicates, returns \code{'No duplicates'}. If duplicates exist, and are are successfully removed, the de-duplicated data frame is returned. If the de-duplication is unsuccessful, then the value \code{FALSE} is returned.
+#' @return If there are no duplicates, returns \code{'No duplicates'}. If duplicates exist, and are are
+#' successfully removed, the de-duplicated data frame is returned. If the de-duplication is unsuccessful,
+#' then an error is returned.
 #' @author Kevin Shook
-#' @note If action=\option{min}, \option{max}, or \option{mean}, the action function is applied to all of the values for each duplicate datetime. If action=\option{skip} or \option{delete}, then the values of the duplicate datetimes are deleted. If action=\option{split} then the original values are kept, and the duplicate values are written to an obs file. The name of the obs file is the name of the obs variable followed by \code{'_dupes.obs'}. If action=\option{second}, then the second duplicate values are used. This can be useful when dealing with duplicates caused by daylight savings time.
+#' @note If action=\option{min}, \option{max}, or \option{mean}, the action function is applied to all of
+#' the values for each duplicate datetime. If action=\option{skip} or \option{delete}, then the values of
+#' the duplicate datetimes are deleted. If action=\option{split} then the original values are kept, and the duplicate values are written to an obs file. The name of the obs file is the name of the obs variable followed by \code{'_dupes.obs'}. If action=\option{second}, then the second duplicate values are used. This can be useful when dealing with duplicates caused by daylight savings time.
 #' @seealso \code{\link{findDupes}}
 #' @examples
 #' BadLake.deduped <- deDupe(BadLake7376, action='mean')
@@ -17,14 +28,12 @@
 deDupe <- function(obs, action='mean', quiet=TRUE, logfile=""){
   # removes values having duplicated datetime
   if (nrow(obs) == 0){
-    cat('Error: missing obs data frame\n')
-    return(FALSE)
+    stop('Missing obs data frame')
   }
   obsName <- deparse(substitute(obs))
 
-  if (action == ''){
-    cat('Error: missing action for duplicated obs\n')
-    return(FALSE)
+  if (action == '' | is.null(action)){
+    stop('Missing action for duplicated obs')
   }
 
   var.names <- names(obs)
@@ -87,10 +96,8 @@ deDupe <- function(obs, action='mean', quiet=TRUE, logfile=""){
      return(good)
    }
    else{
-     cat('Error: unknown action for duplicated obs\n')
-     return(FALSE)
+     stop("Unknown action for duplicated obs")
    }
-
   }
   else{
     comment <- paste('deDupe obs:', obsName, sep='')

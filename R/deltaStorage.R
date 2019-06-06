@@ -15,9 +15,13 @@
 #'  hydrological year would be 2015).
 #' @param logfile Optional. Name of the file to be used for logging the action.
 #' Normally not used.
-#'
+#' @importFrom stringr str_detect
+#' @importFrom lubridate floor_date
+#' @export
 #' @note The period of diferencing must be greater than the time step of the
-#' CRHM data. This function does NOT remove \code{NA} values before aggregation. Use \command{na.omit} or one of the infilling functions (\code{\link{interpolate}} or \code{\link{impute}}) if you want to remove missing values.
+#' CRHM data. This function does NOT remove \code{NA} values before aggregation.
+#' Use \command{na.omit} or one of the infilling functions (\code{\link{interpolate}} or
+#' \code{\link{impute}}) if you want to remove missing values.
 #' @seealso \code{\link{simpleDailyWater}}
 #' @author Kevin Shook
 #' @examples \dontrun{delta <- deltaStorage(crhm, c(23,24,25))}
@@ -28,13 +32,11 @@ deltaStorage <- function(CRHMdataframe = NULL, columns = 1, period = "yearly",
   # check parameters
 
   if (is.null(CRHMdataframe)) {
-    cat("Error: missing CRHM data frame\n")
-    return(FALSE)
+    stop("Missing CRHM data frame")
   }
 
   if (period == "" | nrow(CRHMdataframe) == 0 | (length(columns) == 0)) {
-    cat("Error: missing variables\n")
-    return(FALSE)
+    stop("Missing variables\n")
   }
   CRHMname <- deparse(substitute(CRHMdataframe))
   if (length(columns) > 1) {
@@ -48,23 +50,23 @@ deltaStorage <- function(CRHMdataframe = NULL, columns = 1, period = "yearly",
   }
 
   period <- tolower(period)
-  if (stringr::str_detect(period, "ann") | stringr::str_detect(period, "year")) {
+  if (str_detect(period, "ann") | str_detect(period, "year")) {
     time.period <- "year"
     period.hours <- 365 * 24
   }
-  else if (stringr::str_detect(period, "da")) {
+  else if (str_detect(period, "da")) {
     time.period <- "day"
     period.hours <- 24
   }
-  else if (stringr::str_detect(period, "mo") & !stringr::str_detect(period, "year")) {
+  else if (str_detect(period, "mo") & !str_detect(period, "year")) {
     time.period <- "month"
     period.hours <- 30 * 24
   }
-  else if (stringr::str_detect(period, "ho")) {
+  else if (str_detect(period, "ho")) {
     time.period <- "hour"
     period.hours <- 1
   }
-  else if (stringr::str_detect(period, "hy")) {
+  else if (str_detect(period, "hy")) {
     time.period <- "hydrologic-year"
     period.hours <- 365 * 24
   }
@@ -85,7 +87,7 @@ deltaStorage <- function(CRHMdataframe = NULL, columns = 1, period = "yearly",
     }
   }
   else {
-    times <- lubridate::floor_date(CRHMdataframe$datetime, unit = time.period)
+    times <- floor_date(CRHMdataframe$datetime, unit = time.period)
     agg <- data.frame(unique(times))
     names(agg) <- time.period
   }
@@ -94,8 +96,7 @@ deltaStorage <- function(CRHMdataframe = NULL, columns = 1, period = "yearly",
 
 current.period <- timestep.hours(CRHMdataframe$datetime[1], CRHMdataframe$datetime[2])
 if (current.period >= period.hours) {
-  cat("Error: cannot aggregate to a shorter time period\n")
-  return(FALSE)
+  stop("Cannot aggregate to a shorter time period")
 }
 
 # get interval values
