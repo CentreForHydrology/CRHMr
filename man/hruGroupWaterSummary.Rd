@@ -10,30 +10,40 @@ hruGroupWaterSummary(dailyWater, vars = "all", prjFile, HRUgroups,
 \arguments{
 \item{dailyWater}{Required. The output from the \code{simpleDailyWater} command.}
 
-\item{vars}{Optional. Variable column numbers to be used (not including the datetime). The default value \option{all}
+\item{vars}{Optional. Variable column numbers to be used (not including the datetime).
+The default value \option{all}
 selects all columns.}
 
 \item{prjFile}{Required. The CRHM model .prj file.}
 
-\item{HRUgroups}{Required. This can be either a vector or list. If a vector, it contains strings used to group the
-selected HRU names in the .prj file. If a list, it contains vectors of the HRU numbers to be grouped. See the examples
+\item{HRUgroups}{Required. This can be either a vector or list. If a vector, it
+contains strings used to group the
+selected HRU names in the .prj file. If a list, it contains vectors of the HRU
+numbers to be grouped. See the examples
 for both usages.}
 
-\item{basinMean}{Required. This refers to how the daily water values were calculated by \code{simpleDailyWater}. If \code{TRUE}
-then the aggregated water depths/volumes are computed over the whole basin. If \code{FALSE} then the the aggregated
+\item{basinMean}{Required. This refers to how the daily water values were
+calculated by \code{simpleDailyWater}. If \code{TRUE}
+then the aggregated water depths/volumes are computed over the whole basin.
+If \code{FALSE} then the the aggregated
 water depths/volumes are computed over area of the HRU groups.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. The default is TRUE. If you are calling this
-function in an R script, you will usually leave quiet=TRUE (i.e. the default). If you are working interactively, you will p
-robably want to set \code{quiet = FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors.
+The default is TRUE. If you are calling this
+function in an R script, you will usually leave quiet=TRUE (i.e. the default).
+If you are working interactively, you will p#' robably want to set \code{quiet = FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful returns a data frame containing each variable summarized by each HRU group. The names of the variables are in the form: \code{hruGroup.variable.group_total} or \code{hruGroup.variable.basin_total}. If unsuccessful, returns the value FALSE.
+If successful returns a data frame containing each variable summarized
+by each HRU group. The names of the variables are in the form:
+\code{hruGroup.variable.group_total} or \code{hruGroup.variable.basin_total}.
+If unsuccessful, returns an error.
 }
 \description{
-Calculates daily totals of water storages and fluxes for groups of HRUs, for models \emph{without} sub-basins.
+Calculates daily totals of water storages and fluxes for groups of HRUs,
+for models \emph{without} sub-basins.
 }
 \examples{
 \dontrun{
@@ -42,15 +52,19 @@ Calculates daily totals of water storages and fluxes for groups of HRUs, for mod
 
 #' b <- readOutputFile('Bologna1984_30y_output.txt', timezone='MST')
 # get daily values without aggregation; values calculated w.r.t the HRU area
-dailyHRU <- simpleDailyWater(b, prjFile='Bologna1984_02.prj', basinMean=FALSE)
+dailyHRU <- simpleDailyWater(b, prjFile = "Bologna1984_02.prj", basinMean = FALSE)
 
 # summarize by groups of HRUs with similar names
-daily_group <- hruGroupSummary(daily, prjFile = 'Bologna1984_02.prj',
-HRUgroups=c('firn','ice','bl'), basinMean=FALSE)
+daily_group <- hruGroupSummary(daily,
+  prjFile = "Bologna1984_02.prj",
+  HRUgroups = c("firn", "ice", "bl"), basinMean = FALSE
+)
 
 # summarize by named groups of HRUs with specified numbers
-groups <- list(group1=c(1,2,3), group2=c(4,5,6))
-daily_group <- hruGroupSummary(daily, prjFile = 'Bologna1984_02.prj',
-HRUgroups=groups, basinMean=FALSE)
+groups <- list(group1 = c(1, 2, 3), group2 = c(4, 5, 6))
+daily_group <- hruGroupSummary(daily,
+  prjFile = "Bologna1984_02.prj",
+  HRUgroups = groups, basinMean = FALSE
+)
 }
 }

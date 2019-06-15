@@ -11,73 +11,89 @@ hydrograph(CRHMflows = NULL, CRHMflowsLabels = "", CRHMcols = NULL,
   fakeDates = FALSE, quiet = TRUE, hydat_path = NULL)
 }
 \arguments{
-\item{CRHMflows}{Optional. A data frame of CRHM modelled flows. The flows must be in m\eqn{^3}{^3}/s. Remember
-to divide interval flows by their length in seconds, i.e. 3600 if hourly.}
+\item{CRHMflows}{Optional. A data frame of CRHM modelled flows. The flows must be in
+m\eqn{^3}{^3}/s. Remember to divide interval flows by their length in seconds,
+i.e. 3600 if hourly.}
 
-\item{CRHMflowsLabels}{Optional. Labels for the CRHM data. If not specified, and CRHM data are plotted, then the name(s) of the CRHM variables will be used.}
+\item{CRHMflowsLabels}{Optional. Labels for the CRHM data. If not specified, and
+CRHM data are plotted, then the name(s) of the CRHM variables will be used.}
 
-\item{CRHMcols}{Required. Column(s) containing the flowrates. As always, the numbers do not include the \code{datetime}.}
+\item{CRHMcols}{Required. Column(s) containing the flowrates. As always, the
+numbers do not include the \code{datetime}.}
 
 \item{CRHMdaily}{Optional. Should CRHM flows be plotted as daily values? Default is \code{FALSE}.}
 
-\item{WSCdailyFlowsID}{Optional. If \code{NULL} (the default) the WSC daily flows will not be plotted. If a WSC station ID
-is specified , e.g. \code{WSCdailyFlowsID = "05CC001"}, then the daily flows will be obtained from \pkg{tidyhydat} and plotted.}
+\item{WSCdailyFlowsID}{Optional. If \code{NULL} (the default) the WSC daily flows
+will not be plotted. If a WSC station ID
+is specified , e.g. \code{WSCdailyFlowsID = "05CC001"}, then the daily flows will
+be obtained from \pkg{tidyhydat} and plotted.}
 
-\item{WSCdailyFlowsLabel}{Optional. Labels for the daily flows. If not specified, then the WSC station number will be used, followed by \option{daily}.}
+\item{WSCdailyFlowsLabel}{Optional. Labels for the daily flows. If not specified,
+then the WSC station number will be used, followed by \option{daily}.}
 
-\item{WSCpeakFlowsID}{Optional. If \code{NULL} (the default) the WSC peak flows will not be plotted. If a WSC station number
-is specified , e.g. \code{WSCpeakFlows = "05CC001"}, then the daily flows will be obtained from \pkg{tidyhydat} and plotted.}
+\item{WSCpeakFlowsID}{Optional. If \code{NULL} (the default) the WSC peak flows
+will not be plotted. If a WSC station number
+is specified , e.g. \code{WSCpeakFlows = "05CC001"}, then the daily flows will
+be obtained from \pkg{tidyhydat} and plotted.}
 
-\item{WSCpeakFlowsLabel}{Optional. Labels for the annual peak flows. If not specified, then the WSC station ID will be used,
+\item{WSCpeakFlowsLabel}{Optional. Labels for the annual peak flows. If not specified,
+then the WSC station ID will be used,
 followed by \option{annual peak}.}
 
-\item{forceMissingPeakTimes}{Optional. Some peaks may be missing their time of day and/or time zone. If \code{TRUE},
-the missing peak times will be set to noon on the date of record. The missing time zone will be set to that of the other
-values or the user's time zone if there are none specified. If \code{FALSE} (the default value) peaks missing times and/or
-timezones will be deleted from the plot.}
+\item{forceMissingPeakTimes}{Optional. Some peaks may be missing their time of day
+and/or time zone. If \code{TRUE}, the missing peak times will be set to noon on
+the date of record. The missing time zone will be set to that of the other
+values or the user's time zone if there are none specified. If \code{FALSE}
+(the default value) peaks missing times and/or timezones will be deleted from the plot.}
 
-\item{commonTime}{Optional. If set to \code{TRUE} then the hydrographs will only plotted over their common time range.
-Default is \code{FALSE}.}
+\item{commonTime}{Optional. If set to \code{TRUE} then the hydrographs will only
+plotted over their common time range. Default is \code{FALSE}.}
 
-\item{fakeDates}{Optional. If set to \code{TRUE} then all dates have their year replaced with \code{2000}, and the a
-ctual year is added as a variable in the plotted data. This allows the plot to be faceted by year, as shown in the examples.}
+\item{fakeDates}{Optional. If set to \code{TRUE} then all dates have their
+year replaced with \code{2000}, and the a ctual year is added as a variable in the
+plotted data. This allows the plot to be faceted by year, as shown in the examples.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script,
-you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are
+calling this function in an \R script, you will usually leave \code{quiet=TRUE}
+(i.e. the default). If you are working interactively, you will probably want to
 set \code{quiet=FALSE}.}
 
 \item{hydat_path}{Optional. Path to the HYDAT database. This can usually be left blank.}
 }
 \value{
-If successful, returns a \pkg{ggplot2} object. If unsuccessful, returns \code{FALSE}.
+If successful, returns a \pkg{ggplot2} object. If unsuccessful, returns an error.
 }
 \description{
-Creates a \pkg{ggplot} hydrograph from any of CRHM flows, WSC daily flows and/or WSC peak flows.
+Creates a \pkg{ggplot} hydrograph from any of CRHM flows, WSC daily
+flows and/or WSC peak flows.
 }
 \note{
-The CRHM flows are plotted as lines, the daily flows are plotted as steps, and the annual peaks are plotted as points.
+The CRHM flows are plotted as lines, the daily flows are plotted as
+steps, and the annual peaks are plotted as points.
 }
 \examples{
 \dontrun{
 p <- hydrograph(CRHMflows = "BadLakeModelOutput", CRHMflowsLabels = "CRHM Bad Lake model",
-CRHMcols = 1, WSCpeakFlowsID = "05HF014")
+  CRHMcols = 1, WSCpeakFlowsID = "05HF014")
 # once the ggplot graph has been returned, it can easily be modified:
-mintime <- as.POSIXct(as.Date('1975-04-01', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
-maxtime <- as.POSIXct(as.Date('1975-04-30', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
+mintime <- as.POSIXct(as.Date("1975-04-01", format = "\%Y-\%m-\%d"), tz = "etc/GMT+6")
+maxtime <- as.POSIXct(as.Date("1975-04-30", format = "\%Y-\%m-\%d"), tz = "etc/GMT+6")
 # load in all of ggplot2 to modify plots
 # library(ggplot2)
 p <- p + xlim(mintime, maxtime) + ylim(0, 4)
 
 # re-plot with fake dates
-p2 <- hydrograph(CRHMflows = "BadLakeModelOutput", CRHMflowsLabels = "CRHM Bad Lake model",
-CRHMcols = 1, WSCdailyFlowsID = "05HF014", WSCpeakFlowsID = "05HF014",
-commonTime=TRUE, fakeDates=TRUE)
-p2 <- p2 + facet_wrap(~year, scales='free_y', ncol=8)
+p2 <- hydrograph(
+  CRHMflows = "BadLakeModelOutput", CRHMflowsLabels = "CRHM Bad Lake model",
+  CRHMcols = 1, WSCdailyFlowsID = "05HF014", WSCpeakFlowsID = "05HF014",
+  commonTime = TRUE, fakeDates = TRUE
+)
+p2 <- p2 + facet_wrap(~year, scales = "free_y", ncol = 8)
 # set axis limits to be the specified date range, and set labels to be the month names
-mintime <- as.POSIXct(as.Date('2000-03-01', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
-maxtime <- as.POSIXct(as.Date('2000-06-30', format='\%Y-\%m-\%d'), tz='etc/GMT+6')
-p2 <- p2 + scale_x_datetime(date_breaks = "1 month",
-limits=c(mintime, maxtime), date_labels = "\%b")
+mintime <- as.POSIXct(as.Date("2000-03-01", format = "\%Y-\%m-\%d"), tz = "etc/GMT+6")
+maxtime <- as.POSIXct(as.Date("2000-06-30", format = "\%Y-\%m-\%d"), tz = "etc/GMT+6")
+p2 <- p2 + scale_x_datetime(date_breaks = "1 month", limits = c(mintime, maxtime),
+date_labels = "\%b")
 }
 }
 \author{

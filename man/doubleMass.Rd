@@ -10,21 +10,27 @@ doubleMass(primaryObs, primaryCol = 1, secondaryObs, secondaryCol = 1,
 \arguments{
 \item{primaryObs}{Required. The primary \pkg{CRHMr} data frame of obs values.}
 
-\item{primaryCol}{Optional. The column number to be used, not including the datetime. If not specified, defaults to the first column.}
+\item{primaryCol}{Optional. The column number to be used, not including the datetime.
+If not specified, defaults to the first column.}
 
 \item{secondaryObs}{Required. The secondary \pkg{CRHMr} data frame of obs values.}
 
-\item{secondaryCol}{Optional. The column number to be used, not including the datetime. If not specified, defaults to the first column.}
+\item{secondaryCol}{Optional. The column number to be used, not including the datetime.
+If not specified, defaults to the first column.}
 
 \item{plot}{Optional. Should a plot be created? Default is \code{FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If \code{plot = TRUE}, then a \pkg{ggplot2} object will be returned, with the \code{primaryObs} values plotted on the x-axis and the \code{secondaryObs} values plotted on the y-axis. Otherwise, a dataframe is returned with the cumulative values ov each of the variables.
+If \code{plot = TRUE}, then a \pkg{ggplot2} object will be returned, with the
+\code{primaryObs} values plotted on the x-axis and the \code{secondaryObs} values
+plotted on the y-axis. Otherwise, a dataframe is returned with the cumulative values of
+each of the variables.
 }
 \description{
-Calculates cumulative sums for two variables and optionally returns a plot. Only values coinciding in time are used for the cumulative sums.
+Calculates cumulative sums for two variables and optionally returns a plot.
+Only values coinciding in time are used for the cumulative sums.
 }
 \examples{
 \dontrun{

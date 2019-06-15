@@ -9,20 +9,31 @@ deDupe(obs, action = "mean", quiet = TRUE, logfile = "")
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} data frame containing the obs values.}
 
-\item{action}{Optional. The action used to replace the duplicate values. Must be one of \option{min}, \option{max}, \option{mean}, \option{skip}, \option{delete}, \option{split} or \option{second}. Default is \option{mean}.}
+\item{action}{Optional. The action used to replace the duplicate values. Must be one of \option{min},
+\option{max}, \option{mean}, \option{skip}, \option{delete}, \option{split} or \option{second}.
+Default is \option{mean}.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function
+in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working
+interactively, you will probably want to set \code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If there are no duplicates, returns \code{'No duplicates'}. If duplicates exist, and are are successfully removed, the de-duplicated data frame is returned. If the de-duplication is unsuccessful, then the value \code{FALSE} is returned.
+If there are no duplicates, returns \code{'No duplicates'}. If duplicates exist, and are are
+successfully removed, the de-duplicated data frame is returned. If the de-duplication is unsuccessful,
+then an error is returned.
 }
 \description{
-Removes duplicated datetime values. Many time series, especially from Environment Canada, may contain duplicated datetimes. This function replaces the duplicated values. It is important to use this function before interpolating or imputing values, and especially before writing the data frame to an obs file.
+Removes duplicated datetime values. Many time series, especially from Environment
+Canada, may contain duplicated datetimes. This function replaces the duplicated values. It is
+important to use this function before interpolating or imputing values, and especially before
+writing the data frame to an obs file.
 }
 \note{
-If action=\option{min}, \option{max}, or \option{mean}, the action function is applied to all of the values for each duplicate datetime. If action=\option{skip} or \option{delete}, then the values of the duplicate datetimes are deleted. If action=\option{split} then the original values are kept, and the duplicate values are written to an obs file. The name of the obs file is the name of the obs variable followed by \code{'_dupes.obs'}. If action=\option{second}, then the second duplicate values are used. This can be useful when dealing with duplicates caused by daylight savings time.
+If action=\option{min}, \option{max}, or \option{mean}, the action function is applied to all of
+the values for each duplicate datetime. If action=\option{skip} or \option{delete}, then the values of
+the duplicate datetimes are deleted. If action=\option{split} then the original values are kept, and the duplicate values are written to an obs file. The name of the obs file is the name of the obs variable followed by \code{'_dupes.obs'}. If action=\option{second}, then the second duplicate values are used. This can be useful when dealing with duplicates caused by daylight savings time.
 }
 \examples{
 BadLake.deduped <- deDupe(BadLake7376, action='mean')

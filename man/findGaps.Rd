@@ -28,7 +28,7 @@ Finds successive missing values in an obs data frame. This function is useful to
 If quiet=FALSE, the functions gives a summary of the gaps (number of gaps, their total length) for each year.
 }
 \examples{
-findGaps(BadLake7376, quiet=FALSE)
+findGaps(BadLake7376, quiet = FALSE)
 }
 \seealso{
 \code{\link{insertMissing}} \code{\link{interpolate}} \code{\link{impute}}

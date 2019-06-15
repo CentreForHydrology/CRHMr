@@ -10,32 +10,45 @@ minObs(obs, varcols = "", minvals = "", actions = "min",
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} obs data frame.}
 
-\item{varcols}{Optional. A vector containing the columns to be imputed in the obs data frame, not including the datetime. If not specified, defaults to all columns.}
+\item{varcols}{Optional. A vector containing the columns to be imputed in the obs data
+frame, not including the datetime. If not specified, defaults to all columns.}
 
-\item{minvals}{Optional. A vector containing the minimum permissible values for each of the specified columns. If omitted, the default values are used.}
+\item{minvals}{Optional. A vector containing the minimum permissible values for each of
+the specified columns. If omitted, the default values are used.}
 
-\item{actions}{Optional. A vector containing the methods to be used for replacing values that exceed the minimum threshold values. Currently supported actions are \option{min} (using the threshold) and \option{NA} (using \code{NA_real_} values). The default is \option{min}. If fewer actions are specified than variables, then the actions are recycled.}
+\item{actions}{Optional. A vector containing the methods to be used for replacing values
+that exceed the minimum threshold values. Currently supported actions are \option{min}
+(using the threshold) and \option{NA} (using \code{NA_real_} values). The default is \option{min}. If fewer actions are specified than variables, then the actions are recycled.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are
+calling this function in an \R script, you will usually leave \code{quiet=TRUE}
+(i.e. the default). If you are working interactively, you will probably want to set
+\code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a modified version of the obs data frame. The values smaller than the specified \code{min} values are replaced by either \code{NA_real_} or the threshold \code{min} values. If unsuccessful, returns the value FALSE.
+If successful, returns a modified version of the obs data frame. The values
+smaller than the specified \code{min} values are replaced by either \code{NA_real_}
+or the threshold \code{min} values. If unsuccessful, returns an error.
 }
 \description{
-Tests values in a \pkg{CRHMr} obs data frame to see if they exceed minimum thresholds. Values exceeding the thresholds can be set to either the minimum allowable value or to \code{NA_real}, which is useful for infilling or imputing values.
+Tests values in a \pkg{CRHMr} obs data frame to see if they exceed minimum
+thresholds. Values exceeding the thresholds can be set to either the minimum allowable
+value or to \code{NA_real}, which is useful for infilling or imputing values.
 }
 \note{
-The default threshold values are \tabular{ll}{t\tab -40 C\cr ea \tab 0.01 kPa\cr rh \tab 0.5 percent\cr ppt\tab 0 mm\cr p\tab 0 mm\cr u \tab 0 m/s\cr SunAct\tab 0 hr\cr qsi\tab 0 W/m\eqn{^2}{^2}\cr qso\tab 0 W/m\eqn{^2}{^2}\cr qn\tab -60 W/m\eqn{^2}{^2}\cr}
+The default threshold values are \tabular{ll}{t\tab -40 C\cr ea \tab 0.01 kPa\cr
+ rh \tab 0.5 percent\cr ppt\tab 0 mm\cr p\tab 0 mm\cr u \tab 0 m/s\cr SunAct\tab 0 hr\cr
+ qsi\tab 0 W/m\eqn{^2}{^2}\cr qso\tab 0 W/m\eqn{^2}{^2}\cr qn\tab -60 W/m\eqn{^2}{^2}\cr}
 }
 \examples{
 # use all of the default values
 bad.min <- minObs(BadLake7376)
 # use specified columns with default min values, replace with 'NA' values
-bad.min2 <- minObs(BadLake7376, varcols=c(1,2), actions='NA')
+bad.min2 <- minObs(BadLake7376, varcols = c(1, 2), actions = "NA")
 # use specfied columns with specified min values and actions
-bad.min3 <- minObs(BadLake7376, minvals=c(-30, 22), varcols=c(1,2), actions=c('min', 'NA'))
+bad.min3 <- minObs(BadLake7376, minvals = c(-30, 22), varcols = c(1, 2), actions = c("min", "NA"))
 }
 \seealso{
 \code{\link{maxObs}}

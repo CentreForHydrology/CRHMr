@@ -35,3 +35,7 @@ yearly <- aggDataframe(daily.datetime, period='hydro', funs='sum')
 p <- basinWaterBalancePlot(yearly)
 }
 }
+\author{
+Kevin Shook
+}
+\concept{idea from http://www.r-bloggers.com/improved-net-stacked-distribution-graphs-via-ggplot2-trickery/}

@@ -10,33 +10,55 @@ impute(primaryObs, primaryCols = 1, secondaryObs, secondaryCols = 1,
 \arguments{
 \item{primaryObs}{Required. The primary \pkg{CRHMr} data frame of obs values.}
 
-\item{primaryCols}{Optional. A vector containing the columns to be imputed in the primary data frame, not including the datetime. If not specified, defaults to the first column.}
+\item{primaryCols}{Optional. A vector containing the columns to be imputed in the primary
+data frame, not including the datetime. If not specified, defaults to the first column.}
 
 \item{secondaryObs}{Required. The secondary CRHM obs data frame.}
 
-\item{secondaryCols}{Optional. A vector containing the columns to be imputed in the secondary data frame, not including the datetime. If not specified, defaults to the first column.}
+\item{secondaryCols}{Optional. A vector containing the columns to be imputed in the
+secondary data frame, not including the datetime. If not specified, defaults to the first column.}
 
-\item{multipliers}{Optional. A vector of multipliers applied to secondary observations. These may be obtained using the regress function. The default value is \code{1}.}
+\item{multipliers}{Optional. A vector of multipliers applied to secondary observations.
+These may be obtained using the regress function. The default value is \code{1}.}
 
-\item{offsets}{Optional. A vector of offsets added to secondary observations. These may be obtained using the regress function. The default value is \code{0}.}
+\item{offsets}{Optional. A vector of offsets added to secondary observations. These may
+be obtained using the regress function. The default value is \code{0}.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are
+calling this function in an \R script, you will usually leave \code{quiet=TRUE}
+(i.e. the default). If you are working interactively, you will probably want to set
+\code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful returns a modified version of the \code{primaryObs} data frame. The missing values in the primary data frame are replaced by corresponding values from the secondary data frame, after adjustment using the specified multipliers and offsets. If unsuccessful, returns the value \code{FALSE}.
+If successful returns a modified version of the \code{primaryObs} data frame.
+The missing values in the primary data frame are replaced by corresponding values from
+the secondary data frame, after adjustment using the specified multipliers and offsets.
+If unsuccessful, returns an error.
 }
 \description{
-This function fills in missing (\code{NA}) values in a \pkg{CRHMr} obs data frame by imputation. The primary values are the data that will be infilled. The secondary values are those used to fill in the gaps. The secondary values are adjusted using the specified multipliers (regression slopes) and offsets (regression intercepts).
+This function fills in missing (\code{NA}) values in a \pkg{CRHMr} obs
+data frame by imputation. The primary values are the data that will be infilled. The
+secondary values are those used to fill in the gaps. The secondary values are adjusted
+using the specified multipliers (regression slopes) and offsets (regression intercepts).
 }
 \note{
-In addition to the usual notation in the logfile, this function also writes a separate logfile which summarizes the primaryObs data frame, and the new infilled data frame. The summaries are also printed to the screen, if quiet=\code{FALSE}. The logfile also contains a complete listing of the source of each value in the infilled data frame.  Each value is listed as being \option{original} (unmodified from the \code{primaryObs} data frame), \option{imputed} (derived from the adjusted values of the \code{secondaryObs} data frame) or \option{NA} (missing).
+In addition to the usual notation in the logfile, this function also writes a
+separate logfile which summarizes the primaryObs data frame, and the new infilled data
+frame. The summaries are also printed to the screen, if quiet=\code{FALSE}. The logfile
+also contains a complete listing of the source of each value in the infilled data frame.
+Each value is listed as being \option{original} (unmodified from the \code{primaryObs}
+ data frame), \option{imputed} (derived from the adjusted values of the \code{secondaryObs}
+ data frame) or \option{NA} (missing).
 }
 \examples{
 \dontrun{
-v.filled <- impute(veg, c(1,2,3), st,
-c(2,3,1), c(0.895,0.708,1.1209), c(-0.8128, 0.0607, 9.005))}
+v.filled <- impute(
+  veg, c(1, 2, 3), st,
+  c(2, 3, 1), c(0.895, 0.708, 1.1209), c(-0.8128, 0.0607, 9.005)
+)
+}
 }
 \seealso{
 \code{\link{interpolate}} \code{\link{regress}} \code{\link{distributeP}}

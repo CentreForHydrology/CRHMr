@@ -9,12 +9,17 @@ keepGood(obs, quiet = TRUE, logfile = "")
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} obs dataframe.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you
+are calling this function in an \R script, you will usually leave \code{quiet=TRUE}
+(i.e. the default). If you are working interactively, you will probably want to set
+\code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns the dataframe containing all rows with any non-missing values. If unsuccessful (including if there are only missing values in the original data), returns \code{FALSE}.
+If successful, returns the dataframe containing all rows with any non-missing
+alues. If unsuccessful (including if there are only missing values in the original data),
+returns an error.
 }
 \description{
 Removes rows where all values are missing, keeps the remainder.

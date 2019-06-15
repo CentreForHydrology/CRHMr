@@ -9,28 +9,53 @@ createObsDataframe(start.date, end.date, timestep = 1,
   logfile = "")
 }
 \arguments{
-\item{start.date}{Required. Starting date, in the format \option{Y-m-d}, \option{d/m/Y}, \option{d-m-Y}, \option{d B Y}, \option{d b Y}, \option{d-B-Y}, \option{d-b-Y}, \option{B d, Y}, or \option{b d, Y}, where \option{Y} = year, \option{m} = month number, \option{B} = capitalized month name, \option{b} = lower case month name, \option{d} = day number.}
+\item{start.date}{Required. Starting date, in the format \option{Y-m-d},
+\option{d/m/Y}, \option{d-m-Y}, \option{d B Y}, \option{d b Y}, \option{d-B-Y},
+\option{d-b-Y}, \option{B d, Y}, or \option{b d, Y}, where \option{Y} = year,
+\option{m} = month number, \option{B} = capitalized month name,
+\option{b} = lower case month name, \option{d} = day number.}
 
-\item{end.date}{Required. Ending date,, in the format \option{d/m/Y}, \option{d-m-Y}, \option{d B Y}, \option{d b Y}, \option{d-B-Y}, \option{d-b-Y}, \option{B d, Y}, or \option{b d, Y}, where \option{Y} = year, \option{m} = month number, \option{B} = capitalized month name, \option{b} = lower case month name, \option{d} = day number.}
+\item{end.date}{Required. Ending date,, in the format \option{d/m/Y},
+\option{d-m-Y}, \option{d B Y}, \option{d b Y}, \option{d-B-Y},
+\option{d-b-Y}, \option{B d, Y}, or \option{b d, Y}, where \option{Y} = year,
+\option{m} = month number, \option{B} = capitalized month name,
+\option{b} = lower case month name, \option{d} = day number.}
 
-\item{timestep}{Optional. Time interval between values in hours. The default value is 1 hour. The interval can be less than 1 hour.}
+\item{timestep}{Optional. Time interval between values in hours. The default value
+is 1 hour. The interval can be less than 1 hour.}
 
-\item{variables}{Optional. vector containing the names of variables to be created. The default values are \option{t}, \option{rh}, \option{u}, and \option{p}.}
+\item{variables}{Optional. vector containing the names of variables to be created.
+The default values are \option{t}, \option{rh}, \option{u}, and \option{p}.}
 
 \item{reps}{Optional. The number of repetitions for each value. The default is 1.}
 
-\item{timezone}{Required. The name of the timezone of the data as a character string. This should be the timezone of your data, but omitting daylight savings time. Note that the timezone code is specific to your OS. To avoid problems, you should use a timezone without daylight savings time. Under Linux, you can use \option{CST} and \option{MST} for Central Standard or Mountain Standard time, respectively. Under Windows or OSX, you can use \option{etc/GMT+6} or \option{etc/GMT+7} for Central Standard and Mountain Standard time. DO NOT use \option{America/Regina} as the time zone, as it includes historical changes between standard and daylight savings time.}
+\item{timezone}{Required. The name of the timezone of the data as a character string.
+This should be the timezone of your data, but omitting daylight savings time. Note
+that the timezone code is specific to your OS. To avoid problems, you should use a
+timezone without daylight savings time. Under Linux, you can use \option{CST} and
+ \option{MST} for Central Standard or Mountain Standard time, respectively. Under
+ Windows or OSX, you can use \option{etc/GMT+6} or \option{etc/GMT+7} for Central
+ Standard and Mountain Standard time. DO NOT use \option{America/Regina} as the
+ time zone, as it includes historical changes between standard and daylight savings time.}
 
-\item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
+\item{logfile}{Optional. Name of the file to be used for logging the action.
+Normally not used.}
 }
 \value{
-If successful, the function returns a CRHM data fame with the specified number of each variable, with values set to be \code{NA}. If unsuccessful, returns the value \code{FALSE}.
+If successful, the function returns a CRHM data fame with the specified
+number of each variable, with values set to be \code{NA}. If unsuccessful, returns
+the value \code{FALSE}.
 }
 \description{
-Creates a data fame to hold observations. All values are initially set to \code{NA_real_}. Once the data fame has been created, it may be filled from other data fames by imputation.
+Creates a data fame to hold observations. All values are initially
+set to \code{NA_real_}. Once the data fame has been created, it may be filled
+from other data fames by imputation.
 }
 \details{
-The names for the variables in the data fame are derived from the specified variables, and the number of reps. For example if the default variable names are used, with 2 reps, then the variables created will be \code{t.1}, \code{t.2}, \code{rh.1}, \code{rh.2}, \code{u.1}, \code{u.2}, \code{p.1}, and \code{p.2}.
+The names for the variables in the data fame are derived from the specified
+variables, and the number of reps. For example if the default variable names are
+used, with 2 reps, then the variables created will be \code{t.1}, \code{t.2},
+\code{rh.1}, \code{rh.2}, \code{u.1}, \code{u.2}, \code{p.1}, and \code{p.2}.
 }
 \examples{
 vars <- c('t','rh','u')

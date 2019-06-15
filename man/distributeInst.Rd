@@ -11,23 +11,32 @@ distributeInst(obs, obsCols = "all", timeStep = 0,
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} data frame of obs values.}
 
-\item{obsCols}{Optional. A vector containing the columns to be imputed in the obs data frame, not including the datetime. The default \option{all} specifies all columns.}
+\item{obsCols}{Optional. A vector containing the columns to be imputed in the obs data frame, not including
+the datetime. The default \option{all} specifies all columns.}
 
-\item{timeStep}{Required. The time step (in hours) for the interpolated values. This value must be smaller than the time step in the original time series.}
+\item{timeStep}{Required. The time step (in hours) for the interpolated values. This value must be smaller
+than the time step in the original time series.}
 
-\item{interpolationMethod}{Optional. A vector containing the methods to be used for interpolation for each of the variables. Currently supported methods are \option{linear} and \option{spline}. The default is to use linear interpolation. If fewer methods than columns are specified, the methods are recycled.}
+\item{interpolationMethod}{Optional. A vector containing the methods to be used for interpolation for each of
+the variables. Currently supported methods are \option{linear} and \option{spline}. The default is to use
+linear interpolation. If fewer methods than columns are specified, the methods are recycled.}
 
 \item{maxLength}{Optional. The maximum gap length to be interpolated. Defaults to 5 time steps.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function
+in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working
+interactively, you will probably want to set \code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not use}
 }
 \value{
-If successful, returns a dataframe of the selected columns interpolated to the specified time step. If unsuccessful, returns \code{FALSE}.
+If successful, returns a dataframe of the selected columns interpolated to the specified
+time step. If unsuccessful, returns an error.
 }
 \description{
-Distributes instantaneous values to a shorter time interval. The missing datetimes are inserted and then the values are interpolated. This function is typically used to downscale obs values such as t, ea, and u.
+Distributes instantaneous values to a shorter time interval. The missing datetimes are i
+nserted and then the values are interpolated. This function is typically used to downscale obs values
+such as t, ea, and u.
 }
 \examples{
 \dontrun{

@@ -7,21 +7,24 @@
 datetimeToDate(dataframe, logfile = "")
 }
 \arguments{
-\item{dataframe}{Required. A data frame. The first name of the column must be a POSIXct variable, which can be converted to a standard \R date.}
+\item{dataframe}{Required. A data frame. The first name of the column must be a POSIXct variable,
+which can be converted to a standard \R date.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a data frame where the first column is a standard \pkg{CRHMr} date. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns a data frame where the first column is a standard \pkg{CRHMr} date.
+If unsuccessful, returns an error.
 }
 \description{
 This is used when a \pkg{CRHMr} date is stored as a datetime (POSIXct) variable.
 }
 \examples{
-Badlake.radiation.daily <- aggDataframe(BadLake7376, period='daily', 
+Badlake.radiation.daily <- aggDataframe(BadLake7376, period='daily',
 columns=c(6,7,8), funs=c('mean'))
 BadLake.datetime <- dateToDatetime(Badlake.radiation.daily, timezone='CST')
 BadLake.date <- datetimeToDate(BadLake.datetime)
+
 }
 \seealso{
 \code{\link{dateToDatetime}}

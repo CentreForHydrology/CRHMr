@@ -9,33 +9,55 @@ distributeQli(QliObs, QliColnum = 1, tObs, tColnum = 1, timeStep = 1,
   logfile = "")
 }
 \arguments{
-\item{QliObs}{Required. A \pkg{CRHMr} obs data frame containing incoming longwave radiation in in W/m\eqn{^2}{^2}.}
+\item{QliObs}{Required. A \pkg{CRHMr} obs data frame containing incoming longwave
+radiation in in W/m\eqn{^2}{^2}.}
 
-\item{QliColnum}{Optional. The number of the columns (not including the datetime) containing the incoming longwave values. Default is \code{1}.}
+\item{QliColnum}{Optional. The number of the columns (not including the datetime)
+containing the incoming longwave values. Default is \code{1}.}
 
-\item{tObs}{Required. A \pkg{CRHMr} obs data frame containing air temperatures. The values may be in K or \eqn{^\circ}{}C (the function will detect and adjust).}
+\item{tObs}{Required. A \pkg{CRHMr} obs data frame containing air temperatures.
+The values may be in K or \eqn{^\circ}{}C (the function will detect and adjust).}
 
-\item{tColnum}{Optional. The number of the columns (not including the datetime) containing the air temperature values. Default is \code{1}.}
+\item{tColnum}{Optional. The number of the columns (not including the datetime)
+containing the air temperature values. Default is \code{1}.}
 
-\item{timeStep}{Optional. The number of hours to be used as the downscaled time step. Default is \code{1}.}
+\item{timeStep}{Optional. The number of hours to be used as the downscaled time step.
+Default is \code{1}.}
 
-\item{interpolationMethod}{Optional. The method to be used for interpolating the air temperatures (if required). Currently supported methods are \option{linear} and \option{spline}. The default is to use linear interpolation.}
+\item{interpolationMethod}{Optional. The method to be used for interpolating the air
+temperatures (if required). Currently supported methods are \option{linear} and
+\option{spline}. The default is to use linear interpolation.}
 
-\item{maxlength}{Optional. The maximum gap length to be interpolated. If not specified (the default), then the maximum gap length permitted is twice the time interval of the air temperatures.}
+\item{maxlength}{Optional. The maximum gap length to be interpolated. If not specified
+(the default), then the maximum gap length permitted is twice the time interval of
+the air temperatures.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are
+calling this function in an \R script, you will usually leave \code{quiet=TRUE} (
+i.e. the default). If you are working interactively, you will probably want to set
+\code{quiet=FALSE}.}
 
-\item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used}
+\item{logfile}{Optional. Name of the file to be used for logging the action. Normally
+not used}
 }
 \value{
-If successful, returns an obs data frame containing the downscaled incoming longwave radiation (Qli) in W/m\eqn{^2}{^2}. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns an obs data frame containing the downscaled incoming
+longwave radiation (Qli) in W/m\eqn{^2}{^2}. If unsuccessful, returns an error.
 }
 \description{
-Downscales incoming longwave radiation to shorter time intervals, based on the air temperatures, using the Stefan-Boltzmann law \eqn{Q_{li}=\epsilon \sigma T^{4}}{}. The atmospheric emissivity \eqn{(\epsilon)}{} is calculated from the longwave radiation and the temperature at the original time intervals. The air temperatures are interpolated to the shorter intervals (if required), and are then used to calculate the incoming longwave, using the longer-interval emissivities. Finally, the downscaled longwave radiation is adjusted so that its mean values over the original time intervals are the same as the original values.
+Downscales incoming longwave radiation to shorter time intervals,
+based on the air temperatures, using the Stefan-Boltzmann law
+\eqn{Q_{li}=\epsilon \sigma T^{4}}{}. The atmospheric emissivity \eqn{(\epsilon)}{}
+is calculated from the longwave radiation and the temperature at the original time
+intervals. The air temperatures are interpolated to the shorter intervals (if required),
+and are then used to calculate the incoming longwave, using the longer-interval emissivities.
+Finally, the downscaled longwave radiation is adjusted so that its mean values over the
+original time intervals are the same as the original values.
 }
 \examples{
 \dontrun{
-hourlyLongwave <- distributeQli(LWobs, 1, tobs, 1)}
+hourlyLongwave <- distributeQli(LWobs, 1, tobs, 1)
+}
 }
 \seealso{
 \code{\link{emissivity}} \code{\link{longwave}} \code{\link{interpolate}}

@@ -34,7 +34,9 @@ Calculates changes in storage over specified intervals
 }
 \note{
 The period of diferencing must be greater than the time step of the
-CRHM data. This function does NOT remove \code{NA} values before aggregation. Use \command{na.omit} or one of the infilling functions (\code{\link{interpolate}} or \code{\link{impute}}) if you want to remove missing values.
+CRHM data. This function does NOT remove \code{NA} values before aggregation.
+Use \command{na.omit} or one of the infilling functions (\code{\link{interpolate}} or
+\code{\link{impute}}) if you want to remove missing values.
 }
 \examples{
 \dontrun{delta <- deltaStorage(crhm, c(23,24,25))}

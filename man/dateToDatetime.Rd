@@ -7,19 +7,29 @@
 dateToDatetime(dataframe, hour = 0, timezone = "", logfile = "")
 }
 \arguments{
-\item{dataframe}{Required. A data frame. The first name of the column must be \option{date}, and it must be standard \R date.}
+\item{dataframe}{Required. A data frame. The first name of the column must be \option{date}, and
+it must be standard \R date.}
 
 \item{hour}{Optional. The hour to be used for the datetime values. Default is \code{0}.}
 
-\item{timezone}{Required. The name of the timezone of the data as a character string. This should be the timezone of your data, but omitting daylight savings time. Note that the timezone code is specific to your OS. To avoid problems, you should use a timezone without daylight savings time. Under Linux, you can use \option{CST} and \option{MST} for Central Standard or Mountain Standard time, respectively. Under Windows or OSX, you can use \option{etc/GMT+6} or \option{etc/GMT+7} for Central Standard and Mountain Standard time. DO NOT use \option{America/Regina} as the time zone, as it includes historical changes between standard and daylight savings time.}
+\item{timezone}{Required. The name of the timezone of the data as a character string. This should be
+the timezone of your data, but omitting daylight savings time. Note that the timezone code is specific
+to your OS. To avoid problems, you should use a timezone without daylight savings time. Under Linux,
+you can use \option{CST} and \option{MST} for Central Standard or Mountain Standard time, respectively.
+Under Windows or OSX, you can use \option{etc/GMT+6} or \option{etc/GMT+7} for Central Standard and
+Mountain Standard time. DO NOT use \option{America/Regina} as the time zone, as it includes historical
+changes between standard and daylight savings time.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a data frame where the first column is a standard \pkg{CRHMr} datetime. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns a data frame where the first column is a standard \pkg{CRHMr} datetime.
+If unsuccessful, returns an error.
 }
 \description{
-The \code{aggDataframe} function produces non-standard data frames, which have dates rather than datetimes as their first column. This function will convert a data frame with dates in the first column to have datetimes with the time being set to a constant value.
+The \code{aggDataframe} function produces non-standard data frames, which have dates
+rather than datetimes as their first column. This function will convert a data frame with dates
+in the first column to have datetimes with the time being set to a constant value.
 }
 \examples{
 Badlake.radiation.daily <- aggDataframe(BadLake7376, period='daily',

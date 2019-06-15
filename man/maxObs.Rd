@@ -10,33 +10,48 @@ maxObs(obs, varcols = "", maxvals = "", actions = "max",
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} obs data frame.}
 
-\item{varcols}{Optional. A vector containing the columns to be imputed in the obs data frame, not including the datetime. If not specified, defaults to all columns.}
+\item{varcols}{Optional. A vector containing the columns to be imputed in the obs data
+frame, not including the datetime. If not specified, defaults to all columns.}
 
-\item{maxvals}{Optional. A vector containing the maximum permissible values for each of the specified columns. If omitted, the default values are used.}
+\item{maxvals}{Optional. A vector containing the maximum permissible values for each of
+the specified columns. If omitted, the default values are used.}
 
-\item{actions}{Optional. A vector containing the methods to be used for replacing values that exceed the maximum threshold values. Currently supported actions are \option{max} (using the threshold) and \option{NA} (inserting \code{NA_real_} values). The default is \option{max}. If fewer actions are specified than variables, then the actions are recycled.}
+\item{actions}{Optional. A vector containing the methods to be used for replacing values
+that exceed the maximum threshold values. Currently supported actions are \option{max}
+(using the threshold) and \option{NA} (inserting \code{NA_real_} values). The default is
+\option{max}. If fewer actions are specified than variables, then the actions are recycled.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are
+calling this function in an \R script, you will usually leave \code{quiet=TRUE}
+(i.e. the default). If you are working interactively, you will probably want to set
+\code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a modified version of the obs data frame. The values exceeding the specified \code{max} values are replaced by either \code{NA_real_} or the threshold \code{max} values. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns a modified version of the obs data frame. The values
+exceeding the specified \code{max} values are replaced by either \code{NA_real_} or the
+threshold \code{max} values. If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
-Tests values in a \pkg{CRHMr} obs data frame to see if they exceed maximum thresholds. Values exceeding the thresholds can be set to either the maximum allowable value or to \code{NA_real_}, which is useful for infilling or imputing values.
+Tests values in a \pkg{CRHMr} obs data frame to see if they exceed maximum
+thresholds. Values exceeding the thresholds can be set to either the maximum allowable
+value or to \code{NA_real_}, which is useful for infilling or imputing values.
 }
 \note{
-The default threshold values are \tabular{ll}{t\tab 40 C\cr ea \tab 3.5 kPa\cr rh \tab 100 percent\cr ppt\tab 100 mm\cr p\tab 20 mm\cr u \tab 10 m/s\cr SunAct\tab 18 hr\cr qsi\tab 1262 W/m\eqn{^2}{^2}\cr qso\tab 1000 W/m\eqn{^2}{^2}\cr qn\tab 250 W/m\eqn{^2}{^2}\cr}
+The default threshold values are \tabular{ll}{t\tab 40 C\cr ea \tab 3.5 kPa\cr
+rh \tab 100 percent\cr ppt\tab 100 mm\cr p\tab 20 mm\cr u \tab 10 m/s\cr
+SunAct\tab 18 hr\cr qsi\tab 1262 W/m\eqn{^2}{^2}\cr qso\tab 1000 W/m\eqn{^2}{^2}\cr
+qn\tab 250 W/m\eqn{^2}{^2}\cr}
 }
 \examples{
 # use all of the default values
 bad.max <- maxObs(BadLake7376)
 summary(bad.max)
 # use specified columns with default max values, replace with 'NA' values
-bad.max2 <- maxObs(BadLake7376, varcols=c(1,2), actions='NA')
+bad.max2 <- maxObs(BadLake7376, varcols = c(1, 2), actions = "NA")
 # use specfied columns with specified max values and actions
-bad.max3 <- maxObs(BadLake7376, maxvals=c(35, 10), varcols=c(1,3), actions=c('NA', 'max'))
+bad.max3 <- maxObs(BadLake7376, maxvals = c(35, 10), varcols = c(1, 3), actions = c("NA", "max"))
 summary(bad.max3)
 }
 \seealso{

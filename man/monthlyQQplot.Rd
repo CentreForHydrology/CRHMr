@@ -8,30 +8,36 @@ monthlyQQplot(primaryCRHM, primaryCol = 1, secondaryCRHM,
   secondaryCol = 1, samePeriod = TRUE, logfile = "")
 }
 \arguments{
-\item{primaryCRHM}{Required. The primary \pkg{CRHMr} data frame. Quantiles of this data will be plotted on the X axis.}
+\item{primaryCRHM}{Required. The primary \pkg{CRHMr} data frame. Quantiles of this data will
+be plotted on the X axis.}
 
-\item{primaryCol}{Optional. The column in the primary data frame, not including the datetime. If not specified, defaults to the first column.}
+\item{primaryCol}{Optional. The column in the primary data frame, not including the datetime.
+If not specified, defaults to the first column.}
 
-\item{secondaryCRHM}{Required. The secondary \pkg{CRHMr} data frame.  Quantiles of this data will be plotted on the Y axis.}
+\item{secondaryCRHM}{Required. The secondary \pkg{CRHMr} data frame.  Quantiles of this data
+will be plotted on the Y axis.}
 
-\item{secondaryCol}{Optional. The column in the secondary data frame, not including the datetime. If not specified, defaults to the first column.}
+\item{secondaryCol}{Optional. The column in the secondary data frame, not including the
+datetime. If not specified, defaults to the first column.}
 
-\item{samePeriod}{Optional. Logical. Should the same period of time be used for both variables? Default is \code{TRUE}.}
+\item{samePeriod}{Optional. Logical. Should the same period of time be used for both
+variables? Default is \code{TRUE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a \pkg{ggplot2} object of faceted monthly QQ plots (3 rows x 4 columns) of the specified variables. If unsuccessful, returns \code{FALSE}.
+If successful, returns a \pkg{ggplot2} object of faceted monthly QQ plots
+(3 rows x 4 columns) of the specified variables. If unsuccessful, returns an error.
 }
 \description{
 Does QQ plots of monthly values of a single variable type in two data frames.
 }
 \examples{
 BadLake <- BadLake7376
-BadLake$year <- as.numeric(format(BadLake7376$datetime, format='\%Y'))
-badlake73 <- subset(BadLake, year==1973)
-badlake75 <- subset(BadLake, year==1975)
-p <- monthlyQQplot(badlake73, 1, badlake75, 1, samePeriod=FALSE)
+BadLake$year <- as.numeric(format(BadLake7376$datetime, format = "\%Y"))
+badlake73 <- subset(BadLake, year == 1973)
+badlake75 <- subset(BadLake, year == 1975)
+p <- monthlyQQplot(badlake73, 1, badlake75, 1, samePeriod = FALSE)
 print(p)
 }
 \seealso{

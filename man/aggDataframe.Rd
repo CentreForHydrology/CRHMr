@@ -48,10 +48,14 @@ The period of aggregation must be greater than the time step of the CRHM data.
 This function does NOT remove \code{NA} values before differencing.
 }
 \examples{
-Badlake.t.monthly <- aggDataframe(BadLake7376, period='monthly',
-columns=1, funs=c('mean'))
-Badlake.radiation.daily <- aggDataframe(BadLake7376, period='daily',
-columns=c(6,7,8), funs=c('mean'))
+Badlake.t.monthly <- aggDataframe(BadLake7376,
+  period = "monthly",
+  columns = 1, funs = c("mean")
+)
+Badlake.radiation.daily <- aggDataframe(BadLake7376,
+  period = "daily",
+  columns = c(6, 7, 8), funs = c("mean")
+)
 }
 \seealso{
 \code{\link{interpolate}} \code{\link{impute}} \code{\link{yearlyPeaks}} \code{\link{hydroYear}}

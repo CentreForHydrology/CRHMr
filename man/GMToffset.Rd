@@ -7,7 +7,11 @@
 GMToffset(timezone)
 }
 \arguments{
-\item{timezone}{Required. A string containing the time zone. Works with designated time zones such as \option{CST} and \option{MST} for Central Standard or Mountain Standard time or offset time zones such as \option{etc/GMT+6} or \option{etc/GMT+7} for Central Standard and Mountain Standard time. Does NOT work with location time zones like \option{America/Regina}.}
+\item{timezone}{Required. A string containing the time zone. Works with
+designated time zones such as \option{CST} and \option{MST} for Central
+Standard or Mountain Standard time or offset time zones such as \option{etc/GMT+6}
+or \option{etc/GMT+7} for Central Standard and Mountain Standard time. Does NOT
+work with location time zones like \option{America/Regina}.}
 }
 \value{
 Returns the offset in hours as a numeric value.
@@ -16,7 +20,9 @@ Returns the offset in hours as a numeric value.
 Finds offset in hours from UTC for given time zone.
 }
 \note{
-This code was based on the function \code{GMTOffsetFromTz} in the package \pkg{oce}, but works for more time zones and returns a negative value in the western hemisphere.
+This code was based on the function \code{GMTOffsetFromTz} in the
+package \pkg{oce}, but works for more time zones and returns a negative
+value in the western hemisphere.
 }
 \examples{
 GMToffset('MST')

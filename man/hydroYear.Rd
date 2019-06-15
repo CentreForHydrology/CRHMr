@@ -10,14 +10,21 @@ hydroYear(CRHMdata, startMonth = 10, useSecondYear = TRUE,
 \arguments{
 \item{CRHMdata}{Required. A \pkg{CRHMr} data frame.}
 
-\item{startMonth}{Optional. The starting month for the hydrological year. Default is \code{10} (October).}
+\item{startMonth}{Optional. The starting month for the hydrological year. Default is
+\code{10} (October).}
 
-\item{useSecondYear}{Optional. Logical. Determines if the hydrological year is based on the first or second calendar year. In other words would the hydrological year for January 1, 2015 be 2014 or 2015? The default is \code{TRUE} (i.e., the hydrological year would be 2015). Note that the Campbell Scientific program SPLIT uses the first calendar year (i.e., the hydrological year would be 2014). To emulate this program, set \code{useSecondYear} to be \code{FALSE}.}
+\item{useSecondYear}{Optional. Logical. Determines if the hydrological year is based on
+the first or second calendar year. In other words would the hydrological year for
+January 1, 2015 be 2014 or 2015? The default is \code{TRUE} (i.e., the hydrological year
+would be 2015). Note that the Campbell Scientific program SPLIT uses the first calendar
+year (i.e., the hydrological year would be 2014). To emulate this program, set
+\code{useSecondYear} to be \code{FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns the hydrological year as a vector. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns the hydrological year as a vector. If unsuccessful,
+returns an error.
 }
 \description{
 Calculates the hydrological year, based on the starting month.
@@ -25,7 +32,7 @@ Calculates the hydrological year, based on the starting month.
 \examples{
 # create a new data frame, then add the hydro year
 BadLake <- BadLake7376
-BadLake$hydroyear <- hydroYear(BadLake, startMonth=9)
+BadLake$hydroyear <- hydroYear(BadLake, startMonth = 9)
 }
 \seealso{
 \code{\link{aggDataframe}}

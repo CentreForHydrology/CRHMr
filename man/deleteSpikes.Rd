@@ -11,12 +11,17 @@ deleteSpikes(obs, colnum = 1, threshold = 0, logfile = "")
 
 \item{colnum}{Optional. The number of the column to test for spikes, not including the datetime.}
 
-\item{threshold}{Required. The threshold for the \emph{change} in the observed values. The threshold is actually a rate, i.e. the change per unit time. So if you are looking at air temperature, and the threshold is set to \code{5}, then any change in temperature of +/- 5 degrees in one time interval will be considered to be a spike.}
+\item{threshold}{Required. The threshold for the \emph{change} in the observed values. The threshold
+is actually a rate, i.e. the change per unit time. So if you are looking at air temperature, and the
+threshold is set to \code{5}, then any change in temperature of +/- 5 degrees in one time interval
+will be considered to be a spike.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a data frame consiting of the datetime and the original obs values, where all of the spike values have been set to be \code{NA_real_}. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns a data frame consiting of the datetime and the original obs values, where
+all of the spike values have been set to be \code{NA_real_}. If no spikes are found a message is
+printed and the funtion returns the value \code{FALSE}.
 }
 \description{
 Finds spikes, and sets their values to be NA_real_.

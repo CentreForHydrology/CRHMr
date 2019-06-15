@@ -9,29 +9,45 @@ distributeQsi(QsiObs, QsiColnum = 1, latitude = "",
   details = FALSE, quiet = TRUE, logfile = "")
 }
 \arguments{
-\item{QsiObs}{Required. A \pkg{CRHMr} obs data frame containing incoming shortwave radiation in in W/m\eqn{^2}{^2}.}
+\item{QsiObs}{Required. A \pkg{CRHMr} obs data frame containing incoming shortwave radiation
+in in W/m\eqn{^2}{^2}.}
 
-\item{QsiColnum}{Optional. The number of the columns (not including the datetime) containing the incoming shortwave values. Default is \code{1}.}
+\item{QsiColnum}{Optional. The number of the columns (not including the datetime) containing
+the incoming shortwave values. Default is \code{1}.}
 
 \item{latitude}{Required. The latitude for which values are to be calculated.}
 
-\item{sunTimeOffset}{Optional. The offset (in hours) is added to the solar time to convert it to local time. The default value \option{2} shifts the daily peak to occur at 2pm.}
+\item{sunTimeOffset}{Optional. The offset (in hours) is added to the solar time to convert it
+to local time. The default value \option{2} shifts the daily peak to occur at 2pm.}
 
-\item{timeStep}{Optional. The number of hours to be used as the downscaled time step. Default is \code{1}.}
+\item{timeStep}{Optional. The number of hours to be used as the downscaled time step. Default
+is \code{1}.}
 
-\item{solarMethod}{The method to be used for calculating the extra-terrestrial radiation. The default method is \option{simpleMaxSolar}. Note that this method is only valid for latitudes between 49 and 55\eqn{^\circ}{ }N. The other supported method is \option{PotSolarInst}, which requires the package \pkg{EcoHydRology} to be installed.}
+\item{solarMethod}{The method to be used for calculating the extra-terrestrial radiation. The
+default method is \option{simpleMaxSolar}. Note that this method is only valid for latitudes
+between 49 and 55\eqn{^\circ}{ }N. The other supported method is \option{PotSolarInst}, which
+requires the package \pkg{EcoHydRology} to be installed.}
 
-\item{details}{Optional. If \code{TRUE} then the calculated atmospheric transmittance and extra-terrestrial radiation (\code{So_h_W}) will be returned along with the downscaled Qsi. If \code{FALSE} (the default) then only the Qsi values and the datetime are returned.}
+\item{details}{Optional. If \code{TRUE} then the calculated atmospheric transmittance and
+extra-terrestrial radiation (\code{So_h_W}) will be returned along with the downscaled Qsi.
+If \code{FALSE} (the default) then only the Qsi values and the datetime are returned.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling
+this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used}
 }
 \value{
-If successful, returns an obs data frame containing the downscaled incoming shortwave radiation (Qsi) in W/m\eqn{^2}{^2} and, optionally, the transmittance and extra-terrestrial solar radiation (\code{So_h_W}). If unsuccessful, returns the value \code{FALSE}.
+If successful, returns an obs data frame containing the downscaled incoming shortwave
+radiation (Qsi) in W/m\eqn{^2}{^2} and, optionally, the transmittance and extra-terrestrial
+solar radiation (\code{So_h_W}). If unsuccessful, returns an error.
 }
 \description{
-Downscales incoming shortwave radiation to shorter time intervals, based on the extra-terrestrial radiation. The mean atmospheric transmittance is computed from the ratio of the incoming shortwave to the extra-terrestrial radiation over the original time intervals. The extra-terrestrial radiation over the shorter time intervals is then multiplied by the mean transmittance values to calculate the shorter interval incoming shortwave radiation.
+Downscales incoming shortwave radiation to shorter time intervals, based on
+the extra-terrestrial radiation. The mean atmospheric transmittance is computed from the
+ratio of the incoming shortwave to the extra-terrestrial radiation over the original time
+intervals. The extra-terrestrial radiation over the shorter time intervals is then multiplied
+by the mean transmittance values to calculate the shorter interval incoming shortwave radiation.
 }
 \examples{
 \dontrun{
