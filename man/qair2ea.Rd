@@ -21,7 +21,9 @@ Converts specific humidity to vapour pressure.
 ea <- qair2ea(0.0001, 101325)
 }
 \references{
-R code for conversion of air pressure and absolute humidity was taken from project PEcAn The Predictive Ecosystem Analyzer \url{http://pecanproject.github.io}. The source code is available at \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R.}
+R code for conversion of air pressure and absolute humidity was taken
+from project PEcAn The Predictive Ecosystem Analyzer \url{http://pecanproject.github.io}.
+The source code is available at \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R.}
 }
 \seealso{
 \code{\link{qair2rh}}

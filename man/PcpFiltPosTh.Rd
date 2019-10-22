@@ -11,20 +11,34 @@ PcpFiltPosTh(Pcp, dPcpTh = 0.1, dpServicingTh = -100, quiet = TRUE)
 
 \item{dPcpTh}{Optional. Minimum interval precipitation (mm). Default is 0.1 mm.}
 
-\item{dpServicingTh}{Optional. Threshold for change in storage due to servicing (mm). Default is -100 mm.}
+\item{dpServicingTh}{Optional. Threshold for change in storage due to servicing (mm).
+Default is -100 mm.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If set \code{quiet=FALSE}, the output will pause for 5 seconds ever 100 iterations, which may be useful for debugging your parameters. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default), which causes fewer parameters to be output, without pausing, every 1000 iterations.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If
+\code{quiet=FALSE}, the output will pause for 5 seconds ever 100 iterations, which
+may be useful for debugging your parameters. If you are calling this function in
+an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default), which
+causes fewer parameters to be output, without pausing, every 1000 iterations.}
 }
 \value{
-If unsuccessful, returns the value \code{FALSE}. If successful, returns a time series of cleaned values. Writes parameter values to screen.
+If unsuccessful, returns the value \code{FALSE}. If successful, returns a time
+series of cleaned values. Writes parameter values to screen.
 }
 \description{
-Cleans up a cumulative precipitation time series by transferring changes below a specified threshold to neighbouring periods, and eliminating large negative changes associated with gauge servicing (bucket emptying). The filtering is done using a brute-force algorithm that identifies small or negative changes (below dPcpTh) then transfers them to neighbouring positive changes thus aggregating all changes to values above dPcpTh. The transfers are made in ascending order, starting with the lowest (most negative). The cumulative total remains unchanged. This description (and most of the comments in the code) were written by Alan Barr.
+Cleans up a cumulative precipitation time series by transferring changes below
+a specified threshold to neighbouring periods, and eliminating large negative changes
+associated with gauge servicing (bucket emptying). The filtering is done using a
+brute-force algorithm that identifies small or negative changes (below dPcpTh) then
+transfers them to neighbouring positive changes thus aggregating all changes to values
+above dPcpTh. The transfers are made in ascending order, starting with the lowest
+(most negative). The cumulative total remains unchanged. This description (and most of
+ the comments in the code) were written by Alan Barr.
 }
 \examples{
 \dontrun{
 testp <- PcpFiltPosTh(dl2$precip, dPcpTh = 0.05, dpServicingTh = -50)}
 }
 \author{
-Kevin Shook. The code is copied from a MATLAB program PcpFiltPosTh.m written by Alan Barr, 28 Aug 2012.
+Kevin Shook. The code is copied from a MATLAB program PcpFiltPosTh.m written
+by Alan Barr, 28 Aug 2012.
 }
