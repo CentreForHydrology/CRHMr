@@ -25,6 +25,9 @@ fileName <- "Vuriloche.prj"
 shared_parameters <- readPrjModuleParams(moduleName = 'Shared',
 prjFile = fileName)}
 }
+\seealso{
+\code{\link{readPrjModuleNames}}
+}
 \author{
 Ezequiel Toum
 }

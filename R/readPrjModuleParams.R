@@ -7,6 +7,7 @@
 #' @return A data frame with the names of the parameters, and the values
 #' of the parameters for each HRU.
 #' @author Ezequiel Toum
+#' @seealso \code{\link{readPrjModuleNames}}
 #' @export
 #'
 #' @examples \dontrun{
