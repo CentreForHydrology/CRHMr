@@ -5,15 +5,18 @@
 #' @param qair Required. Specific humidity, dimensionless (e.g. kg/kg) ratio of water mass / total air mass.
 #' @param temp Required. Air temp in degrees C.
 #' @param press Optional. Air pressure in Pa. Default is 101325, the standard atmospheric air pressure.
-#' @param allowStupid Optional. If \code{TRUE} then impossible values (smaller than zero or greater than 1) will be allowed. The default value, \code{FALSE}, restricts the returned value to be between 0 and 1.
-#' @return If successful, returns rh (relative humidity), the ratio of actual water mixing ratio to saturation mixing ratio. Note that this value is a fraction (i.e. between 0 and 1) rather than a percentage. If unsuccessful, returns the value \code{FALSE}.
+#' @param allowStupid Optional. If \code{TRUE} then impossible values (smaller than zero or
+#' greater than 1) will be allowed. The default value, \code{FALSE}, restricts the
+#' returned value to be between 0 and 1.
+#' @return If successful, returns rh (relative humidity), the ratio of actual water
+#' mixing ratio to saturation mixing ratio. Note that this value is a fraction (i.e.
+#' between 0 and 1) rather than a percentage. If unsuccessful, returns the value \code{FALSE}.
 #' @export
 #' @author David LeBauer. Modified by Kevin Shook for air temps < 0 \eqn{^\circ}{ }C and to work for vectors or scalars.
 #' @seealso  \code{\link{qair2ea}}
 #' @references \url{https://github.com/PecanProject/pecan/blob/master/modules/data.atmosphere/R/metutils.R}.
 #' @examples qair2rh(0.0001, 10)
 qair2rh <- function(qair, temp, press = 101325, allowStupid = FALSE) {
-
 
   # check parameter values
   if (length(qair)  == 0) {
