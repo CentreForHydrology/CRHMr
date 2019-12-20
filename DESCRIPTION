@@ -1,8 +1,8 @@
 Package: CRHMr
 Type: Package
 Title: Pre- and post- processing for CRHM
-Version: 2.8.4
-Date: 2019-10-20
+Version: 2.8.5
+Date: 2019-12-20
 Author: Kevin Shook, Centre for Hydrology, University of Saskatchewan
 Maintainer: Kevin Shook <kevin.shook@usask.ca>
 Description: The package is pronounced 'Krimmer' in honour of my wife's family.
@@ -11,13 +11,13 @@ Description: The package is pronounced 'Krimmer' in honour of my wife's family.
     also provided to read and aggregate CRHM output.
 Depends: R (>= 3.1)
 Imports: ggplot2(>= 2.0.0), lubridate(>= 1.3), plyr, reshape2, scales,
-        signal, stringr(>= 1.0), zoo,tidyhydat, RSQLite, EcoHydRology
+        signal, stringr(>= 1.0), zoo, tidyhydat, RSQLite, EcoHydRology
 Suggests: knitr, rmarkdown
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
 URL: https://github.com/CentreForHydrology/CRHMr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 NeedsCompilation: no
 Packaged: 2016-07-06 18:16:30 UTC; kevin
 VignetteBuilder: knitr

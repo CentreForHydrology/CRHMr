@@ -4,9 +4,17 @@
 \alias{writeChangeLogFile}
 \title{Writes information about changes to a \pkg{CRHMr} dataframe to a file}
 \usage{
-writeChangeLogFile(action, original.data.info, changed.data.info,
-  changed.data.type, comment1 = "", comment2 = "", comment3 = "",
-  comment4 = "", quiet)
+writeChangeLogFile(
+  action,
+  original.data.info,
+  changed.data.info,
+  changed.data.type,
+  comment1 = "",
+  comment2 = "",
+  comment3 = "",
+  comment4 = "",
+  quiet
+)
 }
 \arguments{
 \item{action}{Required. A character string indicating the action taken - ususally this is the name of the function making the changes.}

@@ -4,8 +4,15 @@
 \alias{hruGroupWaterSummary}
 \title{Summarize daily CRHM water outputs by HRU group}
 \usage{
-hruGroupWaterSummary(dailyWater, vars = "all", prjFile, HRUgroups,
-  basinMean, quiet = TRUE, logfile = "")
+hruGroupWaterSummary(
+  dailyWater,
+  vars = "all",
+  prjFile,
+  HRUgroups,
+  basinMean,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{dailyWater}{Required. The output from the \code{simpleDailyWater} command.}

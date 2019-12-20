@@ -4,9 +4,16 @@
 \alias{simpleDailyWater}
 \title{Aggregates simple CRHM model output flows to daily values}
 \usage{
-simpleDailyWater(CRHMoutput, vars = "all", prjFile = "",
-  basinMean = TRUE, summarize = TRUE, units = "mm", quiet = TRUE,
-  logfile = "")
+simpleDailyWater(
+  CRHMoutput,
+  vars = "all",
+  prjFile = "",
+  basinMean = TRUE,
+  summarize = TRUE,
+  units = "mm",
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{CRHMoutput}{Required. The CRHM model output as a standard \pkg{CRHMr} dataframe (obs, export or output data)}

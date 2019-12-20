@@ -4,8 +4,14 @@
 \alias{distributeMean}
 \title{Distribute mean values}
 \usage{
-distributeMean(obs, obsCols = "all", timeStep = 0, maxLength = 5,
-  quiet = TRUE, logfile = "")
+distributeMean(
+  obs,
+  obsCols = "all",
+  timeStep = 0,
+  maxLength = 5,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} data frame of obs values.}

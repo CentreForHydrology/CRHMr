@@ -4,8 +4,14 @@
 \alias{setPrjParameters}
 \title{Sets the parameter values in a CRHM model \code{.prj} file}
 \usage{
-setPrjParameters(inputPrjFile = "", paramName = "", paramVals = "",
-  outputPrjFile = "", quiet = TRUE, logfile = "")
+setPrjParameters(
+  inputPrjFile = "",
+  paramName = "",
+  paramVals = "",
+  outputPrjFile = "",
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the \code{.prj} file.}

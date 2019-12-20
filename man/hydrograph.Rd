@@ -4,11 +4,21 @@
 \alias{hydrograph}
 \title{Plots hydrograph of CRHM output and/or WSC daily and/or peak flows}
 \usage{
-hydrograph(CRHMflows = NULL, CRHMflowsLabels = "", CRHMcols = NULL,
-  CRHMdaily = FALSE, WSCdailyFlowsID = NULL, WSCdailyFlowsLabel = "",
-  WSCpeakFlowsID = NULL, WSCpeakFlowsLabel = "",
-  forceMissingPeakTimes = FALSE, commonTime = FALSE,
-  fakeDates = FALSE, quiet = TRUE, hydat_path = NULL)
+hydrograph(
+  CRHMflows = NULL,
+  CRHMflowsLabels = "",
+  CRHMcols = NULL,
+  CRHMdaily = FALSE,
+  WSCdailyFlowsID = NULL,
+  WSCdailyFlowsLabel = "",
+  WSCpeakFlowsID = NULL,
+  WSCpeakFlowsLabel = "",
+  forceMissingPeakTimes = FALSE,
+  commonTime = FALSE,
+  fakeDates = FALSE,
+  quiet = TRUE,
+  hydat_path = NULL
+)
 }
 \arguments{
 \item{CRHMflows}{Optional. A data frame of CRHM modelled flows. The flows must be in

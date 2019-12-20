@@ -4,8 +4,7 @@
 \alias{changeEatoRH}
 \title{Changes Ea values to RH in a CRHM data frame}
 \usage{
-changeEatoRH(obs, t.cols = 1, ea.cols = 1, quiet = TRUE,
-  logfile = "")
+changeEatoRH(obs, t.cols = 1, ea.cols = 1, quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} data frame of observations.}

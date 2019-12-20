@@ -4,8 +4,7 @@
 \alias{distributeP}
 \title{Distributes total precipitation over intervals}
 \usage{
-distributeP(obs, p.cols = 0, timestep = 0, quiet = TRUE,
-  logfile = "")
+distributeP(obs, p.cols = 0, timestep = 0, quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} data frame of obs values.}

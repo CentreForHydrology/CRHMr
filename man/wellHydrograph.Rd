@@ -4,8 +4,14 @@
 \alias{wellHydrograph}
 \title{Plots hydrograph of daily well depths}
 \usage{
-wellHydrograph(wellObs, depthCol = 1, fakeDates = FALSE,
-  hydroYear = TRUE, startMonth = 10, quiet = TRUE)
+wellHydrograph(
+  wellObs,
+  depthCol = 1,
+  fakeDates = FALSE,
+  hydroYear = TRUE,
+  startMonth = 10,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{wellObs}{Required. \pkg{CRHMr} obs data frame of daily depths.}

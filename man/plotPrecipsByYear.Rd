@@ -4,8 +4,7 @@
 \alias{plotPrecipsByYear}
 \title{Creates a \pkg{ggplot2} object of cumulative precips by year}
 \usage{
-plotPrecipsByYear(obs = "", obsNames = "", precipCols = 1,
-  commonDates = TRUE)
+plotPrecipsByYear(obs = "", obsNames = "", precipCols = 1, commonDates = TRUE)
 }
 \arguments{
 \item{obs}{Required. Either a \pkg{CRHMr} \code{obs} data frame or a list of data frames.}

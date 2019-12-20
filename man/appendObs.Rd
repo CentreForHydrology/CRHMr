@@ -4,8 +4,7 @@
 \alias{appendObs}
 \title{Appends two CRHM obs data frames}
 \usage{
-appendObs(primaryObs, secondaryObs, trim = TRUE, quiet = TRUE,
-  logfile = "")
+appendObs(primaryObs, secondaryObs, trim = TRUE, quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{primaryObs}{Required. The primary \pkg{CRHMr} data frame of obs values.}

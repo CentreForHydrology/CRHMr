@@ -4,8 +4,14 @@
 \alias{vectorsToVelocity}
 \title{Convert wind vectors to velocity}
 \usage{
-vectorsToVelocity(uObs, uColnum = 1, vObs, vColnum = 1, quiet = TRUE,
-  logfile = "")
+vectorsToVelocity(
+  uObs,
+  uColnum = 1,
+  vObs,
+  vColnum = 1,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{uObs}{Required. A \pkg{CRHMr} obs data frame containing the wind u vectors.}

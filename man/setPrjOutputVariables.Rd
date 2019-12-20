@@ -4,8 +4,12 @@
 \alias{setPrjOutputVariables}
 \title{Sets the output variables in a CRHM model \code{.prj} file}
 \usage{
-setPrjOutputVariables(inputPrjFile = "", variables = "",
-  outputPrjFile = "", logfile = "")
+setPrjOutputVariables(
+  inputPrjFile = "",
+  variables = "",
+  outputPrjFile = "",
+  logfile = ""
+)
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the \code{.prj} file.}

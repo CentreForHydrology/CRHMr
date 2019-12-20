@@ -4,9 +4,15 @@
 \alias{wetland_pond_size}
 \title{Estimates pond area, depth and perimeter (circular)}
 \usage{
-wetland_pond_size(CRHM_output = NULL, HRU_name = NULL,
-  HRU_SD_max = NULL, HRU_area = NULL, wetland_HRU = NULL,
-  area_p_vals = NULL, logfile = "")
+wetland_pond_size(
+  CRHM_output = NULL,
+  HRU_name = NULL,
+  HRU_SD_max = NULL,
+  HRU_area = NULL,
+  wetland_HRU = NULL,
+  area_p_vals = NULL,
+  logfile = ""
+)
 }
 \arguments{
 \item{CRHM_output}{Required. Data frame of CRHM outputs including Sd values for all wetland HRUs.}
@@ -52,9 +58,10 @@ area_p_vals <- data.frame(area, p)
 pond_sizes <- wetland_pond_size(CRHM_output, HRU_name, HRU_SD_max, HRU_area, area_p_vals)}
 }
 \seealso{
-Other wetland_functions: \code{\link{wetland_h_s}},
-  \code{\link{wetland_pond_area}},
-  \code{\link{wetland_pond_depth}}
+Other wetland_functions: 
+\code{\link{wetland_h_s}()},
+\code{\link{wetland_pond_area}()},
+\code{\link{wetland_pond_depth}()}
 }
 \author{
 Kevin Shook

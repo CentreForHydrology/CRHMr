@@ -30,9 +30,10 @@ Calculates Hayashi-van der Kamp area of water in a Prairie pond
 of shallow wetlands in small topographic depressions, J. Hydrol., 237(1–2), 74–85, doi:10.1016/S0022-1694(00)00300-0.}
 }
 \seealso{
-Other wetland_functions: \code{\link{wetland_h_s}},
-  \code{\link{wetland_pond_depth}},
-  \code{\link{wetland_pond_size}}
+Other wetland_functions: 
+\code{\link{wetland_h_s}()},
+\code{\link{wetland_pond_depth}()},
+\code{\link{wetland_pond_size}()}
 }
 \author{
 Kevin Shook

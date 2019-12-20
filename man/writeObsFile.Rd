@@ -4,8 +4,7 @@
 \alias{writeObsFile}
 \title{Writes a dataframe to a .obs file}
 \usage{
-writeObsFile(obs, obsfile = "", comment = "", quiet = TRUE,
-  logfile = "")
+writeObsFile(obs, obsfile = "", comment = "", quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} obs data frame.}

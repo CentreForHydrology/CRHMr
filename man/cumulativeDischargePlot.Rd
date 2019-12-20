@@ -4,9 +4,16 @@
 \alias{cumulativeDischargePlot}
 \title{Plots cumulative CRHM and/or WSC flows}
 \usage{
-cumulativeDischargePlot(CRHMflows = NULL, CRHMflowsLabel = "",
-  CRHMflowCol = 1, WSCdailyFlowsID = NULL, WSCdailyFlowsLabel = "",
-  facetCols = 3, quiet = TRUE, hydat_path = NULL)
+cumulativeDischargePlot(
+  CRHMflows = NULL,
+  CRHMflowsLabel = "",
+  CRHMflowCol = 1,
+  WSCdailyFlowsID = NULL,
+  WSCdailyFlowsLabel = "",
+  facetCols = 3,
+  quiet = TRUE,
+  hydat_path = NULL
+)
 }
 \arguments{
 \item{CRHMflows}{Optional. Optional. A data frame of CRHM modelled flows. The flows must

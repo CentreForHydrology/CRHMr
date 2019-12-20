@@ -4,8 +4,12 @@
 \alias{setPrjHRUnames}
 \title{Sets the names of HRUs in a CRHM model \code{.prj} file}
 \usage{
-setPrjHRUnames(inputPrjFile = "", HRUnames = "", outputPrjFile = "",
-  logfile = "")
+setPrjHRUnames(
+  inputPrjFile = "",
+  HRUnames = "",
+  outputPrjFile = "",
+  logfile = ""
+)
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the \code{.prj} file.}

@@ -4,9 +4,17 @@
 \alias{distributeQli}
 \title{Distributes incoming longwave radiation to shorter time interval}
 \usage{
-distributeQli(QliObs, QliColnum = 1, tObs, tColnum = 1, timeStep = 1,
-  interpolationMethod = "linear", maxlength = 0, quiet = TRUE,
-  logfile = "")
+distributeQli(
+  QliObs,
+  QliColnum = 1,
+  tObs,
+  tColnum = 1,
+  timeStep = 1,
+  interpolationMethod = "linear",
+  maxlength = 0,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{QliObs}{Required. A \pkg{CRHMr} obs data frame containing incoming longwave

@@ -4,9 +4,15 @@
 \alias{setPrjDates}
 \title{Sets the model run start and end dates in a CRHM model \code{.prj} file}
 \usage{
-setPrjDates(inputPrjFile = "", startDate = "", endDate = "",
-  outputPrjFile = "", initialStateFile = "", finalStateFile = "",
-  logfile = "")
+setPrjDates(
+  inputPrjFile = "",
+  startDate = "",
+  endDate = "",
+  outputPrjFile = "",
+  initialStateFile = "",
+  finalStateFile = "",
+  logfile = ""
+)
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the \code{.prj} file.}

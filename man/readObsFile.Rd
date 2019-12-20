@@ -4,8 +4,7 @@
 \alias{readObsFile}
 \title{Reads a CRHM obs fileinto a dataframe}
 \usage{
-readObsFile(obsFile = "", timezone = "", quiet = TRUE,
-  logfile = "")
+readObsFile(obsFile = "", timezone = "", quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{obsFile}{Required. Name of the CRHM obs file to be read in.}

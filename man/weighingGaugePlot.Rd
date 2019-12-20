@@ -4,8 +4,13 @@
 \alias{weighingGaugePlot}
 \title{Plots weighing gauge precipitation}
 \usage{
-weighingGaugePlot(obs, precipCol = 1, startDate = "", endDate = "",
-  showMissing = TRUE)
+weighingGaugePlot(
+  obs,
+  precipCol = 1,
+  startDate = "",
+  endDate = "",
+  showMissing = TRUE
+)
 }
 \arguments{
 \item{obs}{Required. A standard \pkg{CRHMr} obs dataframe.}

@@ -4,8 +4,7 @@
 \alias{automatePrj}
 \title{Automates a CRHM .prj file}
 \usage{
-automatePrj(inputPrjFile = "", outputPrjFile = "", quiet = TRUE,
-  logfile = "")
+automatePrj(inputPrjFile = "", outputPrjFile = "", quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the the CRHM .prj to be converted.}

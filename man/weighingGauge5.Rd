@@ -4,8 +4,13 @@
 \alias{weighingGauge5}
 \title{Simplified weighing gauge processing}
 \usage{
-weighingGauge5(obs, precipCol = 1, resetThreshold = 50, quiet = TRUE,
-  logfile = "")
+weighingGauge5(
+  obs,
+  precipCol = 1,
+  resetThreshold = 50,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A standard \pkg{CRHMr} obs file.}

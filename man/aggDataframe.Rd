@@ -4,9 +4,17 @@
 \alias{aggDataframe}
 \title{Aggregates a data frame to a shorter time period}
 \usage{
-aggDataframe(CRHMdataframe, columns = 1, period = "annual",
-  funs = c("mean"), AggFilename = "", startMonth = 10,
-  useSecondYear = TRUE, omitMissing = FALSE, logfile = "")
+aggDataframe(
+  CRHMdataframe,
+  columns = 1,
+  period = "annual",
+  funs = c("mean"),
+  AggFilename = "",
+  startMonth = 10,
+  useSecondYear = TRUE,
+  omitMissing = FALSE,
+  logfile = ""
+)
 }
 \arguments{
 \item{CRHMdataframe}{Required. A valid \pkg{CRHMr} data frame.}

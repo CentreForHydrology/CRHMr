@@ -4,8 +4,12 @@
 \alias{setPrjBasinName}
 \title{Sets the basin name in a CRHM model \code{.prj} file}
 \usage{
-setPrjBasinName(inputPrjFile = "", basinName = "",
-  outputPrjFile = "", logfile = "")
+setPrjBasinName(
+  inputPrjFile = "",
+  basinName = "",
+  outputPrjFile = "",
+  logfile = ""
+)
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the \code{.prj} file.}

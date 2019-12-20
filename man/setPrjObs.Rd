@@ -4,8 +4,7 @@
 \alias{setPrjObs}
 \title{Sets the names of the obs files in a CRHM model \code{.prj} file}
 \usage{
-setPrjObs(inputPrjFile = "", obsFiles = "", outputPrjFile = "",
-  logfile = "")
+setPrjObs(inputPrjFile = "", obsFiles = "", outputPrjFile = "", logfile = "")
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the \code{.prj} file.}

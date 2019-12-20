@@ -4,8 +4,14 @@
 \alias{doubleMass}
 \title{Calculates double mass values}
 \usage{
-doubleMass(primaryObs, primaryCol = 1, secondaryObs, secondaryCol = 1,
-  plot = TRUE, logfile = "")
+doubleMass(
+  primaryObs,
+  primaryCol = 1,
+  secondaryObs,
+  secondaryCol = 1,
+  plot = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{primaryObs}{Required. The primary \pkg{CRHMr} data frame of obs values.}

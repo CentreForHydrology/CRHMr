@@ -4,8 +4,7 @@
 \alias{plotTempsByYear}
 \title{Creates a \pkg{ggplot2} object of daily mean air temps by year}
 \usage{
-plotTempsByYear(obs = "", obsNames = "", tempCols = 1,
-  commonYears = TRUE)
+plotTempsByYear(obs = "", obsNames = "", tempCols = 1, commonYears = TRUE)
 }
 \arguments{
 \item{obs}{Required. Either a \pkg{CRHMr} \code{obs} data frame or a list of data frames.}

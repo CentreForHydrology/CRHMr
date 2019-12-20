@@ -4,8 +4,14 @@
 \alias{extendObs}
 \title{Extends an obs data frame}
 \usage{
-extendObs(obs, startDate = "", endDate = "", timezone = "",
-  quiet = TRUE, logfile = "")
+extendObs(
+  obs,
+  startDate = "",
+  endDate = "",
+  timezone = "",
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} obs data frame to be extended.}

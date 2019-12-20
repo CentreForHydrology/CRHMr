@@ -4,8 +4,13 @@
 \alias{readCLASSfile}
 \title{Reads forcing data from CLASS formatted file}
 \usage{
-readCLASSfile(CLASSfile = "", timezone = "", convertNames = TRUE,
-  quiet = TRUE, logfile = "")
+readCLASSfile(
+  CLASSfile = "",
+  timezone = "",
+  convertNames = TRUE,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{CLASSfile}{Required. File of meteorological data in CLASS format.}

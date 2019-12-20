@@ -4,8 +4,13 @@
 \alias{weighingGauge1}
 \title{Fills gaps in weighing gauge precipitation data}
 \usage{
-weighingGauge1(obs, precipCol = 1, maxGapLength = 5, quiet = TRUE,
-  logfile = "")
+weighingGauge1(
+  obs,
+  precipCol = 1,
+  maxGapLength = 5,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A standard \pkg{CRHMr} obs file.}

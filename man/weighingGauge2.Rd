@@ -4,8 +4,14 @@
 \alias{weighingGauge2}
 \title{Removes spikes from weighing gauge cumulative precipitation}
 \usage{
-weighingGauge2(obs, precipCol = 1, spikeThreshold = 1000,
-  maxSpikeGap = 3, quiet = TRUE, logfile = "")
+weighingGauge2(
+  obs,
+  precipCol = 1,
+  spikeThreshold = 1000,
+  maxSpikeGap = 3,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A standard \pkg{CRHMr} obs file.}

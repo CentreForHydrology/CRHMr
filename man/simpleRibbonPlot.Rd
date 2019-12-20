@@ -4,9 +4,16 @@
 \alias{simpleRibbonPlot}
 \title{Simple plots of CRHM output max, min and mean values}
 \usage{
-simpleRibbonPlot(CRHMoutput, columns = "all", waterYear = FALSE,
-  ylabel = "Basin total (mm)", skipLeapDay = TRUE, facet = FALSE,
-  facetColour = "blue", facetCols = 3)
+simpleRibbonPlot(
+  CRHMoutput,
+  columns = "all",
+  waterYear = FALSE,
+  ylabel = "Basin total (mm)",
+  skipLeapDay = TRUE,
+  facet = FALSE,
+  facetColour = "blue",
+  facetCols = 3
+)
 }
 \arguments{
 \item{CRHMoutput}{Required. A data frame containing either instantaneous or cumulative values. The data may be either daily or hourly.}

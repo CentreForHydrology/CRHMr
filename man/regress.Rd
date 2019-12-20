@@ -4,9 +4,16 @@
 \alias{regress}
 \title{Regresses one set of CRHM observations against another}
 \usage{
-regress(primaryCRHM, primary.columns = 1, secondaryCRHM,
-  secondary.columns = 1, forceOrigin = FALSE, plot = FALSE,
-  quiet = TRUE, logfile = "")
+regress(
+  primaryCRHM,
+  primary.columns = 1,
+  secondaryCRHM,
+  secondary.columns = 1,
+  forceOrigin = FALSE,
+  plot = FALSE,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{primaryCRHM}{Required. The primary \pkg{CRHMr} data frame.}

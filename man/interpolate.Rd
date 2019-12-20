@@ -4,8 +4,14 @@
 \alias{interpolate}
 \title{Fills missing obs values by interpolation}
 \usage{
-interpolate(obs, varcols = 1, methods = "linear", maxlength = 5,
-  quiet = TRUE, logfile = "")
+interpolate(
+  obs,
+  varcols = 1,
+  methods = "linear",
+  maxlength = 5,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} data frame of obs values.}

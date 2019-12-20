@@ -4,8 +4,14 @@
 \alias{wetland_h_s}
 \title{Calculates Hayashi-van der Kamp parameters for a Prairie depressions}
 \usage{
-wetland_h_s(max_volume, max_area, p, max_iterations = 100,
-  max_error = 1e-04, return_stats = FALSE)
+wetland_h_s(
+  max_volume,
+  max_area,
+  p,
+  max_iterations = 100,
+  max_error = 1e-04,
+  return_stats = FALSE
+)
 }
 \arguments{
 \item{max_volume}{Required. Maximum volume of a pond in m\eqn{^3}{^3}.}
@@ -41,9 +47,10 @@ wetland_h_s(5000, 500, 1.72)
 of shallow wetlands in small topographic depressions, J. Hydrol., 237(1–2), 74–85, doi:10.1016/S0022-1694(00)00300-0.}
 }
 \seealso{
-Other wetland_functions: \code{\link{wetland_pond_area}},
-  \code{\link{wetland_pond_depth}},
-  \code{\link{wetland_pond_size}}
+Other wetland_functions: 
+\code{\link{wetland_pond_area}()},
+\code{\link{wetland_pond_depth}()},
+\code{\link{wetland_pond_size}()}
 }
 \author{
 Kevin Shook

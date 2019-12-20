@@ -4,8 +4,14 @@
 \alias{deltaStorage}
 \title{Calculates changes in storage over specified intervals}
 \usage{
-deltaStorage(CRHMdataframe = NULL, columns = 1, period = "yearly",
-  startMonth = 10, useSecondYear = TRUE, logfile = "")
+deltaStorage(
+  CRHMdataframe = NULL,
+  columns = 1,
+  period = "yearly",
+  startMonth = 10,
+  useSecondYear = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{CRHMdataframe}{Required. A standard CRHM data frame.}

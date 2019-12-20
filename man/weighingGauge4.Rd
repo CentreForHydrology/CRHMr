@@ -4,9 +4,15 @@
 \alias{weighingGauge4}
 \title{Runs Alan Barr's filter on weighing gauge cumulative precipitation}
 \usage{
-weighingGauge4(obs, precipCol = 1, smallDropThreshold = 0.1,
-  serviceThreshold = -100, serviceGapLength = 3, quiet = TRUE,
-  logfile = "")
+weighingGauge4(
+  obs,
+  precipCol = 1,
+  smallDropThreshold = 0.1,
+  serviceThreshold = -100,
+  serviceGapLength = 3,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A standard \pkg{CRHMr} obs file.}

@@ -4,8 +4,14 @@
 \alias{monthlyQQplot}
 \title{Quantile-quantile plot by month}
 \usage{
-monthlyQQplot(primaryCRHM, primaryCol = 1, secondaryCRHM,
-  secondaryCol = 1, samePeriod = TRUE, logfile = "")
+monthlyQQplot(
+  primaryCRHM,
+  primaryCol = 1,
+  secondaryCRHM,
+  secondaryCol = 1,
+  samePeriod = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{primaryCRHM}{Required. The primary \pkg{CRHMr} data frame. Quantiles of this data will

@@ -10,8 +10,6 @@ parseNums(numString)
 }
 \arguments{
 \item{numString}{Required. A character string containing numbers separated by any number of spaces.}
-
-\item{numString}{Required. A character string containing numbers separated by any number of spaces.}
 }
 \value{
 Returns a numeric vector.

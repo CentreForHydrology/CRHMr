@@ -4,8 +4,12 @@
 \alias{summariseObsFiles}
 \title{Summarises all obs files in a directory}
 \usage{
-summariseObsFiles(file.dir = "", timezone = "",
-  summaryFile = "obsSummary.csv", plot = FALSE)
+summariseObsFiles(
+  file.dir = "",
+  timezone = "",
+  summaryFile = "obsSummary.csv",
+  plot = FALSE
+)
 }
 \arguments{
 \item{file.dir}{Optional Directory containing .obs files. If not specified, defaults to current directory. Note that this is an \R path, which uses the \code{'/'} symbol on ALL operating systems.}

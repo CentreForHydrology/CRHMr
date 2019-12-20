@@ -4,8 +4,13 @@
 \alias{readCampbell}
 \title{Reads in Campbell datalogger data}
 \usage{
-readCampbell(campbellFile, missingValue = -6999, timezone = "",
-  quiet = TRUE, logfile = "")
+readCampbell(
+  campbellFile,
+  missingValue = -6999,
+  timezone = "",
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{campbellFile}{Required. The name of the file containing the Campbell Scientific datalogger output.}

@@ -4,8 +4,17 @@
 \alias{phaseCorrect}
 \title{Corrects precipitation for undercatch and calculates phase}
 \usage{
-phaseCorrect(obs, Tcol = 1, RHcol = 2, Ucol = 3, Pcol = 4,
-  RH_type = 1, shield = 1, quiet = TRUE, logfile = "")
+phaseCorrect(
+  obs,
+  Tcol = 1,
+  RHcol = 2,
+  Ucol = 3,
+  Pcol = 4,
+  RH_type = 1,
+  shield = 1,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} data frame of observations.}

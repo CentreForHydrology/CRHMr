@@ -4,8 +4,16 @@
 \alias{impute}
 \title{Imputes CRHM obs values}
 \usage{
-impute(primaryObs, primaryCols = 1, secondaryObs, secondaryCols = 1,
-  multipliers = 1, offsets = 0, quiet = TRUE, logfile = "")
+impute(
+  primaryObs,
+  primaryCols = 1,
+  secondaryObs,
+  secondaryCols = 1,
+  multipliers = 1,
+  offsets = 0,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{primaryObs}{Required. The primary \pkg{CRHMr} data frame of obs values.}

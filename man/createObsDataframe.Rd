@@ -4,9 +4,15 @@
 \alias{createObsDataframe}
 \title{Creates an empty data fame for CRHM obs}
 \usage{
-createObsDataframe(start.date, end.date, timestep = 1,
-  variables = c("t", "rh", "u", "p"), reps = 1, timezone = "",
-  logfile = "")
+createObsDataframe(
+  start.date,
+  end.date,
+  timestep = 1,
+  variables = c("t", "rh", "u", "p"),
+  reps = 1,
+  timezone = "",
+  logfile = ""
+)
 }
 \arguments{
 \item{start.date}{Required. Starting date, in the format \option{Y-m-d},

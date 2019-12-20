@@ -4,8 +4,13 @@
 \alias{weighingGauge3}
 \title{Filters weighing gauge cumulative precipitation}
 \usage{
-weighingGauge3(obs, precipCol = 1, filterLength = 0, quiet = TRUE,
-  logfile = "")
+weighingGauge3(
+  obs,
+  precipCol = 1,
+  filterLength = 0,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A standard \pkg{CRHMr} obs file.}

@@ -4,8 +4,7 @@
 \alias{plotObs}
 \title{Creates a \pkg{ggplot} object from an obs data frame}
 \usage{
-plotObs(obs, varcols = c(0), startDate = "", endDate = "",
-  plotType = "lines")
+plotObs(obs, varcols = c(0), startDate = "", endDate = "", plotType = "lines")
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} obs data frame to be plotted.}

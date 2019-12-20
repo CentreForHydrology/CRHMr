@@ -4,8 +4,15 @@
 \alias{dailyByHourlyP}
 \title{Distributes daily precipitation according to hourly values}
 \usage{
-dailyByHourlyP(dailyObs, dailyPcol = 0, hourlyObs, hourlyPcol = 0,
-  missingRatio = 1, quiet = TRUE, logfile = "")
+dailyByHourlyP(
+  dailyObs,
+  dailyPcol = 0,
+  hourlyObs,
+  hourlyPcol = 0,
+  missingRatio = 1,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{dailyObs}{obs Required. A \pkg{CRHMr} data frame containing daily precipitation values.}

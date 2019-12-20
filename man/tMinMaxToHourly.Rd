@@ -4,9 +4,18 @@
 \alias{tMinMaxToHourly}
 \title{Converts daily to hourly temperatures}
 \usage{
-tMinMaxToHourly(obs, tmin.col = 0, tmax.col = 0, tmean.col = 0,
-  tmin.time = "07:00", tmax.time = "15:00", tmean.time = "12:00",
-  timezone = "", quiet = TRUE, logfile = "")
+tMinMaxToHourly(
+  obs,
+  tmin.col = 0,
+  tmax.col = 0,
+  tmean.col = 0,
+  tmin.time = "07:00",
+  tmax.time = "15:00",
+  tmean.time = "12:00",
+  timezone = "",
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} obs dataframe.}

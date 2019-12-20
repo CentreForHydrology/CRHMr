@@ -4,9 +4,15 @@
 \alias{distributeInst}
 \title{Distribute instantaneous values}
 \usage{
-distributeInst(obs, obsCols = "all", timeStep = 0,
-  interpolationMethod = "linear", maxLength = 5, quiet = TRUE,
-  logfile = "")
+distributeInst(
+  obs,
+  obsCols = "all",
+  timeStep = 0,
+  interpolationMethod = "linear",
+  maxLength = 5,
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. The \pkg{CRHMr} data frame of obs values.}

@@ -4,30 +4,51 @@
 \alias{runCRHM}
 \title{Runs a CRHM model}
 \usage{
-runCRHM(CRHMfile = "", prjFile = "", obsFiles = "", parFiles = "",
-  outFile = "", logfile = "")
+runCRHM(
+  CRHMfile = "",
+  prjFile = "",
+  obsFiles = "",
+  parFiles = "",
+  outFile = "",
+  logfile = "",
+  useWine = FALSE
+)
 }
 \arguments{
 \item{CRHMfile}{Required. CRHM executable file (usually \code{CRHM.exe}.}
 
-\item{prjFile}{Required. Name of \code{.prj} file. If the file does not contain any displayed observations or variables, or if any of the settings \code{Auto_Run}, \code{Auto_Exit} or \code{Log_All} are missing, then the function will terminate with an error message.}
+\item{prjFile}{Required. Name of \code{.prj} file. If the file does not contain any displayed
+observations or variables, or if any of the settings \code{Auto_Run}, \code{Auto_Exit} or \code{Log_All}
+are missing, then the function will terminate with an error message.}
 
 \item{obsFiles}{Optional. Name(s) of obs file(s).}
 
 \item{parFiles}{Optional. Name(s) of parameter file(s).}
 
-\item{outFile}{Optional. Name(s) of output file(s). If not specified, the original CRHM output file name (e.g. \option{CRHM_output_1.txt}) is kept.}
+\item{outFile}{Optional. Name(s) of output file(s). If not specified, the original CRHM output
+file name (e.g. \option{CRHM_output_1.txt}) is kept.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
+
+\item{useWine}{Optional. If \code{FALSE} (the default) and the executable file has the extension
+\code{.exe} then \code{Wine} will be used to run the model under OSX and Linux. Otherwide, a native
+version of CRHM will be assumed.}
 }
 \value{
 If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 }
 \description{
-Runs CRHM with a specified \code{.prj} file and (optionally) \code{.obs} file(s) and \code{.par} file(s). Under OSX and Linux, CRHM requires either 1) the program \code{Wine} to run \code{CRHM.exe} or 2) a native-compiled version. This function will use \code{Wine} if it is required. Note that none of the file names or their paths can contain spaces.
+Runs CRHM with a specified \code{.prj} file and (optionally) \code{.obs} file(s)
+and \code{.par} file(s). Under OSX and Linux, CRHM requires either 1) the program \code{Wine} to
+run \code{CRHM.exe} or 2) a native-compiled version. This function will use \code{Wine} \emph{if} it is
+indicated (the executable file has the extension \code{.exe}), and the parameter \code{useWine} =
+\code{TRUE}.
 }
 \details{
-If \code{Wine} is required, the function will copy the specified .obs, and .par files to the directory of the .prj file, before execution of CRHM. After the program has finished, the copies will be deleted. Running a CRHM model requires that the .prj file has been setup to run autmatically, as shown in the function automatePrj.
+If \code{Wine} is required, the function will copy the specified .obs, and .par files to
+the directory of the .prj file, before execution of CRHM. After the program has finished, the copies
+will be deleted. Running a CRHM model requires that the .prj file has been setup to run autmatically,
+as shown in the function \code{automatePrj}.
 }
 \examples{
 \dontrun{

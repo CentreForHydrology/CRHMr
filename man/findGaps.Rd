@@ -4,8 +4,7 @@
 \alias{findGaps}
 \title{Finds gaps in obs variables}
 \usage{
-findGaps(obs, gapfile = "", minlength = 1, quiet = TRUE,
-  logfile = "")
+findGaps(obs, gapfile = "", minlength = 1, quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} data frame containing obs values.}

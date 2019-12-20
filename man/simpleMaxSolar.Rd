@@ -4,8 +4,7 @@
 \alias{simpleMaxSolar}
 \title{Estimates extra-terrestrial shortwave radiation}
 \usage{
-simpleMaxSolar(datetime, latitude, hoursOffset = 2, quiet = TRUE,
-  logfile = "")
+simpleMaxSolar(datetime, latitude, hoursOffset = 2, quiet = TRUE, logfile = "")
 }
 \arguments{
 \item{datetime}{Required. Can either be a vector of \pkg{CRHMr} datetimes or any dataframe with a \code{datetime} in column 1.}

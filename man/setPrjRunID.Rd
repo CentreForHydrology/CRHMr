@@ -4,8 +4,7 @@
 \alias{setPrjRunID}
 \title{Sets the Run ID in a CRHM model \code{.prj} file}
 \usage{
-setPrjRunID(inputPrjFile = "", RunID = 0, outputPrjFile = "",
-  logfile = "")
+setPrjRunID(inputPrjFile = "", RunID = 0, outputPrjFile = "", logfile = "")
 }
 \arguments{
 \item{inputPrjFile}{Required. Name of the \code{.prj} file.}
