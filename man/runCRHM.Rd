@@ -15,7 +15,8 @@ runCRHM(
 )
 }
 \arguments{
-\item{CRHMfile}{Required. CRHM executable file (usually \code{CRHM.exe}.}
+\item{CRHMfile}{Required. CRHM executable file (i.e. \code{CRHM.exe} for Windows). If the path
+to the executable file is not specified, it is assumed that the executable file is on the system path.}
 
 \item{prjFile}{Required. Name of \code{.prj} file. If the file does not contain any displayed
 observations or variables, or if any of the settings \code{Auto_Run}, \code{Auto_Exit} or \code{Log_All}
@@ -45,15 +46,49 @@ indicated (the executable file has the extension \code{.exe}), and the parameter
 \code{TRUE}.
 }
 \details{
+Running a CRHM model requires that the .prj file has been setup to run autmatically,
+as shown in the function \code{automatePrj}.
+
 If \code{Wine} is required, the function will copy the specified .obs, and .par files to
 the directory of the .prj file, before execution of CRHM. After the program has finished, the copies
-will be deleted. Running a CRHM model requires that the .prj file has been setup to run autmatically,
-as shown in the function \code{automatePrj}.
+will be deleted.
+
+If the CRHM executable file is not located on the system path, and is not found in the specified
+directory, then an error message will be returned.
 }
 \examples{
 \dontrun{
-result <- runCRHM('c:/CRHM/CRHM.exe', 'c:/BadLake/BadLake1975.prj',
-outfile='c:/BadLake/BadLake1975Output.txt')}
+# Automate the .prj before use
+automatePrj("c:/BadLake/BadLake1975.prj")
+
+# Using specified paths - in this case the .obs files reference in
+# the .prj must contain the file path.
+# It's a good idea to use absolute paths for the .prj and .obs files.
+# If you use relative paths, they have to be w.r.t. the CRHM executable file.
+
+setPrjObs("c:/BadLake/BadLake1975.prj", obsFiles = "c:/BadLake/Badlake73_76.obs")
+result <- runCRHM("c:/CRHM/CRHM.exe", "c:/BadLake/BadLake1975.prj",
+outfile = "c:/BadLake/BadLake1975Output.txt")
+
+# Omitting paths - all files are stored in the current directory.
+
+# Remove paths from the reference to the .obs files in the .prj file
+setPrjObs("c:/BadLake/BadLake1975.prj", obsFiles = "Badlake73_76.obs")
+
+# Set the working directory to the one holding the model files.
+setwd("c:/BadLake")
+
+# Execute the model.
+result <- runCRHM("c:/CRHM/CRHM.exe", "BadLake1975.prj",
+outfile = "BadLake1975Output.txt")
+
+# If CRHM is on the system path you can run it without specifying the location.
+# This command will show the current path:
+Sys.getenv("PATH")
+
+# Execute the model without specifying the path to CRHM.
+result <- runCRHM("CRHM.exe", "BadLake1975.prj",
+outfile = "BadLake1975Output.txt")}
 }
 \seealso{
 \code{\link{automatePrj}}

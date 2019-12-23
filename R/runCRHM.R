@@ -5,7 +5,8 @@
 #' run \code{CRHM.exe} or 2) a native-compiled version. This function will use \code{Wine} \emph{if} it is
 #' indicated (the executable file has the extension \code{.exe}), and the parameter \code{useWine} =
 #' \code{TRUE}.
-#' @param CRHMfile Required. CRHM executable file (usually \code{CRHM.exe}.
+#' @param CRHMfile Required. CRHM executable file (i.e. \code{CRHM.exe} for Windows). If the path
+#' to the executable file is not specified, it is assumed that the executable file is on the system path.
 #' @param prjFile Required. Name of \code{.prj} file. If the file does not contain any displayed
 #' observations or variables, or if any of the settings \code{Auto_Run}, \code{Auto_Exit} or \code{Log_All}
 #' are missing, then the function will terminate with an error message.
@@ -17,20 +18,54 @@
 #' @param useWine Optional. If \code{FALSE} (the default) and the executable file has the extension
 #' \code{.exe} then \code{Wine} will be used to run the model under OSX and Linux. Otherwide, a native
 #' version of CRHM will be assumed.
-#' @details If \code{Wine} is required, the function will copy the specified .obs, and .par files to
-#' the directory of the .prj file, before execution of CRHM. After the program has finished, the copies
-#' will be deleted. Running a CRHM model requires that the .prj file has been setup to run autmatically,
+#' @details Running a CRHM model requires that the .prj file has been setup to run autmatically,
 #' as shown in the function \code{automatePrj}.
+#'
+#' If \code{Wine} is required, the function will copy the specified .obs, and .par files to
+#' the directory of the .prj file, before execution of CRHM. After the program has finished, the copies
+#' will be deleted.
+#'
+#' If the CRHM executable file is not located on the system path, and is not found in the specified
+#' directory, then an error message will be returned.
+#'
 #' @return If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 #' @author Kevin Shook
 #' @seealso  \code{\link{automatePrj}}
-#' @examples
-#' \dontrun{
-#' result <- runCRHM('c:/CRHM/CRHM.exe', 'c:/BadLake/BadLake1975.prj',
-#' outfile='c:/BadLake/BadLake1975Output.txt')}
 #' @export
 #' @importFrom stringr str_detect str_c
+#' @examples \dontrun{
+#' # Automate the .prj before use
+#' automatePrj("c:/BadLake/BadLake1975.prj")
 #'
+#' # Using specified paths - in this case the .obs files reference in
+#' # the .prj must contain the file path.
+#' # It's a good idea to use absolute paths for the .prj and .obs files.
+#' # If you use relative paths, they have to be w.r.t. the CRHM executable file.
+#'
+#' setPrjObs("c:/BadLake/BadLake1975.prj", obsFiles = "c:/BadLake/Badlake73_76.obs")
+#' result <- runCRHM("c:/CRHM/CRHM.exe", "c:/BadLake/BadLake1975.prj",
+#' outfile = "c:/BadLake/BadLake1975Output.txt")
+#'
+#' # Omitting paths - all files are stored in the current directory.
+#'
+#' # Remove paths from the reference to the .obs files in the .prj file
+#' setPrjObs("c:/BadLake/BadLake1975.prj", obsFiles = "Badlake73_76.obs")
+#'
+#' # Set the working directory to the one holding the model files.
+#' setwd("c:/BadLake")
+#'
+#' # Execute the model.
+#' result <- runCRHM("c:/CRHM/CRHM.exe", "BadLake1975.prj",
+#' outfile = "BadLake1975Output.txt")
+#'
+#' # If CRHM is on the system path you can run it without specifying the location.
+#' # This command will show the current path:
+#' Sys.getenv("PATH")
+#'
+#' # Execute the model without specifying the path to CRHM.
+#' result <- runCRHM("CRHM.exe", "BadLake1975.prj",
+#' outfile = "BadLake1975Output.txt")}
+
 runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
                     outFile='', logfile='', useWine = FALSE) {
   currentDir <- getwd()
@@ -59,9 +94,11 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
     return(FALSE)
   }
 
-  # check for executable file in specified path
+  # check for executable file in path or specified location
+
+  CRHM_path <- Sys.which(CRHMfile)
   CRHM_present <- file.exists(CRHMfile)
-  if (!CRHM_present) {
+  if (CRHM_path == "" & !CRHM_present) {
     cat("Error: can't find CRHM executable file\n")
     return(FALSE)
   }
