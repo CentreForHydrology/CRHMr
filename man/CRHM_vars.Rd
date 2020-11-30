@@ -4,14 +4,16 @@
 \name{CRHM_vars}
 \alias{CRHM_vars}
 \title{CRHM variables}
-\format{A data frame with 370 rows and 5 variables:
+\format{
+A data frame with 370 rows and 5 variables:
 \describe{
   \item{name}{name of the variable}
   \item{type}{type of variable (its dimensions)}
   \item{description}{description of the variable}
   \item{units}{variable units}
   \item{end_of_day}{\code{TRUE} if the value is only output at the end of the day (00:00), otherwise \code{FALSE}}
-}}
+}
+}
 \source{
 The variable information was abstacted from the \code{CRHM} c++ source code.
 }

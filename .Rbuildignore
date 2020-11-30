@@ -1,0 +1,9 @@
+^Meta$
+^doc$
+^.*\.Rproj$
+^\.Rproj\.user$
+LICENSE
+CRHMr.pdf
+CRHMr_cheatsheet.pdf
+CRHMr_release_notes.txt
+^.obs

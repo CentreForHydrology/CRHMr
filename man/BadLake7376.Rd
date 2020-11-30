@@ -4,7 +4,8 @@
 \name{BadLake7376}
 \alias{BadLake7376}
 \title{Observed meteorological data for Bad Lake}
-\format{A data frame with 26280 rows and 9 variables (including the datetime):
+\format{
+A data frame with 26280 rows and 9 variables (including the datetime):
 \describe{
   \item{datetime}{date and time as a POSIXct object}
   \item{t.1}{air temperature (C)}
@@ -15,7 +16,8 @@
   \item{Qsi.1}{Incoming shortwave radiation (W/m\eqn{^2}{^2})}
   \item{Qso.1}{Outgoing shortwave radiation (W/m\eqn{^2}{^2})}
   \item{Qn.1}{Net radiation (W/m\eqn{^2}{^2})}
-}}
+}
+}
 \source{
 This data is also distributed with the example files of the CRHM program. CRHM can be obtained from \url{http://www.usask.ca/hydrology/CRHM.php}.
 }
