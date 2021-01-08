@@ -17,7 +17,7 @@ parseText <- function(textString){
   textString <- stringr::str_trim(textString)
 
   # swap tabs for chracters
-  textString <- stringr::str_replace_all(textString, stringr::fixed('/t'), ' ' )
+  textString <- stringr::str_replace_all(textString, stringr::fixed('\t'), ' ' )
   double.spaces <- stringr::str_detect(textString, '  ')
   # replace all double spaces with single spaces
 
