@@ -13,7 +13,7 @@ parseNums <- function(numString){
   # remove padding
   numString <- stringr::str_trim(numString)
 
-  # swap tabs for chracters
+  # swap tabs for characters
   numString <- stringr::str_replace_all(numString, stringr::fixed('\t'), ' ' )
   double.spaces <- stringr::str_detect(numString, '  ')
   # replace all double spaces with single spaces
