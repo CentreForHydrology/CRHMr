@@ -10,9 +10,9 @@
 #' @note If there are missing values in the obs dataframe, the last line of the header will contain the line \option{$$ Missing}.
 #' @return If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 #' @seealso  \code{\link{trimObs}} \code{\link{changeEatoRH}}
-#' @examples
+#' @examples \dontrun{
 #' # write sample obs dataframe to .obs file
-#' result <- writeObsFile(BadLake7376, 'BadLake7376.obs')
+#' result <- writeObsFile(BadLake7376, 'BadLake7376.obs')}
 #' @export
 
 writeObsFile <- function(obs, obsfile='',  comment='', quiet=TRUE, logfile=''){

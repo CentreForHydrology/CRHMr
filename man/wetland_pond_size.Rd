@@ -49,7 +49,7 @@ is a good idea to restrict the range of \code{CRHM_output} \emph{before} calling
 \examples{
 \dontrun{
 CRHM_output <- readOutputFile("CRHM_output_1.txt", "Etc/GMT+6")
-HRU_name <- readPrjParameters("SmithCreek.prj", "hru_names")
+HRU_name <- readPrjHRUnames("SmithCreek.prj")
 HRU_SD_max <- readPrjParameters("SmithCreek.prj", "Sdmax")
 HRU_area <- readPrjParameters("SmithCreek.prj", "hru_area")
 area <- c(0, 5000, 10000)

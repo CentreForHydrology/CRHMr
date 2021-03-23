@@ -27,8 +27,9 @@ Writes a CRHM dataframe to an obs file. It will not allow ea values - they must 
 If there are missing values in the obs dataframe, the last line of the header will contain the line \option{$$ Missing}.
 }
 \examples{
+\dontrun{
 # write sample obs dataframe to .obs file
-result <- writeObsFile(BadLake7376, 'BadLake7376.obs')
+result <- writeObsFile(BadLake7376, 'BadLake7376.obs')}
 }
 \seealso{
 \code{\link{trimObs}} \code{\link{changeEatoRH}}

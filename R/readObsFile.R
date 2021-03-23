@@ -8,11 +8,11 @@
 #' @return If successful, returns a \pkg{CRHMr} data frame. If unsuccessful, returns the value \code{FALSE}.
 #' @author Kevin Shook
 #' @seealso \code{\link{readExportFile}} \code{\link{readOutputFile}}
-#' @examples
+#' @examples \dontrun{
 #' # output example obs data to a file
 #' BadLake7376.obs <- writeObsFile(BadLake7376, 'BadLake7376.obs')
 #' # now read data back in
-#' BadLake <- readObsFile('BadLake7376.obs', 'etc/GMT+6')
+#' BadLake <- readObsFile('BadLake7376.obs', 'etc/GMT+6')}
 #' @export
 
 readObsFile <-
@@ -21,12 +21,12 @@ function(obsFile='', timezone='', quiet=TRUE, logfile=''){
   # returns a dateframe with timeDate
 
   # check parameters
-  if (obsFile == ''){
+  if (obsFile == '') {
     cat('Error: must specify file name\n')
     return(FALSE)
   }
 
-  if (timezone == ''){
+  if (timezone == '') {
     cat('Error: must specify a timezone\n')
     return(FALSE)
   }
