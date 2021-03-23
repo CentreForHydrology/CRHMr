@@ -7,15 +7,22 @@
 simpleMaxSolar(datetime, latitude, hoursOffset = 2, quiet = TRUE, logfile = "")
 }
 \arguments{
-\item{datetime}{Required. Can either be a vector of \pkg{CRHMr} datetimes or any dataframe with a \code{datetime} in column 1.}
+\item{datetime}{Required. Can either be a vector of \pkg{CRHMr} datetimes or
+any dataframe with a \code{datetime} in column 1.}
 
 \item{latitude}{Required. The latitude for which values are to calculated.}
 
-\item{hoursOffset}{Optional. The offset (in hours) is added to the solar time to convert it to local time. The default value \option{2} shifts the daily peak to occur at 2pm.}
+\item{hoursOffset}{Optional. The offset (in hours) is added to the solar
+time to convert it to local time. The default value \option{2} shifts the
+daily peak to occur at 2 pm.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors.
+If you are calling this function in an \R script, you will usually leave
+\code{quiet=TRUE} (i.e. the default). If you are working interactively, you
+will probably want to set \code{quiet=FALSE}.}
 
-\item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
+\item{logfile}{Optional. Name of the file to be used for logging the action.
+Normally not used.}
 }
 \value{
 If successful, returns a dataframe containing these variables:
@@ -29,7 +36,9 @@ If successful, returns a dataframe containing these variables:
 If unsuccessful, the value \code{FALSE} will be returned.
 }
 \description{
-Simple estimation of extra-terrestrial radiation on a horizontal plane. Daily and sub-daily values in MJ/m\eqn{^2}{^2} and W/m\eqn{^2}{^2} are provided,
+Simple estimation of extra-terrestrial radiation on a horizontal
+plane. Daily and sub-daily values in MJ/m\eqn{^2}{^2} and W/m\eqn{^2}{^2}
+are provided,
 }
 \note{
 This version is valid for latitudes between 49 \eqn{^\circ}{ }N and 55\eqn{^\circ}{ }N. It is not known how well it will perform outside this range.
@@ -38,7 +47,10 @@ This version is valid for latitudes between 49 \eqn{^\circ}{ }N and 55\eqn{^\cir
 maxSolar <- simpleMaxSolar(BadLake7376, 51.366)
 }
 \references{
-This code is based on Shook, K., and J. Pomeroy (2011), \dQuote{Synthesis of incoming shortwave radiation for hydrological simulation}, Hydrol. Res., 42(6), 433, doi:10.2166/nh.2011.074. \cr Please cite this paper if you use this function in a publication.
+This code is based on Shook, K., and J. Pomeroy (2011),
+\dQuote{Synthesis of incoming shortwave radiation for hydrological simulation},
+Hydrol. Res., 42(6), 433, doi:10.2166/nh.2011.074.
+\cr Please cite this paper if you use this function in a publication.
 }
 \author{
 Kevin Shook

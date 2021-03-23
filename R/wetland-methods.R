@@ -1,8 +1,8 @@
 #' Processes CRHM wetland (depressional-storage) model outputs
 #' @name wetland-methods
 #'
-#' @description These methods are used to process output from CRHM models
-#' which contain many HRUs functioning as depressionals storage,
+#' @description These functions are used to process output from CRHM models
+#' which contain many HRUs functioning as depressional storage,
 #' particularly where the Pothole Cascade Model (PCM) is implemented. Note that
 #' the term \emph{pond} refers to the water within a depression.
 #' \describe{

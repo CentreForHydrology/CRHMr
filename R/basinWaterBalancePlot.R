@@ -11,8 +11,7 @@
 #' @importFrom stringr str_replace fixed
 #' @importFrom reshape2 melt
 #' @import ggplot2
-#' @author Kevin Shook
-#' @concept idea from http://www.r-bloggers.com/improved-net-stacked-distribution-graphs-via-ggplot2-trickery/
+#' @author Kevin Shook. Idea from http://www.r-bloggers.com/improved-net-stacked-distribution-graphs-via-ggplot2-trickery/
 
 #' @export
 #'

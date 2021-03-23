@@ -10,15 +10,20 @@ CRHM_summary(CRHMdataframe)
 \item{CRHMdataframe}{Required. Name of the \pkg{CRHMr} data frame to be summarized.}
 }
 \value{
-If successful, returns a data frame containing the number of rows, complete rows, starting and ending datetimes, and the variables in the specified data frame. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns a data frame containing the number of rows,
+complete rows, starting and ending datetimes, and the variables in the specified
+data frame. If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
-Summarizes the values in a \pkg{CRHMr} data frame. This is an internal \pkg{CRHMr} function and should \emph{never} need to be called directly.
+Summarizes the values in a \pkg{CRHMr} data frame. This is an internal
+\pkg{CRHMr} function and should \emph{never} need to be called directly.
 }
 \examples{
 \dontrun{
 summary <- CRHMsummary(BadLake7376)}
+
 }
 \author{
 Kevin Shook
 }
+\keyword{internal}

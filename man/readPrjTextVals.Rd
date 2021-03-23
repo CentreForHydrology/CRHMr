@@ -7,21 +7,26 @@
 readPrjTextVals(prj, searchString, valueCount)
 }
 \arguments{
-\item{prj}{Required. A CRHM file read into memory as a sequence of lines, as returned from \code{readPrj}.}
+\item{prj}{Required. A CRHM file read into memory as a sequence of lines, as
+returned from \code{readPrj}.}
 
 \item{searchString}{Required. The identifying string.}
 
 \item{valueCount}{Required. The number of values to be read in.}
 }
 \value{
-If successful, returns a vector with the numeric values. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns a vector with the numeric values.
+If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
-Reads text values from a project file variable. The number of values to be read in does not need to be specified.
-This is an internal function and is not able to be called by a function outside of \pkg{CRHMr}, as it is not exported.
-This documentation is for maintenance purposes.
+Reads text values from a project file variable. The number of
+values to be read in does not need to be specified. This is an internal function
+and is not able to be called by a function outside of \pkg{CRHMr}, as it is
+not exported. This documentation is for maintenance purposes.
 }
 \examples{
 \dontrun{
 hru_names <- readPrjTextVals(Bologna,'hru_names',19)}
+
 }
+\keyword{internal}

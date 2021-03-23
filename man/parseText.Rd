@@ -7,17 +7,22 @@
 parseText(textString)
 }
 \arguments{
-\item{textString}{Required. A character string containing strings separated by any number of spaces.}
+\item{textString}{Required. A character string containing strings separated by
+any number of spaces and/or tabs.}
 }
 \value{
-Returns a character vector.
+Returns a vector of individual strings.
 }
 \description{
-This is an internal \pkg{CRHMr} function and should normally not need to be called directly. It is used for reading data from messy files such as CRHM projects.
+This is an internal \pkg{CRHMr} function and should normally not
+need to be called directly. It is used for reading data from messy files such
+as CRHM projects.
 }
 \examples{
-parseText(' red  green    blue      black')
+vals <- parseText(' red  green    blue      black')
+
 }
 \author{
 Kevin Shook
 }
+\keyword{internal}

@@ -1,19 +1,26 @@
 #' Writes information about changes to a \pkg{CRHMr} dataframe to a file
 #'
-#' @description This is an internal \pkg{CRHMr} function and should normally not need to be called directly. This function writes a file containing the a summary of the files as well as the changed data values and a description of their source.
-#' @param action Required. A character string indicating the action taken - ususally this is the name of the function making the changes.
-#' @param original.data.info Required. Information about the original dataframe from \code{CRHM_summary}.
-#' @param changed.data.info Required. Information about the changed dataframe from \code{CRHM_summary}.
-#' @param changed.data.type Required. A vector indicating the type/source of data in the changed dataframe.
+#' @description This is an internal \pkg{CRHMr} function and should normally not need to be
+#' called directly. This function writes a file containing the a summary of the files as
+#' well as the changed data values and a description of their source.
+#' @param action Required. A character string indicating the action taken - usually this is
+#' the name of the function making the changes.
+#' @param original.data.info Required. Information about the original data frame from \code{CRHM_summary}.
+#' @param changed.data.info Required. Information about the changed data frame from \code{CRHM_summary}.
+#' @param changed.data.type Required. A vector indicating the type/source of data in the
+#' changed dataframe.
 #' @param comment1 Optional. A comment about the data and/or changes.
 #' @param comment2 Optional. A comment about the data and/or changes.
 #' @param comment3 Optional. A comment about the data and/or changes.
 #' @param comment4 Optional. A comment about the data and/or changes.
-#' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.
+#' @param quiet Optional. Suppresses display of messages, except for errors. If
+#' you are calling this function in an \R script, you will usually leave
+#' \code{quiet=TRUE} (i.e. the default). If you are working interactively,
+#' you will probably want to set \code{quiet=FALSE}.
 #'
 #' @return If successful, returns \code{TRUE}. If unsucessful, returns \code{FALSE}.
 #' @author Kevin Shook
-#' @export
+#' @keywords internal
 #'
 #' @examples \dontrun{
 #' writeChangeLogFile('appendObs', obs1.info, obs2.info, output.type,

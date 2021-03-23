@@ -17,13 +17,15 @@ writeChangeLogFile(
 )
 }
 \arguments{
-\item{action}{Required. A character string indicating the action taken - ususally this is the name of the function making the changes.}
+\item{action}{Required. A character string indicating the action taken - usually this is
+the name of the function making the changes.}
 
-\item{original.data.info}{Required. Information about the original dataframe from \code{CRHM_summary}.}
+\item{original.data.info}{Required. Information about the original data frame from \code{CRHM_summary}.}
 
-\item{changed.data.info}{Required. Information about the changed dataframe from \code{CRHM_summary}.}
+\item{changed.data.info}{Required. Information about the changed data frame from \code{CRHM_summary}.}
 
-\item{changed.data.type}{Required. A vector indicating the type/source of data in the changed dataframe.}
+\item{changed.data.type}{Required. A vector indicating the type/source of data in the
+changed dataframe.}
 
 \item{comment1}{Optional. A comment about the data and/or changes.}
 
@@ -33,13 +35,18 @@ writeChangeLogFile(
 
 \item{comment4}{Optional. A comment about the data and/or changes.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If
+you are calling this function in an \R script, you will usually leave
+\code{quiet=TRUE} (i.e. the default). If you are working interactively,
+you will probably want to set \code{quiet=FALSE}.}
 }
 \value{
 If successful, returns \code{TRUE}. If unsucessful, returns \code{FALSE}.
 }
 \description{
-This is an internal \pkg{CRHMr} function and should normally not need to be called directly. This function writes a file containing the a summary of the files as well as the changed data values and a description of their source.
+This is an internal \pkg{CRHMr} function and should normally not need to be
+called directly. This function writes a file containing the a summary of the files as
+well as the changed data values and a description of their source.
 }
 \examples{
 \dontrun{
@@ -49,3 +56,4 @@ writeChangeLogFile('appendObs', obs1.info, obs2.info, output.type,
 \author{
 Kevin Shook
 }
+\keyword{internal}

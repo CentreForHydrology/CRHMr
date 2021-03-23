@@ -36,6 +36,5 @@ p <- basinWaterBalancePlot(yearly)
 }
 }
 \author{
-Kevin Shook
+Kevin Shook. Idea from http://www.r-bloggers.com/improved-net-stacked-distribution-graphs-via-ggplot2-trickery/
 }
-\concept{idea from http://www.r-bloggers.com/improved-net-stacked-distribution-graphs-via-ggplot2-trickery/}

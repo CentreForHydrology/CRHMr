@@ -10,14 +10,18 @@ saturatedVP(airTemp)
 \item{airTemp}{Required. Air temperature in \eqn{^\circ}{ }C.}
 }
 \value{
-If successful, returns the saturated vapour pressure in kPa. If unsuccessful, returns the value \code{FALSE}.
+If successful, returns the saturated vapour pressure in kPa.
+If unsuccessful, returns the value \code{FALSE}.
 }
 \description{
-This is an internal \pkg{CRHMr} function and should normally not need to be called directly.
+This is an internal \pkg{CRHMr} function and should normally not
+need to be called directly.
 }
 \examples{
-saturatedVP(-5)
+estar <- saturatedVP(-5)
+
 }
 \author{
 Kevin Shook
 }
+\keyword{internal}

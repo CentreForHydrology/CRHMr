@@ -7,17 +7,22 @@
 parseNums(numString)
 }
 \arguments{
-\item{numString}{Required. A character string containing numbers separated by any number of spaces.}
+\item{numString}{Required. A character string containing numbers separated by
+any number of spaces.}
 }
 \value{
 Returns a numeric vector.
 }
 \description{
-This is an internal \pkg{CRHMr} function and should normally not need to be called directly. It is used for reading data from messy files such as CRHM projects.
+This is an internal \pkg{CRHMr} function and should normally not
+need to be called directly. It is used for reading data from messy files such
+as CRHM projects.
 }
 \examples{
-parseNums(' 1  2 3   4     5 ')
+nums <- parseNums(" 1  2 3   4     5 ")
+
 }
 \author{
 Kevin Shook
 }
+\keyword{internal}
