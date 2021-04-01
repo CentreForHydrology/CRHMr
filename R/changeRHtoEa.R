@@ -1,6 +1,11 @@
 #' Changes RH values to Ea in a CRHM dataframe
 #'
-#' @description This function converts values of RH to Ea. \pkg{CRHMr} does not allow interpolation or imputation of RH values, so you must convert RH values to Ea before infilling. Note that the specified obs dataframe must contain both RH and air temperatures. For safety, \pkg{CRHMr} does not permit values of both RH and Ea in a data frame. The names of the variables containing air temperature and RH values must be of the form \code{t.x} and \code{rh.x}, respectively, where \code{x} is an number, even if the column numbers are specified.
+#' @description This function converts values of RH to Ea. \pkg{CRHMr} does not allow interpolation
+#' or imputation of RH values, so you must convert RH values to Ea before infilling. Note
+#' that the specified obs dataframe must contain both RH and air temperatures. For safety,
+#'  \pkg{CRHMr} does not permit values of both RH and Ea in a data frame. The names of the
+#'  variables containing air temperature and RH values must be of the form \code{t.x} and
+#'  \code{rh.x}, respectively, where \code{x} is an number, even if the column numbers are specified.
 #' @param obs Required. A \pkg{CRHMr} data frame of observations.
 #' @param t.cols Optional. A vector containing the column numbers (not including the datetime) holding the air temperatures. If no columns are specified then the locations of the temperatures are guessed from the column names. The air temperatures must be in \eqn{^\circ}{ }C.
 #' @param rh.cols Optional. A vector containing the column numbers (not including the datetime) holding the relative humidities. If no columns are specified then the locations of the RH values are guessed from the column names.
