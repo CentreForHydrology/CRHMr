@@ -4,9 +4,12 @@
 \alias{weighingGauge-functions}
 \title{Processes weighing gauge precipitation}
 \description{
-These functions clean accumulated precipitation data from a weighing gauge. The functions are wrapper for other
-\R and \pkg{CRHMr} functions as well as functions adapted from MATLAB code by Alan Barr. The typical sequence of operation of
-the functions is indicated by their numbers, however it it NOT always necessary to execute any given function.
+These functions clean accumulated precipitation data from a weighing gauge.
+The functions are wrappers for other \R and \pkg{CRHMr} functions as well as for
+functions adapted from MATLAB code by Alan Barr. The typical sequence of operation of
+the functions is indicated by their numbers, however it it NOT always necessary
+to execute any given function.
+
 \describe{
  \item{weighingGaugePlot}{Plots cumulative and interval precipitation}
  \item{weighingGauge1}{Gap fills the data}
@@ -50,7 +53,10 @@ weighingGaugePlot(wg6)
 wg7 <- weighingGaugeInterval(wg6)}
 }
 \seealso{
-\code{\link{weighingGaugePlot}} \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge3}} \code{\link{weighingGauge4}} \code{\link{weighingGauge5}} \code{\link{weighingGaugeInterval}}
+\code{\link{weighingGaugePlot}} \code{\link{weighingGauge1}}
+\code{\link{weighingGauge2}} \code{\link{weighingGauge3}}
+\code{\link{weighingGauge4}} \code{\link{weighingGauge5}}
+\code{\link{weighingGaugeInterval}}
 }
 \author{
 Kevin Shook

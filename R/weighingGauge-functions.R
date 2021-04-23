@@ -16,7 +16,11 @@
 #'  \item{weighingGaugeInterval}{Deacumulates the precipitation}
 #' }
 #' @author Kevin Shook
-#' @seealso \code{\link{weighingGaugePlot}} \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge3}} \code{\link{weighingGauge4}} \code{\link{weighingGauge5}} \code{\link{weighingGaugeInterval}}
+#' @seealso \code{\link{weighingGaugePlot}} \code{\link{weighingGauge1}}
+#' \code{\link{weighingGauge2}} \code{\link{weighingGauge3}}
+#' \code{\link{weighingGauge4}} \code{\link{weighingGauge5}}
+#' \code{\link{weighingGaugeInterval}}
+#'
 #' @examples \dontrun{
 #' # check data - shows jitter, missing values and a large reset
 #' weighingGaugePlot(wg)

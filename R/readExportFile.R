@@ -39,8 +39,8 @@ function(exportFile, timezone='', quiet=TRUE, logfile=''){
   # find type of date/time
   date1 <- export[1,1]
 
-
-  if (date1 > 3000)
+  # test date to see if it is an integer
+  if (date1 != round(date1))
     Excel <- TRUE
   else
     Excel <- FALSE
