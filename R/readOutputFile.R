@@ -7,6 +7,8 @@
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #' @return If successful, returns a \pkg{CRHMr} data frame. If unsuccessful, returns the value \code{FALSE}.
 #' @author Kevin Shook
+#' @importFrom stringr str_replace_all str_split str_detect fixed
+#' @importFrom lubridate force_tz
 #' @seealso \code{\link{readExportFile}} \code{\link{readObsFile}} \code{\link{readOutputUnits}}
 #' @examples
 #' \dontrun{
@@ -32,16 +34,16 @@ readOutputFile <- function(outputFile, timezone='', quiet=TRUE, logfile=''){
   line1 <- input[1]
 
   # remove parentheses
-  variables <- stringr::str_replace_all(line1, stringr::fixed('('),'.')
-  variables <- stringr::str_replace_all(variables, stringr::fixed(')'),'')
+  variables <- str_replace_all(line1, fixed('('),'.')
+  variables <- str_replace_all(variables, fixed(')'),'')
 
   # replace tabs with spaces to allow for parsing
-  variables <- stringr::str_replace_all(variables, '#','.calc')
-  variables <- stringr::str_split(variables, '\t')
+  variables <- str_replace_all(variables, '#','.calc')
+  variables <- str_split(variables, '\t')
 
   # check for units
   line2 <- input[2]
-  units_present <- stringr::str_detect(line2, 'units')
+  units_present <- str_detect(line2, 'units')
 
   if(units_present)
     skiplines <- 2
@@ -51,9 +53,18 @@ readOutputFile <- function(outputFile, timezone='', quiet=TRUE, logfile=''){
   output <- read.table(outputFile, header=FALSE, skip=skiplines, stringsAsFactors=FALSE)
   names(output) <- variables[[1]]
 
+  # check for new date format
+  first_datetime <- output[1,1]
+  newdate <- str_detect(first_datetime, "T")
+
+  if(newdate) {
+    output$time <- as.POSIXct(output[,1], format = "%Y-%m-%dT%H:%M", tz=timezone)
+  } else {
   # convert Excel time to timeDate
-  output$time <- as.POSIXct(as.numeric(output[,1])*24*3600, origin="1899-12-30",tz='UTC')
-  output$time <- lubridate::force_tz(output$time, tzone=timezone)
+    output$time <- as.POSIXct(as.numeric(output[,1])*24*3600, origin="1899-12-30",tz='UTC')
+    output$time <- force_tz(output$time, tzone=timezone)
+  }
+
   names(output)[1] <- 'datetime'
   num.cols <- ncol(output)
 

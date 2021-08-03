@@ -133,7 +133,7 @@ hydrograph <- function(CRHMflows = NULL, CRHMflowsLabels = "", CRHMcols = NULL, 
     if (!quiet) {
       cat("No WSC daily flow data selected\n")
     }
-    dailyFlowsSelected <- FALSE
+    WSCdailyFlowsSelected <- FALSE
   }
 
   if (!is.null(WSCpeakFlowsID)) {
