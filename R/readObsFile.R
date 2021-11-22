@@ -144,7 +144,7 @@ function(obsFile='', timezone='', quiet=TRUE, logfile=''){
   datetime <- as.data.frame(datetime)
   obs <- cbind(datetime, obs.vars)
   var.names <- c('datetime')
-  for (i in 1:variable.type.count){
+  for (i in 1:variable.type.count) {
     var.nums <- seq(1:variable.count[i])
     var.nam <- variable.name[i]
 
