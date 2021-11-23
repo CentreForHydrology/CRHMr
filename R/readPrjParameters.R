@@ -39,10 +39,17 @@ readPrjParameters <- function(prjFile = "", paramName = "", logfile = ""){
     return(FALSE)
   }
 
+# if more than one match is found, use the first one only
+  if (length(start_line > 1))
+    start_line <- start_line[1]
+
  # find starting point
   line_num <- start_line + 1
   done <- FALSE
   all_vals <- NULL
+
+
+
 
   while (!done) {
     # check if done
