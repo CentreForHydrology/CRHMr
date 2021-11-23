@@ -48,9 +48,6 @@ readPrjParameters <- function(prjFile = "", paramName = "", logfile = ""){
   done <- FALSE
   all_vals <- NULL
 
-
-
-
   while (!done) {
     # check if done
     current <- prj[line_num]

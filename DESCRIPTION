@@ -17,7 +17,7 @@ License: GPL-3
 LazyData: true
 Encoding: UTF-8
 URL: https://github.com/CentreForHydrology/CRHMr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 NeedsCompilation: no
 Packaged: 2016-07-06 18:16:30 UTC; kevin
 VignetteBuilder: knitr
