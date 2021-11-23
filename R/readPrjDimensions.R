@@ -31,13 +31,13 @@ readPrjDimensions <- function(prjFile = "", logfile = "") {
   }
 
  # shorten prj to speed up processing and avoid problems
-  prj <- prj[start_line:(start_line+5)]
+  prj <- prj[start_line:(start_line + 5)]
   nhru_line <- grep("nhru", prj, fixed = TRUE)
   nhru <- as.numeric(parseText(prj[nhru_line])[2])
   nlay_line <- grep("nlay", prj, fixed = TRUE)
-  nlay<- as.numeric(parseText(prj[nlay_line])[2])
+  nlay <- as.numeric(parseText(prj[nlay_line])[2])
   nobs_line <- grep("nobs", prj, fixed = TRUE)
-  nobs<- as.numeric(parseText(prj[nobs_line])[2])
+  nobs <- as.numeric(parseText(prj[nobs_line])[2])
 
  # assemble and output
 

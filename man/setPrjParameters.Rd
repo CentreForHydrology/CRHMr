@@ -22,7 +22,9 @@ setPrjParameters(
 
 \item{outputPrjFile}{Optional. If omitted, the input \code{.prj} file will be overwritten.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling
+this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default).
+If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
