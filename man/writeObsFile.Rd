@@ -4,18 +4,37 @@
 \alias{writeObsFile}
 \title{Writes a dataframe to a .obs file}
 \usage{
-writeObsFile(obs, obsfile = "", comment = "", quiet = TRUE, logfile = "")
+writeObsFile(
+  obs,
+  obsfile = "",
+  obsfilter = NULL,
+  comment = "",
+  quiet = TRUE,
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} obs data frame.}
 
 \item{obsfile}{Required. Name for file to hold observations.}
 
-\item{comment}{Optional. A comment to be added to the header of the .obs file. If omitted, the header will consist of the name of the obs data frame followed by \option{created by CRHMr function writeObsFile}.}
+\item{obsfilter}{Optional. Default is \code{NULL} (not used). If specified, as a
+string scalar or vector, each value will be added to the file as an an
+observation filter. Commonly used to adjust 10m wind speed to 2m. Note
+that the observation filter for converting RH to ea is added autmatically,
+so you don't have to specify it.}
 
-\item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}.}
+\item{comment}{Optional. A comment to be added to the header of the .obs file. If
+omitted, the header will consist of the name of the obs data frame
+followed by \option{created by CRHMr function writeObsFile}.}
 
-\item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
+\item{quiet}{Optional. Suppresses display of messages, except for errors. If you
+are calling this function in an \R script, you will usually leave \code{quiet=TRUE}
+(i.e. the default). If you are working interactively, you will probably want to
+set \code{quiet=FALSE}.}
+
+\item{logfile}{Optional. Name of the file to be used for logging the action.
+Normally not used.}
 }
 \value{
 If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
