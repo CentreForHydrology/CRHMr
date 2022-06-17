@@ -54,7 +54,7 @@ addPrjHRUs <- function(inputPrjFile = NULL,
 
   # check to ensure that new HRU number is OK
 
-  if ((addHRUnumber < 1) | (addHRUnumber > (length(oldHRUnames)+1)))
+  if ((addHRUnumber < 1) | (addHRUnumber > (numOldHRUs+1)))
     stop("Invalid HRU number specified")
 
   # add names of selected HRU
@@ -164,20 +164,23 @@ addPrjHRUs <- function(inputPrjFile = NULL,
 
   if (sum(stringr::str_detect(prj, "HRU_OBS")) > 0) {
     old_obs_vals <- readPrjParameters(inputPrjFile, "HRU_OBS")
-    old_obs_vals <- matrix(old_obs_vals, nrow = length(old_obs_vals) / length(oldHRUnames),
-                             ncol = length(oldHRUnames))
+    old_obs_vals <- matrix(old_obs_vals, nrow = (length(old_obs_vals) / numOldHRUs),
+                             ncol = numOldHRUs)
 
     if (!is.null(copyHRUvalues))
       copy_col <- old_obs_vals[, copyHRUvalues]
     else
-      copy_col <- rep.int(1, length(oldHRUnames))
+      copy_col <- rep.int(1, numOldHRUs)
 
-    left <- old_obs_vals[, 1:(addHRUnumber - 1)]
+
     if (addHRUnumber < num_old_HRUs) {
-      right <- old_obs_vals[, addHRUnumber:ncol(old_obs_vals)]
-      new_obs_vals <- cbind(left, copy_col, right)
-    } else {
-      new_obs_vals <- cbind(left, copy_col)
+      new_obs_vals <- cbind(copy_col, old_obs_vals)
+    } else if(addHRUnumber >= num_old_HRUs) {
+        new_obs_vals <- cbind(old_obs_vals, copy_col)
+    }   else {
+         left <- old_obs_vals[, 1:(addHRUnumber - 1)]
+         right <- new_routevals[, addHRUnumber:ncol(new_routevals)]
+         new_obs_vals <- cbind(left, copy_col, right)
     }
 
 
@@ -186,7 +189,7 @@ addPrjHRUs <- function(inputPrjFile = NULL,
     result <- replacePrjParameters(inputPrjFile = outputPrjFile,
                      paramName = "HRU_OBS",
                      paramVals = new_obs_vals,
-                     oldParamCount = length(old_obs_vals))
+                     oldParamCount = numOldHRUs)
   }
 
   if (sum(stringr::str_detect(prj, "obs_elev")) > 0) {
@@ -199,27 +202,51 @@ addPrjHRUs <- function(inputPrjFile = NULL,
     else
       copy_col <- rep.int(-1, length(oldHRUnames))
 
-    left <- old_elev_vals[, 1:(addHRUnumber - 1)]
-    right <- old_elev_vals[, addHRUnumber:ncol(old_obs_vals)]
-    new_elev_vals <- cbind(left, copy_col, right)
+    if (addHRUnumber < num_old_HRUs) {
+      new_obs_elev_vals <- cbind(copy_col, old_elev_vals)
+    } else if(addHRUnumber >= num_old_HRUs) {
+      new_obs_elev_vals <- cbind(old_elev_vals, copy_col)
+    } else {
+      left <- old_obs_vals[, 1:(addHRUnumber - 1)]
+      right <- old_routevals[, addHRUnumber:ncol(new_routevals)]
+      new_obs_elev_vals <- cbind(left, copy_col, right)
+    }
+
 
 
     result <- replacePrjParameters(inputPrjFile = outputPrjFile,
                      paramName = "obs_elev",
-                     paramVals = new_elev_vals,
-                     oldParamCount = length(old_elev_vals))
+                     paramVals = new_obs_elev_vals,
+                     oldParamCount = numOldHRUs)
+
   }
 
   if (sum(stringr::str_detect(prj, "soil_withdrawal")) > 0) {
     old_withdraw_vals <- readPrjParameters(inputPrjFile, "soil_withdrawal")
     old_withdraw_vals <- matrix(old_withdraw_vals, nrow = length(old_withdraw_vals) / length(oldHRUnames),
                             ncol = length(oldHRUnames))
-    new_withdraw_vals <- old_withdraw_vals[, -deletedHRUs]
+
+    if (!is.null(copyHRUvalues))
+      copy_col <- old_withdraw_vals[, copyHRUvalues]
+    else
+      copy_col <- rep.int(-1, length(oldHRUnames))
+
+
+    if (addHRUnumber < num_old_HRUs) {
+      new_withdraw_vals <- cbind(copy_col, old_withdraw_vals)
+    } else if(addHRUnumber >= num_old_HRUs) {
+        new_withdraw_vals <- cbind(old_withdraw_vals, copy_col)
+    } else {
+        left <- old_withdraw_vals[, 1:(addHRUnumber - 1)]
+        right <- old_withdraw_vals[, addHRUnumber:ncol(old_withdraw_vals)]
+        new_withdraw_vals <- cbind(left, copy_col, right)
+    }
+
 
     result <- replacePrjParameters(inputPrjFile = outputPrjFile,
                      paramName = "soil_withdrawal",
                      paramVals = new_withdraw_vals,
-                     oldParamCount = length(old_withdraw_vals))
+                     oldParamCount = numOldHRUs)
   }
 
   # log action
