@@ -40,10 +40,13 @@ Normally not used.}
 If successful, returns \code{TRUE}. If unsuccessful, returns \code{FALSE}.
 }
 \description{
-Writes a CRHM dataframe to an obs file. It will not allow ea values - they must be converted to RH values first. The CRHM filter command to convert RH values to ea is added automatically to the header of the .obs file.
+Writes a CRHM dataframe to an obs file. It will not allow ea values - they must be
+converted to RH values first. The CRHM filter command to convert RH values to ea is added
+automatically to the header of the .obs file.
 }
 \note{
-If there are missing values in the obs dataframe, the last line of the header will contain the line \option{$$ Missing}.
+If there are missing values in the obs dataframe, the last line of the header will contain
+the line \option{$$ Missing}.
 }
 \examples{
 \dontrun{
