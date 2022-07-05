@@ -32,7 +32,7 @@ has been kicked off CRAN, which will prevent you installing CRHMr. I don't want 
 would probably break some people's workflow), so you will have to install and old version of **EcoHydRology** with
 the following steps:
 
-1. Download the old version [https://cran.r-project.org/src/contrib/Archive/EcoHydRology/EcoHydRology_0.4.12.1.tar.gz](https://cran.r-project.org/src/contrib/Archive/EcoHydRology/EcoHydRology_0.4.12.1.tar.gz])
+1. Download the old version [https://cran.r-project.org/src/contrib/Archive/EcoHydRology/EcoHydRology_0.4.12.1.tar.gz](https://cran.r-project.org/src/contrib/Archive/EcoHydRology/EcoHydRology_0.4.12.1.tar.gz)
 
 2. In **R** install the packages operators, topmodel, DEoptim", and XML. You can use the command `install.packages(c("operators", "topmodel", "DEoptim", "XML"))`
 
