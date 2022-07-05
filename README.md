@@ -49,6 +49,6 @@ You can download the complete package, as well as the manual .pdf by clicking on
 
 The commands are:
 
-`install.packages("devtools")`
-`library(devtools)`
-`install_github("CentreForHydrology/CRHMr")`
+`install.packages("devtools")`  
+`library(devtools)`  
+`install_github("CentreForHydrology/CRHMr")`  
