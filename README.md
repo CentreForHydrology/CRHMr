@@ -20,14 +20,26 @@ These packages are:
 - stringr(>= 1.0)
 - zoo
 
-In addition, CRHMr also supports the package **tidyhydat** , which is available from CRAN. If you are using this package, then you will have to install it, as well as all of its dependencies. You will also have to download the current HYDAT database. It is strongly recommended that you use tidyhydat on its
+To install the dependencies, you can use the menu command **Packages | Install** in Rstudio, or the command `install.packages` as in
+
+`install.packages("ggplot2")`
+
+In addition, CRHMr also supports the package **tidyhydat** , which is available from CRAN. If you are using this package, then you will have to install it, as well as all of its dependencies. You will also have to download the current HYDAT database. It is strongly recommended that you use **tidyhydat** on its
 own before using it in CRHMr.
 
-The package **EcoHydRology** is optionally used by the CRHMr function distributeQsi. If you are going to be generating sub-daily incoming shortwave radiation data, it is hightly recommended that you install this package. 
+The package **EcoHydRology** is optionally used by the CRHMr function `distributeQsi`. Unfortunately the package
+has been kicked off CRAN, which will prevent you installing CRHMr. I don't want to remove the functionality (which
+would probably break some people's workflow), so you will have to install and old version of **EcoHydRology** with
+the following steps:
 
-To install the dependencies, you can use the menu command **Packages | Install** in Rstudio, or the command install.packages as in
+1. Download the old version [https://cran.r-project.org/src/contrib/Archive/EcoHydRology/EcoHydRology_0.4.12.1.tar.gz](https://cran.r-project.org/src/contrib/Archive/EcoHydRology/EcoHydRology_0.4.12.1.tar.gz])
 
-	install.packages("ggplot2")
+2. In **R** install the packages operators, topmodel, DEoptim", and XML. You can use the command `install.packages(c("operators", "topmodel", "DEoptim", "XML"))`
+
+3. Install the downloaded package. Assuming it is in your `Downloads` folder, the command would be `install.packages("~/Downloads/EcoHydRology_0.4.12.1.tar.gz", repos = NULL, type = "source")`
+
+
+
 
 ### Installing CRHMr
 You can download the complete package, as well as the manual .pdf by clicking on **releases**. However, you can download and install the most up-to-date version directly from this repository. The procedure is
@@ -37,6 +49,6 @@ You can download the complete package, as well as the manual .pdf by clicking on
 
 The commands are:
 
-	install.packages("devtools")
-	library(devtools)
-	install_github("CentreForHydrology/CRHMr")
+`install.packages("devtools")`
+`library(devtools)`
+`install_github("CentreForHydrology/CRHMr")`
