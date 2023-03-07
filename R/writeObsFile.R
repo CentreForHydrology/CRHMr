@@ -13,6 +13,8 @@
 #' observation filter. Commonly used to adjust 10m wind speed to 2m. Note
 #' that the observation filter for converting RH to ea is added autmatically,
 #' so you don't have to specify it.
+#' @param datetimeFormat Optional. If not specified (the default), the datetime is written as "%Y %m %d %H %M". If
+#' \option{Excel}, then the datetime is written as an Excel datetime.
 #' @param quiet Optional. Suppresses display of messages, except for errors. If you
 #' are calling this function in an \R script, you will usually leave \code{quiet=TRUE}
 #' (i.e. the default). If you are working interactively, you will probably want to
@@ -29,7 +31,7 @@
 #' result <- writeObsFile(BadLake7376, 'BadLake7376.obs')}
 #' @export
 
-writeObsFile <- function(obs, obsfile="", obsfilter=NULL, comment="", quiet=TRUE, logfile=""){
+writeObsFile <- function(obs, obsfile="", obsfilter=NULL, datetimeFormat = NULL, comment="", quiet=TRUE, logfile=""){
   eol.val <- win.eol()
 
   # check parameters
@@ -127,8 +129,18 @@ writeObsFile <- function(obs, obsfile="", obsfilter=NULL, comment="", quiet=TRUE
     print(obs.info)
 
   # write values to file
+  if (!is.null(datetimeFormat)) {
+    if (stringr::str_to_lower(datetimeFormat) == "excel") {
+      startdatetime <- as.POSIXct("1899-12-30", tz = lubridate::tz(obs[1,1]))
+      datenum <- obs[,1] - startdatetime
+      obs[,1] <- as.numeric(datenum)
+    } else {
+      obs[,1] <- format(obs[,1], format = '%Y %m %d %H %M')
+    }
+  }  else {
+    obs[,1] <- format(obs[,1], format = '%Y %m %d %H %M')
+  }
 
-  obs[,1] <- format(obs[,1], format = '%Y %m %d %H %M')
   write.table(obs, file = obsfile, sep = '\t', eol = eol.val,
               row.names = FALSE, quote = FALSE,
               col.names = FALSE, append = TRUE)

@@ -8,6 +8,7 @@ writeObsFile(
   obs,
   obsfile = "",
   obsfilter = NULL,
+  datetimeFormat = NULL,
   comment = "",
   quiet = TRUE,
   logfile = ""
@@ -23,6 +24,9 @@ string scalar or vector, each value will be added to the file as an an
 observation filter. Commonly used to adjust 10m wind speed to 2m. Note
 that the observation filter for converting RH to ea is added autmatically,
 so you don't have to specify it.}
+
+\item{datetimeFormat}{Optional. If not specified (the default), the datetime is written as "%Y %m %d %H %M". If
+\option{Excel}, then the datetime is written as an Excel datetime.}
 
 \item{comment}{Optional. A comment to be added to the header of the .obs file. If
 omitted, the header will consist of the name of the obs data frame

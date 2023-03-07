@@ -32,7 +32,7 @@
 #' @author Kevin Shook
 #' @seealso  \code{\link{automatePrj}}
 #' @export
-#' @importFrom stringr str_detect str_c
+#' @importFrom stringr str_detect str_c str
 #' @examples \dontrun{
 #' # Automate the .prj before use
 #' automatePrj("c:/BadLake/BadLake1975.prj")
@@ -103,6 +103,12 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
     return(FALSE)
   }
 
+  # check if Borland or CRHMcode GUI
+  CRHMcode <- FALSE
+  if (str_detect(str_to_upper(CRHMfile), "CRHM_GUI"))
+     CRHMcode <- TRUE
+
+
   # check for project file
   prj_present <- file.exists(prjFile)
 
@@ -152,7 +158,10 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
   # find RUN_ID by reading prj file
 
   RUN_ID <- readPrjLine(prj, 'RUN_ID')
-  CRHM_output_file <- paste('CRHM_output_', RUN_ID, '.txt', sep = '')
+  if (!CRHMcode)
+     CRHM_output_file <- paste('CRHM_output_', RUN_ID, '.txt', sep = '')
+  else
+     CRHM_output_file <- paste('CRHM_output_', RUN_ID, '.obs', sep = '')
 
   if (exe_prefix == 'wine ') {
     prjFileBasename <- basename(prjFile_no_spaces)
@@ -174,6 +183,10 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
       obs_no_spaces <- gsub(" ", "\\\ ", obs, fixed = TRUE)
       CRHM_execution_string <- paste(CRHM_execution_string, obs_no_spaces, sep = ' ')
     }
+
+
+
+
 
     if (parFiles != '') {
       numfiles <- length(parFiles)
