@@ -29,12 +29,14 @@ phaseCorrect <- function(obs, Tcol=1, RHcol=2, Ucol=3, Pcol=4, RH_type=1, shield
 
   # get time interval & set step
   dt <- timestep.hours(obs[1,1], obs[2,1])
-  if (dt < 1)
+
+  if (dt < 1) {
     step <- 1
-  else if((dt >= 1) & (dt <= 12))
+  } else if ((dt >= 1) & (dt <= 12)) {
     step <- 2
-  else
+  } else {
     step <- 3
+  }
 
   #Constants
   mw <- 18.01528                    # Molar mass of water [gmol-1]
