@@ -25,6 +25,11 @@ phaseCorrect <- function(obs, Tcol=1, RHcol=2, Ucol=3, Pcol=4, RH_type=1, shield
     return(FALSE)
   }
 
+  if (nrow(obs) == 0){
+    cat('Error: missing obs data frame\n')
+    return(FALSE)
+  }
+
   obsName <- deparse(substitute(obs))
 
   # get time interval & set step
