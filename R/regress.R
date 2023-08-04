@@ -71,7 +71,7 @@ function(primaryCRHM, primary.columns=1,
   secondary.columns.with.time <- c(1, secondary.variable.columns)
 
   if ((primary.rh.loc.num > 0) | (secondary.rh.loc.num > 0)){
-    cat("Error: can't do regressions with RH values\n")
+    cat("ERROR: regressions with RH values are not permitted. Convert to ea first and then interpolate.\n")
     return(FALSE)
   }
 
