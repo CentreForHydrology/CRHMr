@@ -29,8 +29,13 @@
 #' @examples
 #' # check for spikes in wind speed - look for changes greater than 10 m/s per interval
 #' findSpikes(BadLake7376, 3, 10)
-findSpikes <- function(obs, colnum = 1, threshold = 0, spike_direction = 'both', logfile = "") {
-  if (nrow(obs) == 0) {
+findSpikes <-
+  function(obs,
+           colnum = 1,
+           threshold = 0,
+           spike_direction = 'both',
+           logfile = "") {
+    if (nrow(obs) == 0) {
     stop("Error: missing obs values")
   }
 

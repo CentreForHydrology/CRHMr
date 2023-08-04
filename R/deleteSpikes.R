@@ -21,8 +21,13 @@
 #' # finds all windspeeds which change by more than 10 m/s per interval,
 #' # and sets their values to NA_real_
 #' BadLake$u.nospikes <- deleteSpikes(BadLake7376, 3, 10)
-deleteSpikes <- function(obs, colnum=1, threshold=0, logfile="") {
-  # removes spikes by filling them with NA_real_values
+deleteSpikes <-
+  function(obs,
+           colnum = 1,
+           threshold = 0,
+           spike_direction = 'both',
+           logfile = "") {
+    # removes spikes by filling them with NA_real_values
   if (nrow(obs) == 0) {
     stop("Missing obs values")
   }
@@ -36,7 +41,15 @@ deleteSpikes <- function(obs, colnum=1, threshold=0, logfile="") {
     stop("Missing threshold. Set before searching for spikes")
   }
 
-  spikeDatetimes <- findSpikes(obs, colnum = colnum, threshold = threshold, logfile = logfile)
+  if (!spike_direction %in% c('both', 'hi', 'low')) {
+    stop("Error: spike direction must be one of 'both', 'hi', OR 'low'")
+  }
+
+  spikeDatetimes <- findSpikes(obs,
+                               colnum = colnum,
+                               threshold = threshold,
+                               spike_direction = spike_direction,
+                               logfile = logfile)
 
   if (length(spikeDatetimes) == 1) {
     if (spikeDatetimes == 0) {
