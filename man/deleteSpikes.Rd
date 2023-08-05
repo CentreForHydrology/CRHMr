@@ -4,7 +4,13 @@
 \alias{deleteSpikes}
 \title{Deletes spikes in an obs data frame}
 \usage{
-deleteSpikes(obs, colnum = 1, threshold = 0, logfile = "")
+deleteSpikes(
+  obs,
+  colnum = 1,
+  threshold = 0,
+  spike_direction = "both",
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} obs data frame.}

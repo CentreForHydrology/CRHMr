@@ -32,7 +32,7 @@
 #' @author Kevin Shook
 #' @seealso  \code{\link{automatePrj}}
 #' @export
-#' @importFrom stringr str_detect str_c str
+#' @importFrom stringr str_detect str_c
 #' @examples \dontrun{
 #' # Automate the .prj before use
 #' automatePrj("c:/BadLake/BadLake1975.prj")

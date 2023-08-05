@@ -51,7 +51,7 @@ interpolate <- function(obs, varcols = 1, methods = "linear", maxlength = 5,
     rh.loc.num <- length(grep("rh", tolower(variable.names), fixed = TRUE))
 
     if (rh.loc.num > 0) {
-      stop("Can't interpolate RH data")
+      stop("ERROR: interpolating RH values is not permitted. Convert to ea first and then interpolate.")
     }
 
     p.loc.num <- length(grep("p", tolower(variable.names), fixed = TRUE))

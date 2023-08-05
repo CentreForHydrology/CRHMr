@@ -47,7 +47,8 @@ weighingGauge2 <- function(obs, precipCol=1, spikeThreshold=1000, maxSpikeGap=3,
   names(precipDiff)[1] <- 'datetime'
 
   #Remove spikes
-  spikeCount <- findSpikes(precipDiff, colnum=1, threshold = spikeThreshold)
+  spikeCount <- findSpikes(precipDiff, colnum=1, threshold = spikeThreshold,
+                           spike_direction = 'both')
   if (class(spikeCount)[[1]] == 'numeric'){
     # no spikes
     if (!quiet)
