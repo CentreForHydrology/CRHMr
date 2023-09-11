@@ -25,7 +25,7 @@ obs dataframe with col flat lines replaced with NANs
 Deletes values in a obs dataframe column that have a flatline
 }
 \examples{
-findFlatLines(BadLake7376, colnum = 3)
+deleteFlatLines(BadLake7376, colnum = 3)
 
 }
 \author{

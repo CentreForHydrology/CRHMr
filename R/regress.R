@@ -204,7 +204,7 @@ function(primaryCRHM, primary.columns=1,
         ggplot2::facet_wrap(~variable, scales="free")
     }
 
-  return(p)
+  return(p + geom_abline(colour = 'blue'))
 }
 
 
