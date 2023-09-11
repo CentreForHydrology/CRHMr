@@ -19,7 +19,7 @@ required to be the same before is flagged as a flat line.}
 Normally not used.}
 }
 \value{
-obs dataframe with col flat lines replaced with NANs
+datetime vector where flatlines exist for colnum.
 }
 \description{
 Finds values in a obs dataframe column that have a flatline
