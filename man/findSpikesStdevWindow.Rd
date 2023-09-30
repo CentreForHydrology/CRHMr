@@ -11,6 +11,7 @@ findSpikesStdevWindow(
   lead_window = list(1:10),
   lag_window = list(-1:-10),
   number_sd = 10,
+  include_start_end = T,
   logfile = ""
 )
 }
@@ -32,6 +33,12 @@ the current value. Default is 1:10.}
 
 \item{number_sd}{Optional. The number of standard deviations away from the
 mean required for the current value to be flagged.}
+
+\item{include_start_end}{Optional. True or False. Whether or not to start the
+filtering at the start and end of the record which will flag the initial
+and final values up until there are enough records in the window. For
+example if the window size is 10 and our frac_records_required is 0.8 the
+first and last 8 records will be flagged automatically.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action.
 Normally not used.}

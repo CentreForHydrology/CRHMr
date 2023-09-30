@@ -18,6 +18,11 @@
 #'   the current value. Default is 1:10.
 #' @param number_sd Optional. The number of standard deviations away from the
 #'   mean required for the current value to be flagged.
+#' @param include_start_end Optional. True or False. Whether or not to start the
+#'   filtering at the start and end of the record which will flag the initial
+#'   and final values up until there are enough records in the window. For
+#'   example if the window size is 10 and our frac_records_required is 0.8 the
+#'   first and last 8 records will be flagged automatically.
 #' @param logfile Optional. Name of the file to be used for logging the action.
 #'   Normally not used.
 #'
@@ -38,6 +43,7 @@ findSpikesStdevWindow <-
            lead_window = list(1:10),
            lag_window = list(-1:-10),
            number_sd = 10,
+           include_start_end = T,
            logfile = ""
   ){
 
@@ -127,6 +133,12 @@ findSpikesStdevWindow <-
                          (obs_fltr$lag_count_filter == 1 &
                             obs_fltr[,var_col] < obs_fltr$lag_fltr_max &
                             obs_fltr[,var_col] > obs_fltr$lag_fltr_min)] <- F
+
+    if(include_start_end == F){
+      n_recs <- length(obs_fltr$sd_filter)
+      obs_fltr$sd_filter[1:min_records_window] <- F
+      obs_fltr$sd_filter[(n_recs-(min_records_window-1)):n_recs] <- F
+    }
 
     locs <- obs_fltr[obs_fltr$sd_filter, 1]
     numSpikes <- sum(obs_fltr$sd_filter)
