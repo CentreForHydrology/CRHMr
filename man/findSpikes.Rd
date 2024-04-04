@@ -4,40 +4,54 @@
 \alias{findSpikes}
 \title{Finds spikes in an obs data frame}
 \usage{
-findSpikes(obs, colnum = 1, threshold = 0, logfile = "")
+findSpikes(
+  obs,
+  colnum = 1,
+  threshold = 0,
+  spike_direction = "both",
+  logfile = ""
+)
 }
 \arguments{
 \item{obs}{Required. A \pkg{CRHMr} obs data frame.}
 
-\item{colnum}{Optional. The number of the column to test for spikes, not including the
-\code{datetime}.}
+\item{colnum}{Optional. The number of the column to test for spikes, not
+including the \code{datetime}.}
 
-\item{threshold}{Required. The threshold for the \emph{change} in the observed values.
-The threshold is actually a rate, i.e. the change per unit time. So if you are
-looking at air temperature, and the threshold is set to \code{5}, then any change
-in temperature of +/- 5 degrees in one time interval will be considered to be a spike.}
+\item{threshold}{Required. The threshold for the \emph{change} in the
+observed values. The threshold is actually a rate, i.e. the change per unit
+time. So if you are looking at air temperature, and the threshold is set to
+\code{5}, then any change in temperature of +/- 5 degrees in one time
+interval will be considered to be a spike.}
+
+\item{spike_direction}{string 'both' OR 'hi' OR 'low' to look at both high
+and low or hi or low spikes.}
 
 \item{logfile}{Optional. Name of the file to be used for logging the action.
 Normally not used.}
 }
 \value{
-If successful and there are no spikes, returns \code{0}. If there are spikes,
-returns their \code{datetime} values. If unsuccessful returns \code{FALSE}.
+If successful and there are no spikes, returns \code{0}. If there are
+  spikes, returns their \code{datetime} values. If unsuccessful returns
+  \code{FALSE}.
 }
 \description{
-Finds spikes (short bursts of very large or small values) in the specified time
-variable.
+Finds spikes (short bursts of very large or small values) in the
+  specified time variable. This uses the R base function \emph{diff} to
+  calculate the difference between the next (lead) and current value.
 }
 \note{
-If quiet=\code{FALSE}, the function displays a list of the datetimes of the spikes.
+If quiet=\code{FALSE}, the function displays a list of the datetimes of
+  the spikes.
 }
 \examples{
 # check for spikes in wind speed - look for changes greater than 10 m/s per interval
 findSpikes(BadLake7376, 3, 10)
 }
 \seealso{
-\code{\link{deleteSpikes}} \code{\link{findGaps}} \code{\link{findDupes}}
+\code{\link{deleteSpikes}} \code{\link{findGaps}}
+  \code{\link{findDupes}}
 }
 \author{
-Kevin Shook
+Kevin Shook, Alex Cebulski
 }

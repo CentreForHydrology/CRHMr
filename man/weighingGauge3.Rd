@@ -8,6 +8,7 @@ weighingGauge3(
   obs,
   precipCol = 1,
   filterLength = 0,
+  polynomial_order = 1,
   quiet = TRUE,
   logfile = ""
 )
@@ -18,6 +19,8 @@ weighingGauge3(
 \item{precipCol}{Optional. The number of the column containing the weighing guage cumulative precipitation data, not including the \code{datetime}. Default is column 1.  This function can only work on 1 column of precipitation.}
 
 \item{filterLength}{Required. The number of time intervals used by the Savitzky-Golay polynomial filter. Note that this must be an ODD number. The appropriate value will depend on the type of your data, and the noise present.}
+
+\item{polynomial_order}{Optional. The order of the polynomial for the filter. Defaults to 1 by ECCC recommendation better smoothing is acheived with 3.}
 
 \item{quiet}{Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}}
 

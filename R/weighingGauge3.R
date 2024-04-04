@@ -3,6 +3,7 @@
 #' @param obs Required. A standard \pkg{CRHMr} obs file.
 #' @param precipCol Optional. The number of the column containing the weighing guage cumulative precipitation data, not including the \code{datetime}. Default is column 1.  This function can only work on 1 column of precipitation.
 #' @param filterLength Required. The number of time intervals used by the Savitzky-Golay polynomial filter. Note that this must be an ODD number. The appropriate value will depend on the type of your data, and the noise present.
+#' @param polynomial_order Optional. The order of the polynomial for the filter. Defaults to 1 by ECCC recommendation better smoothing is acheived with 3.
 #' @param quiet Optional. Suppresses display of messages, except for errors. If you are calling this function in an \R script, you will usually leave \code{quiet=TRUE} (i.e. the default). If you are working interactively, you will probably want to set \code{quiet=FALSE}
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #'
@@ -16,7 +17,7 @@
 #' \dontrun{
 #' test3 <- weighingGauge3(wg, filterLength=5)}
 #'
-weighingGauge3 <- function(obs, precipCol=1, filterLength=0, quiet=TRUE, logfile=''){
+weighingGauge3 <- function(obs, precipCol=1, filterLength=0, polynomial_order=1, quiet=TRUE, logfile=''){
   if (nrow(obs) == 0){
     cat('Error: missing obs values\n')
     return(FALSE)
@@ -42,7 +43,7 @@ weighingGauge3 <- function(obs, precipCol=1, filterLength=0, quiet=TRUE, logfile
   obs <- obs[,c(1, precipCol+1)]
   precipName <- names(obs)[2]
 
-  sg <- signal::sgolayfilt(obs[,2], p=1, n=filterLength, m=0)
+  sg <- signal::sgolayfilt(obs[,2], p=polynomial_order, n=filterLength, m=0)
   final <- data.frame(obs$datetime, sg)
   names(final)[1] <- 'datetime'
   names(final)[2] <- paste(precipName, '_sg_filtered', sep='')
