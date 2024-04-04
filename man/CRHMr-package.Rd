@@ -2,6 +2,7 @@
 % Please edit documentation in R/CRHMr-package.R
 \docType{package}
 \name{CRHMr-package}
+\alias{CRHMr}
 \alias{CRHMr-package}
 \title{Contains functions to perform pre- and post- processing on data used with the Cold Regions Hydrological Modelling (CRHM) platform}
 \description{
@@ -59,4 +60,11 @@ and S K Carey. 2007. \dQuote{The Cold Regions Hydrological Model : A Platform
 for Basing Process Representation and Model Structure on Physical Evidence}.
 Hydrological Processes 21 (19): 2650-2567.}\cr
 The CRHM model may be downloaded from \url{http://www.usask.ca/hydrology/CRHM.php}.\cr
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/CentreForHydrology/CRHMr}
+}
+
 }

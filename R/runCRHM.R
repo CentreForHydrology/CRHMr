@@ -185,9 +185,6 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
     }
 
 
-
-
-
     if (parFiles != '') {
       numfiles <- length(parFiles)
       parFilesBasenames <- basename(parFiles)
