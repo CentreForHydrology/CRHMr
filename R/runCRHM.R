@@ -32,7 +32,7 @@
 #' @author Kevin Shook
 #' @seealso  \code{\link{automatePrj}}
 #' @export
-#' @importFrom stringr str_detect str_c
+#' @importFrom stringr str_detect str_c str_to_upper
 #' @examples \dontrun{
 #' # Automate the .prj before use
 #' automatePrj("c:/BadLake/BadLake1975.prj")
@@ -183,9 +183,6 @@ runCRHM <- function(CRHMfile='', prjFile='', obsFiles='',  parFiles='',
       obs_no_spaces <- gsub(" ", "\\\ ", obs, fixed = TRUE)
       CRHM_execution_string <- paste(CRHM_execution_string, obs_no_spaces, sep = ' ')
     }
-
-
-
 
 
     if (parFiles != '') {

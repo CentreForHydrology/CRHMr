@@ -1,5 +1,4 @@
 #' @title Contains functions to perform pre- and post- processing on data used with the Cold Regions Hydrological Modelling (CRHM) platform
-#' @docType package
 #' @name CRHMr-package
 #'
 #' @description
@@ -66,4 +65,5 @@
 #' @importFrom plyr ddply
 #' @importFrom reshape2 melt
 #' @importFrom zoo zoo na.spline na.approx
-NULL
+#'
+"_PACKAGE"

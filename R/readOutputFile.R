@@ -18,39 +18,58 @@
 readOutputFile <- function(outputFile, timezone='', quiet=TRUE, logfile=''){
 
   # check parameters
-  if (outputFile == ''){
+  if (outputFile == '') {
     cat('Error: must specify a file name\n')
     return(FALSE)
   }
-  if (timezone == ''){
+  if (timezone == '') {
     cat('Error: must specify a timezone\n')
     return(FALSE)
   }
   # check for '#' symbols in header
   con <- file(outputFile, "r", blocking = FALSE)
-  input <- readLines(con)
+  input <- readLines(con, n = 2)
   close(con)
 
   line1 <- input[1]
 
+  if (any(str_detect(line1, ",")))
+    delimiter <- "comma"
+  else
+    delimiter <- "space"
+
+  # replace commas with spaces to allow for parsing
+  if (delimiter == "comma")
+    line1 <- str_replace_all(line1, fixed(','),' ')
+  else
+    line1 <- str_replace_all(line1, fixed('\t'),' ')
+
   # remove parentheses
   variables <- str_replace_all(line1, fixed('('),'.')
   variables <- str_replace_all(variables, fixed(')'),'')
-
-  # replace tabs with spaces to allow for parsing
   variables <- str_replace_all(variables, '#','.calc')
-  variables <- str_split(variables, '\t')
+
+  # parse variable names
+  variables <- str_split(variables[[1]], ' ')
 
   # check for units
   line2 <- input[2]
   units_present <- str_detect(line2, 'units')
 
-  if(units_present)
+  if (units_present)
     skiplines <- 2
   else
     skiplines <- 1
 
-  output <- read.table(outputFile, header=FALSE, skip=skiplines, stringsAsFactors=FALSE)
+  # check for delimiter
+
+  if (delimiter == "space")
+     output <- read.table(outputFile, header = FALSE, skip = skiplines,
+                          stringsAsFactors =  FALSE)
+  else
+    output <- read.table(outputFile, header = FALSE, skip = skiplines,
+                         stringsAsFactors =  FALSE, sep = ",")
+
   names(output) <- variables[[1]]
 
   # check for new date format
