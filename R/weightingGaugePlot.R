@@ -10,6 +10,10 @@
 #' @author Kevin Shook.
 #' @seealso  \code{\link{weighingGauge1}} \code{\link{weighingGauge2}} \code{\link{weighingGauge3}} \code{\link{weighingGauge4}}  \code{\link{weighingGauge5}}
 #' @export
+#' @importFrom lubridate force_tz
+#' @importFrom stringr str_length
+#' @importFrom reshape2 melt
+#' @import ggplot2
 #'
 #' @examples \dontrun{
 #' p <- weighingGaugePlot(test1) }
@@ -25,11 +29,11 @@ weighingGaugePlot <- function(obs, precipCol=1, startDate="", endDate="", showMi
   }
 
   # convert obs datetime timezone to user's
-  obs$datetime <- lubridate::force_tz(obs$datetime, tzone = Sys.timezone())
+  obs$datetime <- force_tz(obs$datetime, tzone = Sys.timezone())
 
   # get start and end dates, and subset
   if (startDate != "") {
-    if (stringr::str_length(startDate) == 4) {
+    if (str_length(startDate) == 4) {
       # year
       startDate <- paste(startDate, "-01-01 00:00", sep = "")
     }
@@ -42,7 +46,7 @@ weighingGaugePlot <- function(obs, precipCol=1, startDate="", endDate="", showMi
   }
 
   if (endDate != "") {
-    if (stringr::str_length(endDate) == 4) {
+    if (str_length(endDate) == 4) {
       endDate <- paste(endDate, "-12-31 23:00", sep = "")
     }
     else {
@@ -64,14 +68,14 @@ weighingGaugePlot <- function(obs, precipCol=1, startDate="", endDate="", showMi
   obs$Interval <- precipDiff
 
   # melt data for plotting
-  obs.melted <- reshape2::melt(obs, id = "datetime")
+  obs.melted <- melt(obs, id = "datetime")
 
   # now create plot
-  p <- ggplot2::ggplot(obs.melted, ggplot2::aes(datetime, value)) +
-    ggplot2::geom_line() +
-    ggplot2::facet_wrap(~ variable, ncol = 1, scales = "free_y") +
-    ggplot2::xlab("") +
-    ggplot2::ylab("Precipitation (mm)")
+  p <- ggplot(obs.melted, aes(datetime, value)) +
+    geom_line() +
+    facet_wrap(~ variable, ncol = 1, scales = "free_y") +
+    xlab("") +
+    ylab("Precipitation (mm)")
 
   # find missing values
 
@@ -79,9 +83,9 @@ weighingGaugePlot <- function(obs, precipCol=1, startDate="", endDate="", showMi
     obs.missing <- obs.melted[is.na(obs.melted$value), ]
     if (nrow(obs.missing) > 0) {
       obs.missing$value <- 0
-      p <- p + ggplot2::geom_point(
+      p <- p + geom_point(
         data = obs.missing,
-        ggplot2::aes(datetime, value), col = "red", size = 2
+        aes(datetime, value), col = "red", size = 2
       )
     }
   }

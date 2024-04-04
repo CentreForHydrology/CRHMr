@@ -514,3 +514,28 @@ nancumsum <- function(x){
   return(cs)
 }
 
+
+
+#' Finds time interval between two datetime values in hours
+#'
+#' @param datetime1 Required. First datetime
+#' @param datetime2 Required. Second datetime
+#'
+#' @return Returns a numeric value for the difference in hours
+#' @export
+#' @import tibble
+#' @author Kevin Shook Alex Cebulski
+#' @examples {
+#' dt1 <- as.POSIXct("2000-01-01 12:00", format = "%Y-%m-%d %H:%M")
+#' dt2 <- as.POSIXct("2000-01-01 15:00", format = "%Y-%m-%d %H:%M")
+#' timestep.hours(dt1, dt2)}
+#'
+#'
+timestep.hours <- function(datetime1, datetime2){
+  if(is_tibble(datetime1) | is_tibble(datetime2)) {
+    stop("This function does not work with tibbles, please convert to data frame object.")
+  }
+  dt  <- difftime(datetime1, datetime2, units='hours')
+  dt <- abs(as.numeric(dt))
+  return(dt)
+}

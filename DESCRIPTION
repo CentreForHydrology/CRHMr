@@ -1,17 +1,34 @@
 Package: CRHMr
 Type: Package
 Title: Pre- and post- processing for CRHM
-Version: 2.8.14
-Date: 2023-03-07
-Author: Kevin Shook, Centre for Hydrology, University of Saskatchewan
+Version: 2.9.0
+Date: 2023-04-04
+Authors@R: c(person("Kevin", "Shook", 
+              email = "kevin.shook@usask.ca", 
+              role = c("cre", "aut")),
+             person("Alex", "Cebulski", 
+                role = c("aut"))
+                )
+Author: Kevin Shook [cre, aut],
+  Alex Cebulski [aut]
 Maintainer: Kevin Shook <kevin.shook@usask.ca>
 Description: The package is pronounced 'Krimmer' in honour of my wife's family.
     The CRHMr functions are used to create time series of forcing meteorological
     data for the Cold Regions Hydrological Modelling (CRHM) platform. Functions are
     also provided to read and aggregate CRHM output.
 Depends: R (>= 3.1)
-Imports: ggplot2(>= 2.0.0), lubridate(>= 1.3), plyr, reshape2, scales,
-        signal, stringr(>= 1.0), zoo, tidyhydat, EcoHydRology
+Imports: 
+  ggplot2(>= 2.0.0), 
+  lubridate(>= 1.3), 
+  plyr, 
+  reshape2, 
+  scales,
+  signal, 
+  stringr(>= 1.0), 
+  zoo, 
+  tidyhydat, 
+  EcoHydRology, 
+  tibble
 Suggests: knitr, rmarkdown
 License: GPL-3
 LazyData: true

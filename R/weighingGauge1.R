@@ -14,42 +14,42 @@
 #'
 #' @examples \dontrun{
 #' test1 <- weighingGauge1(wg,  maxGapLength=6)}
-#' 
+#'
 weighingGauge1 <- function(obs, precipCol=1, maxGapLength=5, quiet=TRUE, logfile=''){
-  if (nrow(obs) == 0){
+  if (nrow(obs) == 0) {
     cat('Error: missing obs values\n')
     return(FALSE)
   }
-  
+
   obsName <- deparse(substitute(obs))
-  
-  if (!any(is.na(obs[, precipCol+1]))){
+
+  if (!any(is.na(obs[, precipCol + 1]))) {
     cat('Error: no missing values - nothing to do\n')
     return(FALSE)
   }
-  
 
-  if (maxGapLength <= 0){
+
+  if (maxGapLength <= 0) {
     cat('Error: maxGapLength must be greater than zero\n')
     return(FALSE)
   }
-  
+
   # select specified column
-  obs <- obs[,c(1, precipCol+1)]
+  obs <- obs[,c(1, precipCol + 1)]
 
 
   # fill missing values by linear interpolation
-  obs <- interpolate(obs, varcols=1, methods='linear', maxlength=maxGapLength, 
-                     quiet=quiet, logfile)
-  
-  
+  obs <- interpolate(obs, varcols = 1, methods = 'linear', maxlength = maxGapLength,
+                     quiet = quiet, logfile)
+
+
   obs.info <- CRHM_summary(obs)
   if (!quiet)
     print(obs.info)
-  
+
   # output to logfile
-  outputMessage <- paste(' maxGapLength:', maxGapLength, sep='') 
-  comment <- paste('weighingGauge1 obs:', obsName, outputMessage, sep='')  
+  outputMessage <- paste(' maxGapLength:', maxGapLength, sep = '')
+  comment <- paste('weighingGauge1 obs:', obsName, outputMessage, sep = '')
   result <- logAction(comment, logfile)
   if (!result)
     return(result)

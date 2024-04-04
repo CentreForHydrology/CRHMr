@@ -68,3 +68,12 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Kevin Shook \email{kevin.shook@usask.ca}
+
+Authors:
+\itemize{
+  \item Alex Cebulski
+}
+
+}

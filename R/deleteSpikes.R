@@ -7,12 +7,14 @@
 #' is actually a rate, i.e. the change per unit time. So if you are looking at air temperature, and the
 #' threshold is set to \code{5}, then any change in temperature of +/- 5 degrees in one time interval
 #' will be considered to be a spike.
+#' @param spike_direction One of \option{hi} (high spikes), \option{low} (low spikes)
+#' or \option{both} (the default).
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #'
 #' @return If successful, returns a data frame consiting of the datetime and the original obs values, where
 #' all of the spike values have been set to be \code{NA_real_}. If no spikes are found a message is
-#' printed and the funtion returns the value \code{FALSE}.
-#' @author Kevin Shook
+#' printed and the fucntion returns the value \code{FALSE}.
+#' @author Kevin Shook Alex Cebulski
 #' @seealso \code{\link{findSpikes}}
 #' @export
 #'
