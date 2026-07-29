@@ -136,8 +136,8 @@ findSpikesStdevWindow <-
 
     if(include_start_end == F){
       n_recs <- length(obs_fltr$sd_filter)
-      obs_fltr$sd_filter[1:min_records_window] <- F
-      obs_fltr$sd_filter[(n_recs-(min_records_window-1)):n_recs] <- F
+      obs_fltr$sd_filter[1:max(lead_window[[1]])] <- F
+      obs_fltr$sd_filter[(n_recs-(max(lead_window[[1]])-1)):n_recs] <- F
     }
 
     locs <- obs_fltr[obs_fltr$sd_filter, 1]
