@@ -34,7 +34,7 @@ is \code{1}.}
 \item{solarMethod}{The method to be used for calculating the extra-terrestrial radiation. The
 default method is \option{simpleMaxSolar}. Note that this method is only valid for latitudes
 between 49 and 55\eqn{^\circ}{ }N. The other supported method is \option{PotSolarInst}, which
-requires the package \pkg{EcoHydRology} to be installed.}
+uses a solar-geometry calculation based on latitude, day of year, and solar time.}
 
 \item{details}{Optional. If \code{TRUE} then the calculated atmospheric transmittance and
 extra-terrestrial radiation (\code{So_h_W}) will be returned along with the downscaled Qsi.

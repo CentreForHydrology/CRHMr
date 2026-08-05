@@ -25,9 +25,9 @@ will be considered to be a spike.}
 \item{logfile}{Optional. Name of the file to be used for logging the action. Normally not used.}
 }
 \value{
-If successful, returns a data frame consiting of the datetime and the original obs values, where
+If successful, returns a data frame consisting of the datetime and the original obs values, where
 all of the spike values have been set to be \code{NA_real_}. If no spikes are found a message is
-printed and the funtion returns the value \code{FALSE}.
+printed and the function returns the value \code{FALSE}.
 }
 \description{
 Finds spikes, and sets their values to be NA_real_.

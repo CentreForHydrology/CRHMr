@@ -17,7 +17,7 @@
 #' @param solarMethod The method to be used for calculating the extra-terrestrial radiation. The
 #' default method is \option{simpleMaxSolar}. Note that this method is only valid for latitudes
 #' between 49 and 55\eqn{^\circ}{ }N. The other supported method is \option{PotSolarInst}, which
-#' requires the package \pkg{EcoHydRology} to be installed.
+#' uses a solar-geometry calculation based on latitude, day of year, and solar time.
 #' @param details Optional. If \code{TRUE} then the calculated atmospheric transmittance and
 #' extra-terrestrial radiation (\code{So_h_W}) will be returned along with the downscaled Qsi.
 #' If \code{FALSE} (the default) then only the Qsi values and the datetime are returned.
@@ -30,11 +30,11 @@
 #' @author Kevin Shook
 #' @seealso \code{\link{simpleMaxSolar}} \code{\link{distributeQli}}
 #' @importFrom stringr str_to_lower
-#' @importFrom EcoHydRology PotSolarInst
 #' @export
 #' @examples \dontrun{
 #' hourlyShortwave <- distributeQsi(QsiObs=SWobs, QsiColnum=1, latitude=51.1, timeStep=1)}
 #'
+# The PotSolarInst solar-geometry method is based on EcoHydRology 0.4.12.1.
 distributeQsi <- function(QsiObs, QsiColnum=1, latitude='', sunTimeOffset=2, timeStep=1,
                           solarMethod='simpleMaxSolar', details=FALSE, quiet=TRUE, logfile=''){
   # check parameters
@@ -83,18 +83,19 @@ distributeQsi <- function(QsiObs, QsiColnum=1, latitude='', sunTimeOffset=2, tim
     downscaleMax <- downscaleMax[,c('datetime', 'So_h_W')]
   }
   else if (str_to_lower(solarMethod) == 'potsolarinst'){
-    # use EcoHydRology
-    if (!requireNamespace("EcoHydRology", quietly = TRUE)) {
-      stop("EcoHydRology is needed for this function to work. Please install it.",
-           call. = FALSE)
-    return(FALSE)
-    }
-
-    # use PotSolarInst function
+    # Based on PotSolarInst from EcoHydRology 0.4.12.1:
+    # https://cran.r-project.org/src/contrib/Archive/EcoHydRology/EcoHydRology_0.4.12.1.tar.gz
+    # Calculate potential radiation from solar geometry.
     Jday <- as.numeric(format(downscaledDatetime, format='%j'))
     hour <- as.numeric(format(downscaledDatetime, format='%H'))
-    So_h_W <- PotSolarInst(Jday, hour, lat=latitude, latUnits='degrees',
-                                 SolarNoon=(12+sunTimeOffset), units='Wm2')
+    latRadians <- latitude * pi / 180
+    declination <- 0.4102 * sin(pi * (Jday - 80) / 180)
+    zenithAngle <- acos(sin(latRadians) * sin(declination) +
+                          cos(latRadians) * cos(declination) *
+                          cos(0.2618 * (hour - (12 + sunTimeOffset))))
+    So_h_W <- 118000 * cos(zenithAngle) / 86.4
+    So_h_W[So_h_W < 0] <- 0
+    So_h_W <- signif(So_h_W, 3)
     downscaleMax <- data.frame(downscaledDatetime, So_h_W)
     names(downscaleMax)[1] <- 'datetime'
   }

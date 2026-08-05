@@ -8,7 +8,7 @@
 #' @param logfile Optional. Name of the file to be used for logging the action.
 #'   Normally not used.
 #'
-#' @return obs dataframe with col flat lines replaced with NANs
+#' @return datetime vector where flatlines exist for colnum.
 #' @export
 #'
 #' @author Alex Cebulski

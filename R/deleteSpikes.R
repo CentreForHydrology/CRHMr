@@ -9,9 +9,9 @@
 #' will be considered to be a spike.
 #' @param logfile Optional. Name of the file to be used for logging the action. Normally not used.
 #'
-#' @return If successful, returns a data frame consiting of the datetime and the original obs values, where
+#' @return If successful, returns a data frame consisting of the datetime and the original obs values, where
 #' all of the spike values have been set to be \code{NA_real_}. If no spikes are found a message is
-#' printed and the funtion returns the value \code{FALSE}.
+#' printed and the function returns the value \code{FALSE}.
 #' @author Kevin Shook
 #' @seealso \code{\link{findSpikes}}
 #' @export
